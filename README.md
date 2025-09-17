@@ -1,2 +1,2 @@
 # dotnet-obieralny
-# Project setup and coaching
+Project setup and coaching
