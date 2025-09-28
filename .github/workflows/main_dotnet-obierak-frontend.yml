@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: src/frontend/dist/frontend
+          path: src/frontend/dist/frontend/browser
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,4 +54,5 @@ jobs:
           package: .
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4B879405ABC64240A871012027589250 }}
+
 
