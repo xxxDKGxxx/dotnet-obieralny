@@ -90,6 +90,38 @@
     }
   },
   "cli": {
-    "analytics": false
+  "analytics": false,
+  "schematicCollections": [
+    "@schematics/angular"          
+  ]
+},
+"schematics": {
+  "@schematics/angular:component": {
+    "style": "css",                
+    "changeDetection": "OnPush",
+    "standalone": true,
+    "skipTests": true,
+    "displayBlock": true,          
+    "flat": false,                
+    "inlineTemplate": false,
+    "inlineStyle": false,
+    "viewEncapsulation": "None"    
+  },
+  "@schematics/angular:service": {
+    "skipTests": true
+  },
+  "@schematics/angular:directive": {
+    "skipTests": true
+  },
+  "@schematics/angular:pipe": {
+    "skipTests": true,
+    "standalone": true
+  },
+  "@schematics/angular:guard": {
+    "skipTests": true
+  },
+  "@schematics/angular:resolver": {
+    "skipTests": true
   }
+}
 }
