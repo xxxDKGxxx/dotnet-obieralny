@@ -24,6 +24,7 @@ jobs:
           node-version: '22.x'
 
       - name: npm install, build, and test
+        working-directory: src/frontend
         run: |
           npm install
           npm run build --if-present
@@ -33,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: src/frontend/dist/frontend
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,4 +53,5 @@ jobs:
           app-name: 'dotnet-obierak-frontend'
           slot-name: 'Production'
           package: .
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4B879405ABC64240A871012027589250 }}
