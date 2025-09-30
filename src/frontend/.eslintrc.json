@@ -26,7 +26,7 @@
           "error",
           { "type": "element", "prefix": "app", "style": "kebab-case" }
         ],
-        "@typescript-eslint/no-unused-vars": "off", 
+        "@typescript-eslint/no-unused-vars": "error",
         "no-console": ["warn", { "allow": ["warn", "error"] }],
         "no-debugger": "warn"
       }
