@@ -32,11 +32,25 @@
       }
     },
     {
+      "files": ["*.spec.ts"],
+      "env": {
+        "jasmine": true
+      },
+      "globals": {
+        "describe": "readonly",
+        "it": "readonly",
+        "expect": "readonly",
+        "beforeEach": "readonly",
+        "afterEach": "readonly"
+      }
+    },
+    {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended", "plugin:prettier/recommended"],
       "rules": {
         "@angular-eslint/template/banana-in-box": "error",
-        "@angular-eslint/template/no-negated-async": "error"
+        "@angular-eslint/template/no-negated-async": "error",
+        "prettier/prettier": ["error", { "endOfLine": "auto" }]
       }
     }
   ]
