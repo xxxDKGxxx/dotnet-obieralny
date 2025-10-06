@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,14 +26,83 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./src/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Build
-        run: |
-          npm install
-          npm run build
+        run: npm run build
 
-      - name: eslint
+      - name: Upload node_modules for reuse
+        uses: actions/upload-artifact@v4
+        with:
+          name: node_modules
+          path: ./src/frontend/node_modules
+
+
+  lint:
+    name: ESLint
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    defaults:
+      run:
+        working-directory: ./src/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./src/frontend/package-lock.json
+
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: ./src/frontend/node_modules
+
+      - name: Run ESLint
         run: npm run lint
+
+
+  editorconfig:
+    name: EditorConfig Checker
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    defaults:
+      run:
+        working-directory: ./src/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./src/frontend/package-lock.json
+
+      - name: Download node_modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node_modules
+          path: ./src/frontend/node_modules
 
       - name: Install editorconfig-checker
         run: npm install -g editorconfig-checker
