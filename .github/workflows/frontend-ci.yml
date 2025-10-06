@@ -30,16 +30,10 @@ jobs:
           cache-dependency-path: ./src/frontend/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
-
-      - name: Upload node_modules for reuse
-        uses: actions/upload-artifact@v4
-        with:
-          name: node_modules
-          path: ./src/frontend/node_modules
 
 
   lint:
@@ -65,11 +59,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./src/frontend/package-lock.json
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node_modules
-          path: ./src/frontend/node_modules
+      - name: Install dependencies (from cache)
+        run: npm ci
 
       - name: Run ESLint
         run: npm run lint
@@ -98,11 +89,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./src/frontend/package-lock.json
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node_modules
-          path: ./src/frontend/node_modules
+      - name: Install dependencies (from cache)
+        run: npm ci
 
       - name: Install editorconfig-checker
         run: npm install -g editorconfig-checker
