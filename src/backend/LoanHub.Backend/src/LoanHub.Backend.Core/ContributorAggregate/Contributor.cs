@@ -30,6 +30,7 @@ public class PhoneNumber(string countryCode, string number, string? extension) :
 
   protected override IEnumerable<object> GetEqualityComponents()
   {
+
     yield return CountryCode;
     yield return Number;
     yield return Extension ?? String.Empty;

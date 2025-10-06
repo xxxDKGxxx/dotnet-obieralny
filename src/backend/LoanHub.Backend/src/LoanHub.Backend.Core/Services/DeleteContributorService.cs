@@ -20,11 +20,14 @@ public class DeleteContributorService(IRepository<Contributor> _repository,
   {
     _logger.LogInformation("Deleting Contributor {contributorId}", contributorId);
     Contributor? aggregateToDelete = await _repository.GetByIdAsync(contributorId);
-    if (aggregateToDelete == null) return Result.NotFound();
+    if (aggregateToDelete == null)
+	{
+	    return Result.NotFound();
+	}
 
     await _repository.DeleteAsync(aggregateToDelete);
-    var domainEvent = new ContributorDeletedEvent(contributorId);
-    await _mediator.Publish(domainEvent);
+        var domainEvent = new ContributorDeletedEvent(contributorId);
+        await _mediator.Publish(domainEvent);
 
     return Result.Success();
   }

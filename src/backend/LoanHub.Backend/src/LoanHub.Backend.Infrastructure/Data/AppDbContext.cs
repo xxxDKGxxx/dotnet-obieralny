@@ -19,10 +19,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options,
     int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
     // ignore events if no dispatcher provided
-    if (_dispatcher == null) return result;
+    if (_dispatcher == null)
+	{
+		return result;
+	}
 
-    // dispatch events only if save was successful
-    var entitiesWithEvents = ChangeTracker.Entries<HasDomainEventsBase>()
+	// dispatch events only if save was successful
+	var entitiesWithEvents = ChangeTracker.Entries<HasDomainEventsBase>()
         .Select(e => e.Entity)
         .Where(e => e.DomainEvents.Any())
         .ToArray();
