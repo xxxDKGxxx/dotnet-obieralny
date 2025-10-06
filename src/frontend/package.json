@@ -9,8 +9,8 @@
     "test": "ng test",
     "lint": "eslint . --ext .ts,.html",
     "lint:fix": "eslint . --ext .ts,.html --fix",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check"
+  "format": "prettier . --write --editorconfig",
+  "format:check": "prettier . --check --editorconfig"
   },
   "prettier": {
     "printWidth": 100,

@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+// intentionally unused variable to verify eslint detects errors
+const unusedVariableForLintTest = 42;
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
