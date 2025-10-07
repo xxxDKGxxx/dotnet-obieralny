@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Core.ContributorAggregate;
+using LoanHub.Backend.Core.ContributorAggregate;
 using LoanHub.Backend.Core.ContributorAggregate.Events;
 using LoanHub.Backend.Core.Interfaces;
 

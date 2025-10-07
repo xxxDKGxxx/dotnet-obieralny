@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.UnitTests.UseCases.Contributors;
+namespace LoanHub.Backend.UnitTests.UseCases.Contributors;
 
 public class CreateContributorHandlerHandle
 {

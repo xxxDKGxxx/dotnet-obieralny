@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.UseCases.Contributors.Create;
+using LoanHub.Backend.UseCases.Contributors.Create;
 
 namespace LoanHub.Backend.Web.Contributors;
 

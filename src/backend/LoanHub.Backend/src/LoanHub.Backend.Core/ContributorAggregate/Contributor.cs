@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Core.ContributorAggregate;
+namespace LoanHub.Backend.Core.ContributorAggregate;
 
 public class Contributor : EntityBase, IAggregateRoot
 {

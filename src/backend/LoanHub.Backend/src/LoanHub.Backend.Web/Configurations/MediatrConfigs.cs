@@ -1,4 +1,4 @@
-﻿using Ardalis.SharedKernel;
+using Ardalis.SharedKernel;
 using LoanHub.Backend.Core.ContributorAggregate;
 using LoanHub.Backend.UseCases.Contributors.Create;
 using MediatR;

@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.UseCases.Contributors.List;
+namespace LoanHub.Backend.UseCases.Contributors.List;
 
 public class ListContributorsHandler(IListContributorsQueryService _query)
   : IQueryHandler<ListContributorsQuery, Result<IEnumerable<ContributorDTO>>>

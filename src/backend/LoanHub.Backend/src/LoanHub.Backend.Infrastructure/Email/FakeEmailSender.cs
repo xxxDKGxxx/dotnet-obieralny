@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Core.Interfaces;
+using LoanHub.Backend.Core.Interfaces;
 
 namespace LoanHub.Backend.Infrastructure.Email;
 

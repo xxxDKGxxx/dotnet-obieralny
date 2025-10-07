@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Web.Contributors;
+namespace LoanHub.Backend.Web.Contributors;
 
 public class ContributorListResponse
 {

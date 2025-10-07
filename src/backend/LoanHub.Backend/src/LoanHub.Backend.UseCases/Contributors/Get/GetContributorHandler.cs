@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Core.ContributorAggregate;
+using LoanHub.Backend.Core.ContributorAggregate;
 using LoanHub.Backend.Core.ContributorAggregate.Specifications;
 
 namespace LoanHub.Backend.UseCases.Contributors.Get;

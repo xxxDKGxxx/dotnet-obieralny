@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.UnitTests;
+namespace LoanHub.Backend.UnitTests;
 
 public class NoOpMediator : IMediator
 {

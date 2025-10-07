@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Core.ContributorAggregate;
+using LoanHub.Backend.Core.ContributorAggregate;
 
 namespace LoanHub.Backend.Infrastructure.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options,

@@ -1,4 +1,4 @@
-﻿global using System.Runtime.CompilerServices;
+global using System.Runtime.CompilerServices;
 global using Ardalis.SharedKernel;
 global using LoanHub.Backend.Core.ContributorAggregate;
 global using LoanHub.Backend.UseCases.Contributors.Create;

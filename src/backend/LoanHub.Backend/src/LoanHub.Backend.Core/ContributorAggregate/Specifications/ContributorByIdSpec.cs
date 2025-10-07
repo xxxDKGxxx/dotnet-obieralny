@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Core.ContributorAggregate.Specifications;
+namespace LoanHub.Backend.Core.ContributorAggregate.Specifications;
 
 public class ContributorByIdSpec : Specification<Contributor>
 {

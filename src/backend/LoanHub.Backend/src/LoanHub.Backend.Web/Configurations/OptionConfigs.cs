@@ -1,4 +1,4 @@
-﻿using Ardalis.ListStartupServices;
+using Ardalis.ListStartupServices;
 using LoanHub.Backend.Infrastructure.Email;
 
 namespace LoanHub.Backend.Web.Configurations;

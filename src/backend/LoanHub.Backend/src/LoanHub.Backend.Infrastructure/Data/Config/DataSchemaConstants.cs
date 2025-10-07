@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Infrastructure.Data.Config;
+namespace LoanHub.Backend.Infrastructure.Data.Config;
 
 public static class DataSchemaConstants
 {

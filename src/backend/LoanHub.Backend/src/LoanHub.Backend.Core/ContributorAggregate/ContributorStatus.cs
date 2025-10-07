@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Core.ContributorAggregate;
+namespace LoanHub.Backend.Core.ContributorAggregate;
 
 public class ContributorStatus : SmartEnum<ContributorStatus>
 {

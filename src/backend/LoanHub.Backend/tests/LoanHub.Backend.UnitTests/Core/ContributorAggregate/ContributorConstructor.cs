@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.UnitTests.Core.ContributorAggregate;
+namespace LoanHub.Backend.UnitTests.Core.ContributorAggregate;
 
 public class ContributorConstructor
 {

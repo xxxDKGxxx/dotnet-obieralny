@@ -25,7 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LoanHub.Backend.Infrastructure\LoanHub.Backend.Infrastructure.csproj" />
     <ProjectReference Include="..\LoanHub.Backend.UseCases\LoanHub.Backend.UseCases.csproj" />
-    <ProjectReference Include="..\LoanHub.Backend.ServiceDefaults\LoanHub.Backend.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Infrastructure.Data;
+using LoanHub.Backend.Infrastructure.Data;
 
 namespace LoanHub.Backend.FunctionalTests;
 

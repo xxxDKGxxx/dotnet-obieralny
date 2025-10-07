@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.UseCases.Contributors.Delete;
+using LoanHub.Backend.UseCases.Contributors.Delete;
 
 namespace LoanHub.Backend.Web.Contributors;
 

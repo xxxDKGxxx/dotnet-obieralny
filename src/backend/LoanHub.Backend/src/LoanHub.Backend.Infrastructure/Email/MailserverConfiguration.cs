@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Infrastructure.Email;
+namespace LoanHub.Backend.Infrastructure.Email;
 
 public class MailserverConfiguration()
 {

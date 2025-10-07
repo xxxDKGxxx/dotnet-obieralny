@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Infrastructure.Data.Config;
+using LoanHub.Backend.Infrastructure.Data.Config;
 using FastEndpoints;
 using FluentValidation;
 

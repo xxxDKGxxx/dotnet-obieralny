@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Infrastructure.Data;
+namespace LoanHub.Backend.Infrastructure.Data;
 
 // inherit from Ardalis.Specification type
 public class EfRepository<T>(AppDbContext dbContext) :

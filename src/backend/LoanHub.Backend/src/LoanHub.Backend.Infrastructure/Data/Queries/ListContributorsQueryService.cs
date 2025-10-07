@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.UseCases.Contributors;
+using LoanHub.Backend.UseCases.Contributors;
 using LoanHub.Backend.UseCases.Contributors.List;
 
 namespace LoanHub.Backend.Infrastructure.Data.Queries;

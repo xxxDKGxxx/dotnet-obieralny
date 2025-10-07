@@ -1,4 +1,4 @@
-﻿global using FastEndpoints;
+global using FastEndpoints;
 global using FastEndpoints.Swagger;
 global using MediatR;
 global using Serilog;

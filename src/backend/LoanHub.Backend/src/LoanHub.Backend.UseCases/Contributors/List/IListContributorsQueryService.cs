@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.UseCases.Contributors.List;
+namespace LoanHub.Backend.UseCases.Contributors.List;
 
 /// <summary>
 /// Represents a service that will actually fetch the necessary data

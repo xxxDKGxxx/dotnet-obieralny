@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Core.ContributorAggregate;
+using LoanHub.Backend.Core.ContributorAggregate;
 using LoanHub.Backend.Infrastructure.Data;
 
 namespace LoanHub.Backend.IntegrationTests.Data;

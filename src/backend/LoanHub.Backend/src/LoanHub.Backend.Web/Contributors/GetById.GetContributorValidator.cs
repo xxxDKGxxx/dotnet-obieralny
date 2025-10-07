@@ -1,4 +1,4 @@
-﻿using FastEndpoints;
+using FastEndpoints;
 using FluentValidation;
 
 namespace LoanHub.Backend.Web.Contributors;

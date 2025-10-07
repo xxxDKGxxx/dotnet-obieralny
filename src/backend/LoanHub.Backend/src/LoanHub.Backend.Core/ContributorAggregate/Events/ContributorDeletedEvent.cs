@@ -1,4 +1,4 @@
-﻿namespace LoanHub.Backend.Core.ContributorAggregate.Events;
+namespace LoanHub.Backend.Core.ContributorAggregate.Events;
 
 /// <summary>
 /// A domain event that is dispatched whenever a contributor is deleted.

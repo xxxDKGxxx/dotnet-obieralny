@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.UseCases.Contributors.Get;
+using LoanHub.Backend.UseCases.Contributors.Get;
 
 namespace LoanHub.Backend.Web.Contributors;
 

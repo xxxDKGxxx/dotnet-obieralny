@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Core.Interfaces;
+using LoanHub.Backend.Core.Interfaces;
 using LoanHub.Backend.Core.Services;
 using LoanHub.Backend.Infrastructure.Data;
 using LoanHub.Backend.Infrastructure.Data.Queries;

@@ -1,4 +1,4 @@
-﻿using LoanHub.Backend.Core.Services;
+using LoanHub.Backend.Core.Services;
 
 namespace LoanHub.Backend.UnitTests.Core.Services;
 
