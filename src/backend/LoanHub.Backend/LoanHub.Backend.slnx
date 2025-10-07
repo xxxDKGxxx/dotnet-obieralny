@@ -1,0 +1,30 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="CleanArchitecture.nuspec" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/LoanHub.Backend.AspireHost/LoanHub.Backend.AspireHost.csproj" />
+    <Project Path="src/LoanHub.Backend.ServiceDefaults/LoanHub.Backend.ServiceDefaults.csproj" />
+    <Project Path="src/LoanHub.Backend.Core/LoanHub.Backend.Core.csproj" />
+    <Project Path="src/LoanHub.Backend.Infrastructure/LoanHub.Backend.Infrastructure.csproj" />
+    <Project Path="src/LoanHub.Backend.UseCases/LoanHub.Backend.UseCases.csproj" />
+    <Project Path="src/LoanHub.Backend.Web/LoanHub.Backend.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LoanHub.Backend.FunctionalTests/LoanHub.Backend.FunctionalTests.csproj">
+      <BuildDependency Project="src/LoanHub.Backend.Web/LoanHub.Backend.Web.csproj" />
+    </Project>
+    <Project Path="tests/LoanHub.Backend.IntegrationTests/LoanHub.Backend.IntegrationTests.csproj">
+      <BuildDependency Project="src/LoanHub.Backend.Infrastructure/LoanHub.Backend.Infrastructure.csproj" />
+    </Project>
+    <Project Path="tests/LoanHub.Backend.UnitTests/LoanHub.Backend.UnitTests.csproj" />
+  </Folder>
+</Solution>
