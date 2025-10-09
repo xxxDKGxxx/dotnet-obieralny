@@ -11,34 +11,34 @@ namespace LoanHub.Backend.Web.Contributors;
 public class Create(IMediator _mediator)
   : Endpoint<CreateContributorRequest, CreateContributorResponse>
 {
-  public override void Configure()
-  {
-    Post(CreateContributorRequest.Route);
-    AllowAnonymous();
-    Summary(s =>
+    public override void Configure()
     {
-      // XML Docs are used by default but are overridden by these properties:
-      //s.Summary = "Create a new Contributor.";
-      //s.Description = "Create a new Contributor. A valid name is required.";
-      s.ExampleRequest = new CreateContributorRequest { Name = "Contributor Name" };
-    });
-  }
-
-  public override async Task HandleAsync(
-    CreateContributorRequest request,
-    CancellationToken cancellationToken)
-  {
-    var result = await _mediator.Send(new CreateContributorCommand(request.Name!,
-      request.PhoneNumber), cancellationToken);
-
-    var result2 = await new CreateContributorCommand2(request.Name!)
-      .ExecuteAsync(cancellationToken);
-
-    if (result.IsSuccess)
-    {
-      Response = new CreateContributorResponse(result.Value, request.Name!);
-      return;
+        Post(CreateContributorRequest.Route);
+        AllowAnonymous();
+        Summary(s =>
+        {
+            // XML Docs are used by default but are overridden by these properties:
+            //s.Summary = "Create a new Contributor.";
+            //s.Description = "Create a new Contributor. A valid name is required.";
+            s.ExampleRequest = new CreateContributorRequest { Name = "Contributor Name" };
+        });
     }
-    // TODO: Handle other cases as necessary
-  }
+
+    public override async Task HandleAsync(
+      CreateContributorRequest request,
+      CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new CreateContributorCommand(request.Name!,
+          request.PhoneNumber), cancellationToken);
+
+        var result2 = await new CreateContributorCommand2(request.Name!)
+          .ExecuteAsync(cancellationToken);
+
+        if (result.IsSuccess)
+        {
+            Response = new CreateContributorResponse(result.Value, request.Name!);
+            return;
+        }
+        // TODO: Handle other cases as necessary
+    }
 }

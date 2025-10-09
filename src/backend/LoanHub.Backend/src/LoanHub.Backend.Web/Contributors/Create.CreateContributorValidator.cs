@@ -1,6 +1,6 @@
-using LoanHub.Backend.Infrastructure.Data.Config;
 using FastEndpoints;
 using FluentValidation;
+using LoanHub.Backend.Infrastructure.Data.Config;
 
 namespace LoanHub.Backend.Web.Contributors;
 
@@ -9,12 +9,12 @@ namespace LoanHub.Backend.Web.Contributors;
 /// </summary>
 public class CreateContributorValidator : Validator<CreateContributorRequest>
 {
-  public CreateContributorValidator()
-  {
-    RuleFor(x => x.Name)
-      .NotEmpty()
-      .WithMessage("Name is required.")
-      .MinimumLength(2)
-      .MaximumLength(DataSchemaConstants.DEFAULT_NAME_LENGTH);
-  }
+    public CreateContributorValidator()
+    {
+        RuleFor(x => x.Name)
+          .NotEmpty()
+          .WithMessage("Name is required.")
+          .MinimumLength(2)
+          .MaximumLength(DataSchemaConstants.DEFAULT_NAME_LENGTH);
+    }
 }

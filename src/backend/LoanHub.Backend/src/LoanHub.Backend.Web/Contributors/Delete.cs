@@ -11,30 +11,31 @@ namespace LoanHub.Backend.Web.Contributors;
 public class Delete(IMediator _mediator)
   : Endpoint<DeleteContributorRequest>
 {
-  public override void Configure()
-  {
-    Delete(DeleteContributorRequest.Route);
-    AllowAnonymous();
-  }
-
-  public override async Task HandleAsync(
-    DeleteContributorRequest request,
-    CancellationToken cancellationToken)
-  {
-    var command = new DeleteContributorCommand(request.ContributorId);
-
-    var result = await _mediator.Send(command, cancellationToken);
-
-    if (result.Status == ResultStatus.NotFound)
+    public override void Configure()
     {
-      await SendNotFoundAsync(cancellationToken);
-      return;
+        Delete(DeleteContributorRequest.Route);
+        AllowAnonymous();
     }
 
-    if (result.IsSuccess)
+    public override async Task HandleAsync(
+      DeleteContributorRequest request,
+      CancellationToken cancellationToken)
     {
-      await SendNoContentAsync(cancellationToken);
-    };
-    // TODO: Handle other issues as needed
-  }
+        var command = new DeleteContributorCommand(request.ContributorId);
+
+        var result = await _mediator.Send(command, cancellationToken);
+
+        if (result.Status == ResultStatus.NotFound)
+        {
+            await SendNotFoundAsync(cancellationToken);
+            return;
+        }
+
+        if (result.IsSuccess)
+        {
+            await SendNoContentAsync(cancellationToken);
+        }
+        ;
+        // TODO: Handle other issues as needed
+    }
 }

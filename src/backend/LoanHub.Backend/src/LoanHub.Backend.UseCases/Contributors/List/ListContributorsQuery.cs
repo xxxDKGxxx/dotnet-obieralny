@@ -1,7 +1,7 @@
 using Ardalis.SharedKernel;
+using FastEndpoints;
 using LoanHub.Backend.Core.ContributorAggregate;
 using LoanHub.Backend.UseCases.Contributors.Create;
-using FastEndpoints;
 
 namespace LoanHub.Backend.UseCases.Contributors.List;
 
@@ -10,18 +10,18 @@ public record ListContributorsQuery2(int? Skip, int? Take) : FastEndpoints.IComm
 
 public class ListContributorsQueryHandler2 : CommandHandler<ListContributorsQuery2, Result<IEnumerable<ContributorDTO>>>
 {
-  private readonly IListContributorsQueryService _query;
+    private readonly IListContributorsQueryService _query;
 
-  public ListContributorsQueryHandler2(IListContributorsQueryService query)
-  {
-    _query = query;
-  }
-  public override async Task<Result<IEnumerable<ContributorDTO>>> ExecuteAsync(ListContributorsQuery2 request, CancellationToken cancellationToken)
-  {
-    var result = await _query.ListAsync();
+    public ListContributorsQueryHandler2(IListContributorsQueryService query)
+    {
+        _query = query;
+    }
+    public override async Task<Result<IEnumerable<ContributorDTO>>> ExecuteAsync(ListContributorsQuery2 request, CancellationToken cancellationToken)
+    {
+        var result = await _query.ListAsync();
 
-    Console.WriteLine($"<<<<<<<Listed {result.Count()} contributors");
+        Console.WriteLine($"<<<<<<<Listed {result.Count()} contributors");
 
-    return Result.Success(result);
-  }
+        return Result.Success(result);
+    }
 }

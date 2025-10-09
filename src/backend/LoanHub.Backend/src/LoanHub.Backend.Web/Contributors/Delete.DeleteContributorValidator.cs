@@ -8,9 +8,9 @@ namespace LoanHub.Backend.Web.Contributors;
 /// </summary>
 public class DeleteContributorValidator : Validator<DeleteContributorRequest>
 {
-  public DeleteContributorValidator()
-  {
-    RuleFor(x => x.ContributorId)
-      .GreaterThan(0);
-  }
+    public DeleteContributorValidator()
+    {
+        RuleFor(x => x.ContributorId)
+          .GreaterThan(0);
+    }
 }

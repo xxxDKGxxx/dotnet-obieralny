@@ -11,28 +11,28 @@ namespace LoanHub.Backend.Web.Contributors;
 public class GetById(IMediator _mediator)
   : Endpoint<GetContributorByIdRequest, ContributorRecord>
 {
-  public override void Configure()
-  {
-    Get(GetContributorByIdRequest.Route);
-    AllowAnonymous();
-  }
-
-  public override async Task HandleAsync(GetContributorByIdRequest request,
-    CancellationToken cancellationToken)
-  {
-    var query = new GetContributorQuery(request.ContributorId);
-
-    var result = await _mediator.Send(query, cancellationToken);
-
-    if (result.Status == ResultStatus.NotFound)
+    public override void Configure()
     {
-      await SendNotFoundAsync(cancellationToken);
-      return;
+        Get(GetContributorByIdRequest.Route);
+        AllowAnonymous();
     }
 
-    if (result.IsSuccess)
+    public override async Task HandleAsync(GetContributorByIdRequest request,
+      CancellationToken cancellationToken)
     {
-      Response = new ContributorRecord(result.Value.Id, result.Value.Name, result.Value.PhoneNumber);
+        var query = new GetContributorQuery(request.ContributorId);
+
+        var result = await _mediator.Send(query, cancellationToken);
+
+        if (result.Status == ResultStatus.NotFound)
+        {
+            await SendNotFoundAsync(cancellationToken);
+            return;
+        }
+
+        if (result.IsSuccess)
+        {
+            Response = new ContributorRecord(result.Value.Id, result.Value.Name, result.Value.PhoneNumber);
+        }
     }
-  }
 }

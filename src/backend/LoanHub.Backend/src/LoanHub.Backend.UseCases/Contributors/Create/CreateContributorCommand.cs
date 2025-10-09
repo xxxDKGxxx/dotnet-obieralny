@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
-using LoanHub.Backend.Core.ContributorAggregate;
 using FastEndpoints;
+using LoanHub.Backend.Core.ContributorAggregate;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -27,42 +27,42 @@ public class CreateContributorCommandHandler2 : CommandHandler<CreateContributor
         var newContributor = new Contributor(request.Name);
         var createdItem = await _repository.AddAsync(newContributor, cancellationToken);
 
-    Console.WriteLine($"<<<<<<<Created contributor with ID: {createdItem.Id}");
-    return createdItem.Id;
+        Console.WriteLine($"<<<<<<<Created contributor with ID: {createdItem.Id}");
+        return createdItem.Id;
     }
 }
 
 public sealed class CommandLogger<TCommand, TResult>(ILogger<TCommand> logger)
     : ICommandMiddleware<TCommand, TResult> where TCommand : FastEndpoints.ICommand<TResult>
 {
-  private readonly ILogger<TCommand> _logger = logger;
+    private readonly ILogger<TCommand> _logger = logger;
 
-  public async Task<TResult> ExecuteAsync(TCommand command,
-                                          CommandDelegate<TResult> next,
-                                          CancellationToken ct)
-  {
-    string commandName = command.GetType().Name;
-    if (_logger.IsEnabled(LogLevel.Information))
+    public async Task<TResult> ExecuteAsync(TCommand command,
+                                            CommandDelegate<TResult> next,
+                                            CancellationToken ct)
     {
-      _logger.LogInformation("Handling {RequestName}", commandName);
+        string commandName = command.GetType().Name;
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Handling {RequestName}", commandName);
 
-      // Reflection! Could be a performance concern
-      Type myType = command.GetType();
-      IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
-      foreach (PropertyInfo prop in props)
-      {
-        object? propValue = prop?.GetValue(command, null);
-        _logger.LogInformation("Property {Property} : {@Value}", prop?.Name, propValue);
-      }
+            // Reflection! Could be a performance concern
+            Type myType = command.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+            foreach (PropertyInfo prop in props)
+            {
+                object? propValue = prop?.GetValue(command, null);
+                _logger.LogInformation("Property {Property} : {@Value}", prop?.Name, propValue);
+            }
+        }
+
+        var sw = Stopwatch.StartNew();
+
+        var result = await next();
+
+        _logger.LogInformation("Handled {CommandName} with {Result} in {ms} ms", commandName, result, sw.ElapsedMilliseconds);
+        sw.Stop();
+
+        return result;
     }
-
-    var sw = Stopwatch.StartNew();
-
-    var result = await next();
-
-    _logger.LogInformation("Handled {CommandName} with {Result} in {ms} ms", commandName, result, sw.ElapsedMilliseconds);
-    sw.Stop();
-
-    return result;
-  }
 }

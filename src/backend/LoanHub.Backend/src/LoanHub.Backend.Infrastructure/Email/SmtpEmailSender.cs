@@ -9,21 +9,21 @@ namespace LoanHub.Backend.Infrastructure.Email;
 public class SmtpEmailSender(ILogger<SmtpEmailSender> logger,
                        IOptions<MailserverConfiguration> mailserverOptions) : IEmailSender
 {
-  private readonly ILogger<SmtpEmailSender> _logger = logger;
-  private readonly MailserverConfiguration _mailserverConfiguration = mailserverOptions.Value!;
+    private readonly ILogger<SmtpEmailSender> _logger = logger;
+    private readonly MailserverConfiguration _mailserverConfiguration = mailserverOptions.Value!;
 
-  public async Task SendEmailAsync(string to, string from, string subject, string body)
-  {
-    var emailClient = new System.Net.Mail.SmtpClient(_mailserverConfiguration.Hostname, _mailserverConfiguration.Port);
-
-    var message = new MailMessage
+    public async Task SendEmailAsync(string to, string from, string subject, string body)
     {
-      From = new MailAddress(from),
-      Subject = subject,
-      Body = body
-    };
-    message.To.Add(new MailAddress(to));
-    await emailClient.SendMailAsync(message);
-    _logger.LogWarning("Sending email to {to} from {from} with subject {subject} using {type}.", to, from, subject, this.ToString());
-  }
+        var emailClient = new System.Net.Mail.SmtpClient(_mailserverConfiguration.Hostname, _mailserverConfiguration.Port);
+
+        var message = new MailMessage
+        {
+            From = new MailAddress(from),
+            Subject = subject,
+            Body = body
+        };
+        message.To.Add(new MailAddress(to));
+        await emailClient.SendMailAsync(message);
+        _logger.LogWarning("Sending email to {to} from {from} with subject {subject} using {type}.", to, from, subject, this.ToString());
+    }
 }
