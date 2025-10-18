@@ -1,52 +1,46 @@
 name: Frontend CD
 
+# When this action will be executed
 on:
+  # Automatically trigger it when detected changes in repo
   push:
-    branches:
-      - develop
+    branches: [develop]
+    paths:
+      - "**"
+      - ".github/workflows/frontend-cd.yml"
+
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.LOANHUBFRONTEND_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.LOANHUBFRONTEND_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.LOANHUBFRONTEND_AZURE_SUBSCRIPTION_ID }}
 
-    - name: Build Docker image
-      working-directory: ./src/frontend
-      run: |
-        IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/loan-hub:frontend
-        docker build -t $IMAGE_NAME .
-
-    - name: Push Docker image
-      working-directory: ./src/frontend
-      run: |
-        IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/loan-hub:frontend
-        docker push $IMAGE_NAME
-
-    - name: Log in to Azure
-      uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-
-    - name: Update Azure Container App
-      run: |
-        az containerapp update \
-          --name ${{ secrets.CONTAINER_APP_NAME }} \
-          --resource-group ${{ secrets.RESOURCE_GROUP }} \
-          --image ${{ secrets.DOCKERHUB_USERNAME }}/loanhub:frontend
-
-
-
-
-
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/src/frontend
+          _dockerfilePathKey_: _dockerfilePath_
+          _targetLabelKey_: _targetLabel_
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.LOANHUBFRONTEND_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.LOANHUBFRONTEND_REGISTRY_PASSWORD }}
+          containerAppName: loanhub-frontend
+          resourceGroup: dotnet-obierak
+          imageToBuild: xxxDKGxxx/loanhub-frontend:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
