@@ -20,11 +20,13 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build Docker image
+      working-directory: ./src/frontend
       run: |
         IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/loan-hub:frontend
         docker build -t $IMAGE_NAME .
 
     - name: Push Docker image
+      working-directory: ./src/frontend
       run: |
         IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/loan-hub:frontend
         docker push $IMAGE_NAME
@@ -43,5 +45,6 @@ jobs:
           --name ${{ secrets.CONTAINER_APP_NAME }} \
           --resource-group ${{ secrets.RESOURCE_GROUP }} \
           --image ${{ secrets.DOCKERHUB_USERNAME }}/loanhub:frontend
+
 
 
