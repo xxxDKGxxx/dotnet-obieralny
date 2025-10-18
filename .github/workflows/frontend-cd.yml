@@ -41,6 +41,7 @@ jobs:
           registryPassword: ${{ secrets.LOANHUBFRONTEND_REGISTRY_PASSWORD }}
           containerAppName: loanhub-frontend
           resourceGroup: dotnet-obierak
-          imageToBuild: xxxDKGxxx/loanhub-frontend:${{ github.sha }}
+          imageToBuild: ${{ secrets.LOANHUBFRONTEND_REGISTRY_USERNAME }}/loanhub-frontend:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
