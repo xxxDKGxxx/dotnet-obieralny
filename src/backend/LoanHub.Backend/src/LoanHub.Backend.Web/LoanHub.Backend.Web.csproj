@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <WebProjectMode>true</WebProjectMode>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <UserSecretsId>2bb98f8e-3ef5-4f14-a385-6d7cf342c613</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

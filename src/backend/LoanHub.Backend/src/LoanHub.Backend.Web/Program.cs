@@ -1,5 +1,6 @@
 using LoanHub.Backend.UseCases.Contributors.Create;
 using LoanHub.Backend.Web.Configurations;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,6 @@
 using Ardalis.ListStartupServices;
 using LoanHub.Backend.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoanHub.Backend.Web.Configurations;
 
@@ -36,9 +37,9 @@ public static class MiddlewareConfig
         try
         {
             var context = services.GetRequiredService<AppDbContext>();
-            //          await context.Database.MigrateAsync();
+            await context.Database.MigrateAsync();
             await context.Database.EnsureCreatedAsync();
-            await SeedData.InitializeAsync(context);
+            // await SeedData.InitializeAsync(context);
         }
         catch (Exception ex)
         {
