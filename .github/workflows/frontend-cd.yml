@@ -1,59 +1,46 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Frontend CD
 
+# When this action will be executed
 on:
+  # Automatically trigger it when detected changes in repo
   push:
-    branches:
-      - main
+    branches: [develop]
+    paths:
+      - "**"
+      - ".github/workflows/frontend-cd.yml"
+
+  # Allow manual trigger
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - name: Azure Login
+        uses: azure/login@v2
         with:
-          node-version: '22.x'
+          client-id: ${{ secrets.LOANHUBFRONTEND_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.LOANHUBFRONTEND_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.LOANHUBFRONTEND_AZURE_SUBSCRIPTION_ID }}
 
-      - name: npm install, build, and test
-        working-directory: src/frontend
-        run: |
-          npm install
-          npm run build --if-present
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
         with:
-          name: node-app
-          path: src/frontend/dist/frontend/browser
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: node-app
-      
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'dotnet-obierak-frontend'
-          slot-name: 'Production'
-          package: .
-
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4B879405ABC64240A871012027589250 }}
-
-
-
+          appSourcePath: ${{ github.workspace }}/src/frontend
+          _dockerfilePathKey_: _dockerfilePath_
+          _targetLabelKey_: _targetLabel_
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.LOANHUBFRONTEND_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.LOANHUBFRONTEND_REGISTRY_PASSWORD }}
+          containerAppName: loanhub-frontend
+          resourceGroup: dotnet-obierak
+          imageToBuild: xxxDKGxxx/loanhub-frontend:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
