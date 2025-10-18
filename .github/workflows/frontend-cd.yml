@@ -1,4 +1,4 @@
-name: CI/CD Docker -> Azure Container Apps
+name: Frontend CD
 
 on:
   push:
@@ -43,3 +43,4 @@ jobs:
           --name ${{ secrets.CONTAINER_APP_NAME }} \
           --resource-group ${{ secrets.RESOURCE_GROUP }} \
           --image ${{ secrets.DOCKERHUB_USERNAME }}/loanhub:frontend
+
