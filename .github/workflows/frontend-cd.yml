@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - develop
+  pull_request:
+    branches:
+      - develop
 
 jobs:
   build-and-deploy:
@@ -45,6 +48,7 @@ jobs:
           --name ${{ secrets.CONTAINER_APP_NAME }} \
           --resource-group ${{ secrets.RESOURCE_GROUP }} \
           --image ${{ secrets.DOCKERHUB_USERNAME }}/loanhub:frontend
+
 
 
 
