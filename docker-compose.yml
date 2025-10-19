@@ -26,7 +26,6 @@ services:
     depends_on:
       - backend
     environment:
-      # pozwoli Ci łatwo przekazać API URL do frontendu (jeśli masz np. zmienne środowiskowe w buildzie)
       - API_URL=http://localhost:5000
 
 networks:
