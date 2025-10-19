@@ -1,62 +1,51 @@
-# Ignoruj katalogi bin i obj (ze wszystkich projektów)
 **/bin/
 **/obj/
 **/out/
 
-# Ignoruj katalogi build/test
 **/TestResults/
 **/coverage/
 **/BenchmarkDotNet.Artifacts/
 
-# Ignoruj lokalne konfiguracje użytkownika
 *.user
 *.rsuser
 *.suo
 *.userosscache
 *.sln.docstates
 
-# Ignoruj pliki i foldery VS/IDE
 .vs/
 .vscode/
 .idea/
 *.swp
 *.DS_Store
 
-# Ignoruj zależności front-end (jeśli używasz np. Blazora lub SPA)
 **/node_modules/
 **/wwwroot/dist/
 **/wwwroot/build/
 
-# Ignoruj logi i pliki tymczasowe
 *.log
 *.tmp
 *.bak
 *.nlog
 
-# Ignoruj dane lokalne i konfiguracje środowiskowe
 .env
 secrets.json
 appsettings.Development.json
 appsettings.Local.json
 appsettings.Debug.json
 
-# Ignoruj pliki publikacji lokalnych
 publish/
 artifacts/
 dist/
 tests/
 
-# Ignoruj pliki Dockerowe niepotrzebne w kontekście budowania
 docker-compose*
 Dockerfile*
 
-# Ignoruj pliki testowe / narzędziowe
 *.coverage
 *.cov
 *.tlog
 *.trx
 *.coveragexml
 
-# Ignoruj inne śmieci
 Thumbs.db
 desktop.ini
