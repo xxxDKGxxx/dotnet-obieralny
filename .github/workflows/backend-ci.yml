@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build (.NET 9)
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +28,7 @@ jobs:
         run: dotnet test --no-build --verbosity normal LoanHub.Backend.sln
 
   editorconfig:
+    name: EditorConfig Checker
     runs-on: ubuntu-latest
 
     steps:
