@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./src/backend/LoanHub.Backend/
+      dockerfile: Dockerfile
+    container_name: loanhub-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:90
+    ports:
+      - "5000:90"
+    networks:
+      - loanhub-local
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    container_name: loanhub-frontend
+    ports:
+      - "8080:80"
+    networks:
+      - loanhub-local
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://localhost:5000
+
+networks:
+  loanhub-local:
+    driver: bridge
