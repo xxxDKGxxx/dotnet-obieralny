@@ -1,7 +1,5 @@
 using System.Reflection;
 using Ardalis.SharedKernel;
-using LoanHub.Backend.Core.ContributorAggregate;
-using LoanHub.Backend.UseCases.Contributors.Create;
 using MediatR;
 
 namespace LoanHub.Backend.Web.Configurations;
@@ -12,13 +10,13 @@ public static class MediatrConfigs
     {
         var mediatRAssemblies = new[]
           {
-        Assembly.GetAssembly(typeof(Contributor)), // Core
-        Assembly.GetAssembly(typeof(CreateContributorCommand)) // UseCases
-      };
+          Assembly.GetAssembly(typeof(Program))
+        };
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!))
                 .AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
                 .AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+
 
         return services;
     }

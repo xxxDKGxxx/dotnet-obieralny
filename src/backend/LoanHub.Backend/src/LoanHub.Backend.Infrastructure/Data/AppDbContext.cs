@@ -1,12 +1,10 @@
-using LoanHub.Backend.Core.ContributorAggregate;
+// using LoanHub.Backend.Core.[EntityAggregate];
 
 namespace LoanHub.Backend.Infrastructure.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options,
   IDomainEventDispatcher? dispatcher) : DbContext(options)
 {
     private readonly IDomainEventDispatcher? _dispatcher = dispatcher;
-
-    //public DbSet<Contributor> Contributors => Set<Contributor>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,4 +1,3 @@
-using LoanHub.Backend.Core.ContributorAggregate;
 using LoanHub.Backend.Infrastructure.Data;
 
 namespace LoanHub.Backend.IntegrationTests.Data;
@@ -32,8 +31,4 @@ public abstract class BaseEfRepoTestFixture
         return builder.Options;
     }
 
-    protected EfRepository<Contributor> GetRepository()
-    {
-        return new EfRepository<Contributor>(_dbContext);
-    }
 }

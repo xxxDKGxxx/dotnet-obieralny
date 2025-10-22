@@ -1,4 +1,9 @@
-﻿## Infrastructure Project
+﻿## Database configuration
+By default app will be connected to SqlServer Database using ConnectionStrings__DefaultConnection variable.
+To change this behaviour you need to modify files DatabaseConfig and InfrastructureServiceConfig in /Data/Config/.
+
+
+## Infrastructure Project - explanation from ardalis template
 
 In Clean Architecture, Infrastructure concerns are kept separate from the core business rules (or domain model in DDD).
 
