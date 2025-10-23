@@ -1,14 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LoanHub.Backend.Infrastructure.Data;
 
-namespace LoanHub.Backend.Infrastructure;
+namespace LoanHub.Backend.Infrastructure.Configs;
+
 public static class DatabaseConfig
 {
-    public static void AddApplicationDbContext(this IServiceCollection services, string connectionString) =>
-    services.AddDbContext<AppDbContext>(options =>
-         options.UseSqlServer(connectionString));
+	public static void AddApplicationDbContext(this IServiceCollection services, string connectionString)
+	{
+		services.AddDbContext<AppDbContext>(options
+			=>
+		{
+			options.UseSqlite(connectionString);
+		});
+	}
+
 }
