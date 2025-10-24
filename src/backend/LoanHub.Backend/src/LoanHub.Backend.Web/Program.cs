@@ -39,6 +39,6 @@ public sealed class Program
 
 		await app.UseAppMiddlewareAndSeedDatabase();
 
-		app.Run();
+		await app.RunAsync();
 	}
 }
