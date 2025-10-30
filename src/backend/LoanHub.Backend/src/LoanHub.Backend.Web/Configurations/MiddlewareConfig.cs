@@ -10,19 +10,19 @@ public static class MiddlewareConfig
 	{
 		if (app.Environment.IsDevelopment())
 		{
-			app.UseDeveloperExceptionPage();
-			app.UseShowAllServicesMiddleware(); // see https://github.com/ardalis/AspNetCoreStartupServices
+			_ = app.UseDeveloperExceptionPage();
+			_ = app.UseShowAllServicesMiddleware(); // see https://github.com/ardalis/AspNetCoreStartupServices
 		}
 		else
 		{
-			app.UseDefaultExceptionHandler(); // from FastEndpoints
-			app.UseHsts();
+			_ = app.UseDefaultExceptionHandler(); // from FastEndpoints
+			_ = app.UseHsts();
 		}
 
-		app.UseFastEndpoints()
+		_ = app.UseFastEndpoints()
 			.UseSwaggerGen(); // Includes AddFileServer and static files middleware
 
-		app.UseHttpsRedirection(); // Note this will drop Authorization headers
+		_ = app.UseHttpsRedirection(); // Note this will drop Authorization headers
 
 		await SeedDatabase(app);
 
@@ -38,7 +38,7 @@ public static class MiddlewareConfig
 		{
 			var context = services.GetRequiredService<AppDbContext>();
 			await context.Database.MigrateAsync();
-			await context.Database.EnsureCreatedAsync();
+			_ = await context.Database.EnsureCreatedAsync();
 			await SeedData.InitializeAsync(context);
 		}
 		catch (Exception ex)

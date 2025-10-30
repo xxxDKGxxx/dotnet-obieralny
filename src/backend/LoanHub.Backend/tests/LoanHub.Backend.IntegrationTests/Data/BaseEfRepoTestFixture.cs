@@ -25,7 +25,7 @@ public abstract class BaseEfRepoTestFixture
 		// Create a new options instance telling the context to use an
 		// InMemory database and the new service provider.
 		var builder = new DbContextOptionsBuilder<AppDbContext>();
-		builder.UseInMemoryDatabase("cleanarchitecture")
+		_ = builder.UseInMemoryDatabase("cleanarchitecture")
 			   .UseInternalServiceProvider(serviceProvider);
 
 		return builder.Options;

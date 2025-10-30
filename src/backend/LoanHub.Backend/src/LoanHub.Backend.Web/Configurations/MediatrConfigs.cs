@@ -12,10 +12,12 @@ public static class MediatrConfigs
 		  Assembly.GetAssembly(typeof(Program))
 		};
 
-		services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!))
+		_ = services.AddMediatR(cfg =>
+		{
+			_ = cfg.RegisterServicesFromAssemblies(mediatRAssemblies!);
+		})
 			.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
 			.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
-
 
 		return services;
 	}

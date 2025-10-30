@@ -6,11 +6,9 @@ public static class DatabaseConfig
 {
 	public static void AddApplicationDbContext(this IServiceCollection services, string connectionString)
 	{
-		services.AddDbContext<AppDbContext>(options
-			=>
+		_ = services.AddDbContext<AppDbContext>(options =>
 		{
-			options.UseSqlite(connectionString);
+			_ = options.UseSqlServer(connectionString);
 		});
 	}
-
 }

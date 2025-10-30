@@ -13,6 +13,6 @@ public static class SeedData
 	{
 		// here add data to database
 
-		await dbContext.SaveChangesAsync();
+		_ = await dbContext.SaveChangesAsync();
 	}
 }

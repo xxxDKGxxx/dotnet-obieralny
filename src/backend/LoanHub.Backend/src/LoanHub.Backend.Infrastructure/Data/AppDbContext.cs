@@ -11,12 +11,13 @@ public sealed class AppDbContext(
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
-		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+		_ = modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 
 	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
 	{
-		var result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+		var result = await base.SaveChangesAsync(cancellationToken)
+			.ConfigureAwait(false);
 
 		// ignore events if no dispatcher provided
 		if (_dispatcher == null)
@@ -26,8 +27,14 @@ public sealed class AppDbContext(
 
 		// dispatch events only if save was successful
 		var entitiesWithEvents = ChangeTracker.Entries<HasDomainEventsBase>()
-			.Select(e => e.Entity)
-			.Where(e => e.DomainEvents.Any())
+			.Select(e =>
+			{
+				return e.Entity;
+			})
+			.Where(e =>
+			{
+				return e.DomainEvents.Count != 0;
+			})
 			.ToArray();
 
 		await _dispatcher.DispatchAndClearEvents(entitiesWithEvents);
