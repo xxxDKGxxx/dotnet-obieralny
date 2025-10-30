@@ -15,14 +15,14 @@ public sealed class Program
 
 		logger.Information("Starting web host");
 
-		_ = builder.AddLoggerConfigs();
+		builder.AddLoggerConfigs();
 
 		var appLogger = new SerilogLoggerFactory(logger)
 			.CreateLogger<Program>();
 
-		_ = builder.Services.AddServiceConfigs(appLogger, builder);
+		builder.Services.AddServiceConfigs(appLogger, builder);
 
-		_ = builder.Services.AddFastEndpoints()
+		builder.Services.AddFastEndpoints()
 			.SwaggerDocument(o =>
 			{
 				o.ShortSchemaNames = true;
@@ -37,7 +37,7 @@ public sealed class Program
 
 		var app = builder.Build();
 
-		_ = await app.UseAppMiddlewareAndSeedDatabase();
+		await app.UseAppMiddlewareAndSeedDatabase();
 
 		await app.RunAsync();
 	}

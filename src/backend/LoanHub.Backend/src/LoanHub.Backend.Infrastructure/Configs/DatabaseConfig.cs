@@ -6,9 +6,9 @@ public static class DatabaseConfig
 {
 	public static void AddApplicationDbContext(this IServiceCollection services, string connectionString)
 	{
-		_ = services.AddDbContext<AppDbContext>(options =>
+		services.AddDbContext<AppDbContext>(options =>
 		{
-			_ = options.UseSqlServer(connectionString);
+			options.UseSqlServer(connectionString);
 		});
 	}
 }

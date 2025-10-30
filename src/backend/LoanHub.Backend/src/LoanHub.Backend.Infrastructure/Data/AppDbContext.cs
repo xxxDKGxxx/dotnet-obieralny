@@ -11,7 +11,7 @@ public sealed class AppDbContext(
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
-		_ = modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 
 	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

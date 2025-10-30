@@ -12,7 +12,7 @@ public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactor
 	/// <returns></returns>
 	protected override IHost CreateHost(IHostBuilder builder)
 	{
-		_ = builder.UseEnvironment("Development"); // will not send real emails
+		builder.UseEnvironment("Development"); // will not send real emails
 		var host = builder.Build();
 		host.Start();
 
@@ -31,10 +31,10 @@ public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactor
 
 			// Reset Sqlite database for each test run
 			// If using a real database, you'll likely want to remove this step.
-			_ = db.Database.EnsureDeleted();
+			db.Database.EnsureDeleted();
 
 			// Ensure the database is created.
-			_ = db.Database.EnsureCreated();
+			db.Database.EnsureCreated();
 
 			try
 			{
@@ -57,7 +57,7 @@ public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactor
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
-		_ = builder
+		builder
 			.ConfigureServices(services =>
 			{
 				// Configure test dependencies here
