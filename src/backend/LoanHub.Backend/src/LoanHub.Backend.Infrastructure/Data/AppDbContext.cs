@@ -16,16 +16,18 @@ public class AppDbContext(DbContextOptions<AppDbContext> options,
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        var result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         // ignore events if no dispatcher provided
         if (_dispatcher == null)
+        {
             return result;
+        }
 
         // dispatch events only if save was successful
         var entitiesWithEvents = ChangeTracker.Entries<HasDomainEventsBase>()
             .Select(e => e.Entity)
-            .Where(e => e.DomainEvents.Any())
+            .Where(e => e.DomainEvents.Count != 0)
             .ToArray();
 
         await _dispatcher.DispatchAndClearEvents(entitiesWithEvents);
@@ -33,6 +35,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options,
         return result;
     }
 
-    public override int SaveChanges() =>
-          SaveChangesAsync().GetAwaiter().GetResult();
+    public override int SaveChanges()
+    {
+        return SaveChangesAsync().GetAwaiter().GetResult();
+    }
 }

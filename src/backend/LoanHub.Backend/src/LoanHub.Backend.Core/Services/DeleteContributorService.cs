@@ -19,9 +19,11 @@ public class DeleteContributorService(IRepository<Contributor> _repository,
     public async Task<Result> DeleteContributor(int contributorId)
     {
         _logger.LogInformation("Deleting Contributor {contributorId}", contributorId);
-        Contributor? aggregateToDelete = await _repository.GetByIdAsync(contributorId);
+        var aggregateToDelete = await _repository.GetByIdAsync(contributorId);
         if (aggregateToDelete == null)
+        {
             return Result.NotFound();
+        }
 
         await _repository.DeleteAsync(aggregateToDelete);
         var domainEvent = new ContributorDeletedEvent(contributorId);

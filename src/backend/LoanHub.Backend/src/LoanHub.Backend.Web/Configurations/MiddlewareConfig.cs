@@ -29,7 +29,7 @@ public static class MiddlewareConfig
         return app;
     }
 
-    static async Task SeedDatabase(WebApplication app)
+    private static async Task SeedDatabase(WebApplication app)
     {
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;

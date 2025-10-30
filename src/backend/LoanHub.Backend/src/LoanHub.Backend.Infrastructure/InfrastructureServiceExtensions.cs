@@ -13,7 +13,7 @@ public static class InfrastructureServiceExtensions
       ConfigurationManager config,
       ILogger logger)
     {
-        string? connectionString = config.GetConnectionString("SqliteConnection");
+        var connectionString = config.GetConnectionString("SqliteConnection");
         Guard.Against.Null(connectionString);
         services.AddDbContext<AppDbContext>(options =>
          options.UseSqlite(connectionString));

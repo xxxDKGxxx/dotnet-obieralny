@@ -41,17 +41,17 @@ public sealed class CommandLogger<TCommand, TResult>(ILogger<TCommand> logger)
                                             CommandDelegate<TResult> next,
                                             CancellationToken ct)
     {
-        string commandName = command.GetType().Name;
+        var commandName = command.GetType().Name;
         if (_logger.IsEnabled(LogLevel.Information))
         {
             _logger.LogInformation("Handling {RequestName}", commandName);
 
             // Reflection! Could be a performance concern
-            Type myType = command.GetType();
+            var myType = command.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
-            foreach (PropertyInfo prop in props)
+            foreach (var prop in props)
             {
-                object? propValue = prop?.GetValue(command, null);
+                var propValue = prop?.GetValue(command, null);
                 _logger.LogInformation("Property {Property} : {@Value}", prop?.Name, propValue);
             }
         }
