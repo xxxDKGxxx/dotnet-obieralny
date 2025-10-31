@@ -23,7 +23,7 @@ public sealed class CommandLogger<TCommand, TResult>(ILogger<TCommand> logger) :
 
 			// Reflection! Could be a performance concern
 			var myType = command.GetType();
-			IList<PropertyInfo> props = [.. myType.GetProperties()];
+			var props = new List<PropertyInfo>(myType.GetProperties());
 			foreach (var prop in props)
 			{
 				var propValue = prop?.GetValue(command, null);
