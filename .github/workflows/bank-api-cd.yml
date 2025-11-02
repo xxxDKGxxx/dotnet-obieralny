@@ -6,8 +6,8 @@ on:
   push:
     branches: [develop]
     paths:
-      - ./src/backend'
-      - ".github/workflows/bank-api-cd.yml"
+      - "src/backend/"
+      - ".github/workflows/loanhub-bank-api-AutoDeployTrigger-98427e68-2a41-4f10-bedb-035d31f4e7bc.yml"
 
   # Allow manual trigger
   workflow_dispatch:
