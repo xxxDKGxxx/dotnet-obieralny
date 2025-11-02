@@ -5,10 +5,12 @@ on:
     branches: ["develop"]
     paths:
       - "./src/backend"
+      - "./.github/workflows/bank-api-ci.yml"
   pull_request:
     branches: ["develop"]
     paths:
       - "./src/backend"
+      - "./.github/workflows/bank-api-ci.yml"
 
 jobs:
   build:
