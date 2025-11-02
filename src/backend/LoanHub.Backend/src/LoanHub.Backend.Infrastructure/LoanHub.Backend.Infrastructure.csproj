@@ -21,4 +21,9 @@
     <ProjectReference Include="..\LoanHub.Backend.Core\LoanHub.Backend.Core.csproj" />
     <ProjectReference Include="..\LoanHub.Backend.UseCases\LoanHub.Backend.UseCases.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Data\Config\" />
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
 </Project>
