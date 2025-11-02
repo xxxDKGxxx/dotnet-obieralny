@@ -1,4 +1,4 @@
-name: Trigger auto deployment for loanhub-bank-api
+name: Bank API CD
 
 # When this action will be executed
 on:
@@ -8,7 +8,7 @@ on:
       [ develop ]
     paths:
     - '**'
-    - '.github/workflows/loanhub-bank-api-AutoDeployTrigger-fbb66463-5b9a-482c-a2b7-ae890bb23a85.yml'
+    - '.github/workflows/bank-api-cd.yml'
 
   # Allow manual trigger 
   workflow_dispatch:      
@@ -42,8 +42,6 @@ jobs:
           registryPassword: ${{ secrets.LOANHUBBANKAPI_REGISTRY_PASSWORD }}
           containerAppName: loanhub-bank-api
           resourceGroup: dotnet-obierak
-          imageToBuild: xxxdkgxxx/loanhub-bank-api:${{ github.sha }}
+          imageToBuild: ${{ secrets.LOANHUBBANKAPI_REGISTRY_USERNAME }}/loanhub-bank-api:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
-
-
