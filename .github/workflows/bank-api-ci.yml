@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build & Test (.NET 9)
+    name: Bank API Build & Test (.NET 9)
     runs-on: ubuntu-latest
 
     steps:
