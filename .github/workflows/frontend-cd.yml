@@ -6,7 +6,7 @@ on:
   push:
     branches: [develop]
     paths:
-      - "**"
+      - "./src/frontend"
       - ".github/workflows/frontend-cd.yml"
 
   # Allow manual trigger
@@ -44,4 +44,3 @@ jobs:
           imageToBuild: ${{ secrets.LOANHUBFRONTEND_REGISTRY_USERNAME }}/loanhub-frontend:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
-

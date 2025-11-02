@@ -3,8 +3,12 @@ name: Backend CI
 on:
   push:
     branches: ["develop"]
+    paths:
+      - "./src/backend"
   pull_request:
     branches: ["develop"]
+    paths:
+      - "./src/backend"
 
 jobs:
   build:
@@ -42,4 +46,4 @@ jobs:
         run: dotnet tool install -g dotnet-format
       - name: Run Dotnet Format
         working-directory: src/backend/LoanHub.Backend
-        run: dotnet format --verify-no-changes LoanHub.Backend.sln
+        run: dotnet format --severity info --verify-no-changes LoanHub.Backend.sln
