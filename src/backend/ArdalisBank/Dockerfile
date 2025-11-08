@@ -7,11 +7,11 @@ COPY Directory.Packages.props ./
 
 COPY src/ src/
 
-WORKDIR /backend/src/ArdalisBank.Web
+WORKDIR /backend/src/LoanHub.Backend.Web
 
-RUN dotnet restore ArdalisBank.Web.csproj
+RUN dotnet restore LoanHub.Backend.Web.csproj
 
-RUN dotnet publish ArdalisBank.Web.csproj -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish LoanHub.Backend.Web.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
@@ -21,4 +21,4 @@ EXPOSE 90
 
 COPY --from=build /app/publish ./
 
-ENTRYPOINT ["dotnet", "ArdalisBank.Web.dll"]
+ENTRYPOINT ["dotnet", "LoanHub.Backend.Web.dll"]

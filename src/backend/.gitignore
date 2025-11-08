@@ -262,5 +262,10 @@ paket-files/
 DeploymentSettings.props
 Packages.props
 
-#Local Log Files
+# Local Log Files
 log*.txt
+
+# Misc - development diagnostic elements
+*.ps1
+AllCsFiles.txt
+*.sh
