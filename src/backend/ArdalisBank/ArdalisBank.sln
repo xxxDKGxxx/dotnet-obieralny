@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{106AE906-507
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B31B4797-1D9F-4288-808C-BE9A31A98C7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.Web", "src\LoanHub.Backend.Web\ArdalisBank.Web.csproj", "{C9751CB7-4CD6-4633-A99A-4F6ADD525437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.Web", "src\ArdalisBank.Web\ArdalisBank.Web.csproj", "{C9751CB7-4CD6-4633-A99A-4F6ADD525437}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.Core", "src\LoanHub.Backend.Core\ArdalisBank.Core.csproj", "{4548EB20-1D1B-477B-AF6E-DD55653A6583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.Core", "src\ArdalisBank.Core\ArdalisBank.Core.csproj", "{4548EB20-1D1B-477B-AF6E-DD55653A6583}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.Infrastructure", "src\LoanHub.Backend.Infrastructure\ArdalisBank.Infrastructure.csproj", "{220361D6-9C76-4E3F-BD34-3C7B50E2CA4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.Infrastructure", "src\ArdalisBank.Infrastructure\ArdalisBank.Infrastructure.csproj", "{220361D6-9C76-4E3F-BD34-3C7B50E2CA4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{250F283E-FE2F-4BBD-9E63-A2265B84E23F}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,19 +22,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.FunctionalTests", "tests\LoanHub.Backend.FunctionalTests\ArdalisBank.FunctionalTests.csproj", "{7D84EFEE-A7D9-44AD-A0A3-38EC7882D94C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.FunctionalTests", "tests\ArdalisBank.FunctionalTests\ArdalisBank.FunctionalTests.csproj", "{7D84EFEE-A7D9-44AD-A0A3-38EC7882D94C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C9751CB7-4CD6-4633-A99A-4F6ADD525437} = {C9751CB7-4CD6-4633-A99A-4F6ADD525437}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.IntegrationTests", "tests\LoanHub.Backend.IntegrationTests\ArdalisBank.IntegrationTests.csproj", "{0776DC14-9000-47A4-A3F4-ECBCF8CEBC17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.IntegrationTests", "tests\ArdalisBank.IntegrationTests\ArdalisBank.IntegrationTests.csproj", "{0776DC14-9000-47A4-A3F4-ECBCF8CEBC17}"
 	ProjectSection(ProjectDependencies) = postProject
 		{220361D6-9C76-4E3F-BD34-3C7B50E2CA4D} = {220361D6-9C76-4E3F-BD34-3C7B50E2CA4D}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.UnitTests", "tests\LoanHub.Backend.UnitTests\ArdalisBank.UnitTests.csproj", "{1DC7F5A0-DDF7-4975-84EB-05F4FC1B6AB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.UnitTests", "tests\ArdalisBank.UnitTests\ArdalisBank.UnitTests.csproj", "{1DC7F5A0-DDF7-4975-84EB-05F4FC1B6AB5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.UseCases", "src\LoanHub.Backend.UseCases\ArdalisBank.UseCases.csproj", "{B74A78FF-B79E-4C38-A9C7-084A90990CAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArdalisBank.UseCases", "src\ArdalisBank.UseCases\ArdalisBank.UseCases.csproj", "{B74A78FF-B79E-4C38-A9C7-084A90990CAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
