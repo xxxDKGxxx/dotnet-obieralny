@@ -1,0 +1,45 @@
+name: Backend CI
+
+on:
+  push:
+    branches: ["develop"]
+  pull_request:
+    branches: ["develop"]
+
+jobs:
+  build:
+    name: Build & Test (.NET 9)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - name: Restore dependencies
+        working-directory: src/backend/ArdalisBank
+        run: dotnet restore ArdalisBank.sln
+      - name: Build
+        working-directory: src/backend/ArdalisBank
+        run: dotnet build --no-restore ArdalisBank.sln
+      - name: Test
+        working-directory: src/backend/ArdalisBank
+        run: dotnet test --no-build --verbosity normal ArdalisBank.sln
+
+  editorconfig:
+    name: EditorConfig Checker
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - name: Check Dotnet Format
+        working-directory: src/backend/ArdalisBank
+        run: dotnet tool install -g dotnet-format
+      - name: Run Dotnet Format
+        working-directory: src/backend/ArdalisBank
+        run: dotnet format --verify-no-changes ArdalisBank.sln
