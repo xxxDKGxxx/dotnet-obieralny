@@ -1,22 +1,21 @@
-name: Trigger auto deployment for loanhub-bank-api
+name: Bank API Deployment
 
 # When this action will be executed
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ develop ]
+    branches: [develop]
     paths:
-    - '**'
-    - '.github/workflows/loanhub-bank-api-AutoDeployTrigger-98427e68-2a41-4f10-bedb-035d31f4e7bc.yml'
+      - "src/backend/"
+      - ".github/workflows/bank-api-cd.yml"
 
-  # Allow manual trigger 
-  workflow_dispatch:      
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
 
@@ -42,8 +41,6 @@ jobs:
           registryPassword: ${{ secrets.LOANHUBBANKAPI_REGISTRY_PASSWORD }}
           containerAppName: loanhub-bank-api
           resourceGroup: dotnet-obierak
-          imageToBuild: xxxdkgxxx/loanhub-bank-api:${{ github.sha }}
+          imageToBuild: ${{ secrets.LOANHUBBANKAPI_REGISTRY_USERNAME }}/loanhub-bank-api:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
-
-
