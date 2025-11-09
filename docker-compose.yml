@@ -1,6 +1,17 @@
-version: "3.9"
-
 services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: loanhub-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password1!
+    ports:
+      - "1433:1433"
+    volumes:
+      - loanhub-sql-data:/var/opt/mssql
+    networks:
+      - loanhub-local
+
   backend:
     build:
       context: ./src/backend/LoanHub.Backend/
@@ -9,10 +20,31 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:90
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LoanHubBackend;User Id=sa;Password=Password1!;TrustServerCertificate=True;
     ports:
       - "5000:90"
     networks:
       - loanhub-local
+    depends_on:
+      - sqlserver
+
+  aggregator:
+    build:
+      context: ./src/aggregator/LoanHub.Aggregator/
+      dockerfile: Dockerfile
+    container_name: loanhub-aggregator
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:100
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LoanHubAggregator;User Id=sa;Password=Password1!;TrustServerCertificate=True;
+      - DefaultBankUrl=http://backend:90
+    ports:
+      - "6000:100"
+    networks:
+      - loanhub-local
+    depends_on:
+      - backend
+      - sqlserver
 
   frontend:
     build:
@@ -24,10 +56,11 @@ services:
     networks:
       - loanhub-local
     depends_on:
-      - backend
-    environment:
-      - API_URL=http://localhost:5000
+      - aggregator
 
 networks:
   loanhub-local:
     driver: bridge
+
+volumes:
+  loanhub-sql-data:
