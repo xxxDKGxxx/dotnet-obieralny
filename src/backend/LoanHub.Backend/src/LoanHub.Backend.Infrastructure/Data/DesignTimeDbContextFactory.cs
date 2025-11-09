@@ -9,8 +9,6 @@ public sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<App
 	public AppDbContext CreateDbContext(string[] args)
 	{
 		var conn = Environment.GetEnvironmentVariable("LOANHUB_CONNECTION_STRING");
-
-
 		if (string.IsNullOrWhiteSpace(conn))
 			throw new InvalidOperationException(
 				"LOANHUB_CONNECTION_STRING environment variable is required but not found. Please set it to a valid SQL Server connection string.");
