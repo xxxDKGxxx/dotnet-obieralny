@@ -13,7 +13,7 @@ public sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<App
 
 		if (string.IsNullOrWhiteSpace(conn))
 			throw new InvalidOperationException(
-				"LOANHUB_CONNECTION_STRING not found in environment variables.");
+				"LOANHUB_CONNECTION_STRING environment variable is required but not found. Please set it to a valid SQL Server connection string.");
 
 		var options = new DbContextOptionsBuilder<AppDbContext>()
 			.UseSqlServer(conn, sql => sql.MigrationsAssembly(typeof(DesignTimeDbContextFactory).Assembly.FullName))
