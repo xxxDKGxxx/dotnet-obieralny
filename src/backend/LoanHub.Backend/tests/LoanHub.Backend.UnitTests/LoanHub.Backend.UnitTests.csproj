@@ -44,8 +44,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ArdalisBank.Core\LoanHub.Backend.Core.csproj" />
-    <ProjectReference Include="..\..\src\ArdalisBank.UseCases\LoanHub.Backend.UseCases.csproj" />
+    <ProjectReference Include="..\..\src\LoanHub.Backend.Core\LoanHub.Backend.Core.csproj" />
+    <ProjectReference Include="..\..\src\LoanHub.Backend.UseCases\LoanHub.Backend.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

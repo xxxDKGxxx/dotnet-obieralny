@@ -1,6 +1,6 @@
 using System.Reflection;
-using LoanHub.Backend.Core.Interfaces;
 using AutoMapper;
+using LoanHub.Backend.Core.Interfaces;
 
 namespace LoanHub.Backend.UseCases.Mapping;
 public class ApplicationMappingProfile : Profile

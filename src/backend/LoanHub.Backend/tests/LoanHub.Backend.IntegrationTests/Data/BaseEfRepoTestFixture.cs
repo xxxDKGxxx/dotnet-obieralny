@@ -1,6 +1,6 @@
 using LoanHub.Backend.Infrastructure.Data;
 
-namespace ArdalisBankLoanHub.Backend
+namespace LoanHub.Backend.IntegrationTests.Data;
 public abstract class BaseEfRepoTestFixture
 {
 	protected AppDbContext _dbContext;

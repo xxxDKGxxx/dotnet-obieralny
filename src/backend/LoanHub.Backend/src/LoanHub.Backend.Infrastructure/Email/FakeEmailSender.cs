@@ -1,6 +1,6 @@
 using LoanHub.Backend.Core.Interfaces;
 
-namespace ArdalisBank.Infrastructure.Email;
+namespace LoanHub.Backend.Infrastructure.Email;
 
 public sealed class FakeEmailSender(ILogger<FakeEmailSender> logger) : IEmailSender
 {

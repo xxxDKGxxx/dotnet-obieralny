@@ -1,6 +1,6 @@
-using LoanHub.Backend.Core.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using LoanHub.Backend.Core.Interfaces;
 
 namespace LoanHub.Backend.Core.Services;
 public class MapperService : IMapperService
