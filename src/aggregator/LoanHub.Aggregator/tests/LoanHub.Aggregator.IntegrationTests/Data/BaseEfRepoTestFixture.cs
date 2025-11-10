@@ -10,9 +10,8 @@ public abstract class BaseEfRepoTestFixture
 	protected BaseEfRepoTestFixture()
 	{
 		var options = CreateNewContextOptions();
-		var _fakeEventDispatcher = Substitute.For<IDomainEventDispatcher>();
 
-		_dbContext = new AppDbContext(options, _fakeEventDispatcher);
+		_dbContext = new AppDbContext(options);
 	}
 
 	protected static DbContextOptions<AppDbContext> CreateNewContextOptions()
