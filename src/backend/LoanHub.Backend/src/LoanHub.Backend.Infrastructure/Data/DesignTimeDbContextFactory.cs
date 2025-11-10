@@ -8,10 +8,10 @@ public sealed class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<App
 {
 	public AppDbContext CreateDbContext(string[] args)
 	{
-		var conn = Environment.GetEnvironmentVariable("LOANHUB_CONNECTION_STRING");
+		var conn = Environment.GetEnvironmentVariable("DefaultConnection");
 		if (string.IsNullOrWhiteSpace(conn))
 			throw new InvalidOperationException(
-				"LOANHUB_CONNECTION_STRING environment variable is required but not found. Please set it to a valid SQL Server connection string.");
+				"DefaultConnection environment variable is required but not found. Please set it to a valid SQL Server connection string.");
 
 		var options = new DbContextOptionsBuilder<AppDbContext>()
 			.UseSqlServer(conn, sql => sql.MigrationsAssembly(typeof(DesignTimeDbContextFactory).Assembly.FullName))
