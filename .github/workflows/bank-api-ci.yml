@@ -18,14 +18,14 @@ jobs:
         with:
           dotnet-version: 9.0.x
       - name: Restore dependencies
-        working-directory: src/backend/ArdalisBank
-        run: dotnet restore ArdalisBank.sln
+        working-directory: src/backend/LoanHub.Backend
+        run: dotnet restore LoanHub.Backend.sln
       - name: Build
-        working-directory: src/backend/ArdalisBank
-        run: dotnet build --no-restore ArdalisBank.sln
+        working-directory: src/backend/LoanHub.Backend
+        run: dotnet build --no-restore LoanHub.Backend.sln
       - name: Test
-        working-directory: src/backend/ArdalisBank
-        run: dotnet test --no-build --verbosity normal ArdalisBank.sln
+        working-directory: src/backend/LoanHub.Backend
+        run: dotnet test --no-build --verbosity normal LoanHub.Backend.sln
 
   editorconfig:
     name: EditorConfig Checker
@@ -38,8 +38,8 @@ jobs:
         with:
           dotnet-version: 9.0.x
       - name: Check Dotnet Format
-        working-directory: src/backend/ArdalisBank
+        working-directory: src/backend/LoanHub.Backend
         run: dotnet tool install -g dotnet-format
       - name: Run Dotnet Format
-        working-directory: src/backend/ArdalisBank
-        run: dotnet format --verify-no-changes ArdalisBank.sln
+        working-directory: src/backend/LoanHub.Backend
+        run: dotnet format --severity info --verify-no-changes
