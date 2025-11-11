@@ -1,0 +1,27 @@
+.header-bar {
+  height: 70px;
+  background: linear-gradient(90deg, #1560b6 0%, #227ac6 100%);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+}
+
+.header-content {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.app-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin: 0;
+}
