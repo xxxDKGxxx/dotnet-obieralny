@@ -4,12 +4,12 @@ on:
   push:
     branches: ["develop"]
     paths:
-      - "src/aggregator"
+      - "src/aggregator/**"
       - ".github/workflows/aggregator-ci.yml"
   pull_request:
     branches: ["develop"]
     paths:
-      - "src/aggregator"
+      - "src/aggregator/**"
       - ".github/workflows/aggregator-ci.yml"
 
 jobs:

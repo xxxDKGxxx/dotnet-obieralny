@@ -4,11 +4,11 @@ on:
   push:
     branches: ["develop"]
     paths:
-      - "src/frontend"
+      - "src/frontend/**"
   pull_request:
     branches: ["develop"]
     paths:
-      - "src/frontend"
+      - "src/frontend/**"
       - ".github/workflows/frontend-ci.yml"
 
 jobs:

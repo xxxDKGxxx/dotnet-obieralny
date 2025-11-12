@@ -6,7 +6,7 @@ on:
   push:
     branches: [develop]
     paths:
-      - "src/frontend"
+      - "src/frontend/**"
       - ".github/workflows/frontend-cd.yml"
 
   # Allow manual trigger
