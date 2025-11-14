@@ -1,6 +1,7 @@
 using LoanHub.Backend.Infrastructure.Data;
 
 namespace LoanHub.Backend.IntegrationTests.Data;
+
 public abstract class BaseEfRepoTestFixture
 {
 	protected AppDbContext _dbContext;

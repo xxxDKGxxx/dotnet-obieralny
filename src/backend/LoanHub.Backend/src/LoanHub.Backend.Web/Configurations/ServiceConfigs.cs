@@ -1,4 +1,5 @@
 using LoanHub.Backend.Infrastructure.Configs;
+using LoanHub.Backend.UseCases.Mapping;
 
 namespace LoanHub.Backend.Web.Configurations;
 
@@ -8,7 +9,7 @@ public static class ServiceConfigs
 	{
 		services.AddInfrastructureServices(builder.Configuration, logger)
 			.AddMediatrConfigs()
-			.AddAutomapperConfigs();
+			.AddAutoMapperConfigs();
 		logger.LogInformation("{Project} services registered", "Mediatr, AutoMapper");
 
 		return services;

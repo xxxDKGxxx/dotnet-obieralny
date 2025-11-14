@@ -9,12 +9,11 @@ public static class InfrastructureServicesConfig
 		ConfigurationManager config,
 		ILogger logger)
 	{
+		var connectionString = "";
 		try
 		{
-
-			var connectionString = config.GetConnectionString("DefaultConnection");
+			connectionString = config.GetConnectionString("DefaultConnection");
 			Guard.Against.Null(connectionString);
-			services.AddApplicationDbContext(connectionString);
 		}
 		catch
 		{
@@ -22,6 +21,7 @@ public static class InfrastructureServicesConfig
 			throw;
 		}
 
+		services.AddApplicationDbContext(connectionString);
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
