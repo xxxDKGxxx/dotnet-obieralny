@@ -21,4 +21,4 @@ EXPOSE 90
 
 COPY --from=build /app/publish ./
 
-ENTRYPOINT ["dotnet", "ArdalisBank.Web.dll"]
+ENTRYPOINT ["dotnet", "LoanHub.Backend.Web.dll"]
