@@ -9,7 +9,7 @@ public static class InfrastructureServicesConfig
 		ConfigurationManager config,
 		ILogger logger)
 	{
-		var connectionString = "";
+		string? connectionString;
 		try
 		{
 			connectionString = config.GetConnectionString("DefaultConnection");
