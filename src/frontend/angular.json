@@ -104,7 +104,8 @@
       "style": "none",
       "changeDetection": "OnPush",
       "standalone": true,
-      "skipTests": true
+      "skipTests": true,
+      "displayBlock": false
     },
     "@schematics/angular:service": {
       "skipTests": true
