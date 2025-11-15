@@ -1,7 +1,7 @@
 using LoanHub.Backend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace LoanHub.Aggregator.Infrastructure.Data.DbContextFactories;
+namespace LoanHub.Backend.Infrastructure.Data.DbContextFactories;
 
 public sealed class DesignTimeAppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
