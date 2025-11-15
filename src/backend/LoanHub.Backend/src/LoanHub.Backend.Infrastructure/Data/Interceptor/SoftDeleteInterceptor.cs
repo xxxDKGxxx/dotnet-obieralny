@@ -1,7 +1,7 @@
 ﻿using LoanHub.Aggregator.Core;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace LoanHub.Aggregator.Infrastructure.Data.Interceptors;
+namespace LoanHub.Backend.Infrastructure.Data.Interceptor;
 
 public sealed class SoftDeleteInterceptor : SaveChangesInterceptor
 {
