@@ -1,4 +1,4 @@
-﻿using LoanHub.Aggregator.Core;
+﻿using LoanHub.Backend.Core;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace LoanHub.Backend.Infrastructure.Data.Interceptor;
