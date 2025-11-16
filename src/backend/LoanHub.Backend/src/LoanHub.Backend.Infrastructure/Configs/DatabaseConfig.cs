@@ -6,9 +6,10 @@ public static class DatabaseConfig
 	{
 		services.AddSingleton<SoftDeleteInterceptor>();
 
-		services.AddDbContext<AppDbContext>(options =>
+		services.AddDbContext<AppDbContext>((sp, options) =>
 		{
-			options.UseSqlServer(connectionString);
+			options.UseSqlServer(connectionString)
+				.AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>());
 		});
 	}
 }
