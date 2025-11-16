@@ -6,4 +6,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './header-bar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderBar { }
+export class HeaderBar {}
