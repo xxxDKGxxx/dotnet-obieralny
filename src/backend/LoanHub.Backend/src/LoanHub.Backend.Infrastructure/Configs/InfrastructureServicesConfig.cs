@@ -17,7 +17,7 @@ public static class InfrastructureServicesConfig
 		}
 		catch
 		{
-			logger.LogError("Wrong database connection string");
+			logger.LogError("Default connection string was not defined in the environment");
 			throw;
 		}
 
