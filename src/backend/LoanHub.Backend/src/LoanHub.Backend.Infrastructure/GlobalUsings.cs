@@ -4,6 +4,8 @@ global using Ardalis.GuardClauses;
 global using Ardalis.SharedKernel;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using LoanHub.Backend.Core;
+global using LoanHub.Backend.Infrastructure.Data;
+global using LoanHub.Backend.Infrastructure.Data.Interceptor;
 global using MailKit.Net.Smtp;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
