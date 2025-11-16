@@ -1,9 +1,10 @@
+global using System.Net.Mail;
+global using System.Reflection;
 global using Ardalis.GuardClauses;
 global using Ardalis.SharedKernel;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using LoanHub.Backend.Core;
 global using MailKit.Net.Smtp;
-global using MimeKit;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -11,5 +12,4 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
-global using System.Net.Mail;
-global using System.Reflection;
+global using MimeKit;
