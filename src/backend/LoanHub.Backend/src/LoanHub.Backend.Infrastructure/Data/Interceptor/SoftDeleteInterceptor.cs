@@ -1,6 +1,3 @@
-using LoanHub.Backend.Core;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-
 namespace LoanHub.Backend.Infrastructure.Data.Interceptor;
 
 public sealed class SoftDeleteInterceptor : SaveChangesInterceptor
