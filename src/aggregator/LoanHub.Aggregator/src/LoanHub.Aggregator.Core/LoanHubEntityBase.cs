@@ -1,5 +1,3 @@
-using LoanHub.Aggregator.Core.Interfaces;
-
 namespace LoanHub.Aggregator.Core;
 
 public class LoanHubEntityBase() : EntityBase
