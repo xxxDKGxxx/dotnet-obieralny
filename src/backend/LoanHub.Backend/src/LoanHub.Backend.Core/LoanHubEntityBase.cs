@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Core.EntityAggregates;
+namespace LoanHub.Backend.Core;
 
 public class LoanHubEntityBase : EntityBase
 {
