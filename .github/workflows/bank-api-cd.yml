@@ -1,4 +1,4 @@
-name: Bank API Deployment
+name: Bank API CD
 
 # When this action will be executed
 on:
@@ -44,3 +44,4 @@ jobs:
           imageToBuild: ${{ secrets.LOANHUBBANKAPI_REGISTRY_USERNAME }}/loanhub-bank-api:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
