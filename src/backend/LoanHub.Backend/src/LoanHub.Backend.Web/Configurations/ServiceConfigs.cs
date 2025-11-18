@@ -1,6 +1,3 @@
-using LoanHub.Backend.Infrastructure.Configs;
-using LoanHub.Backend.UseCases.Mapping;
-
 namespace LoanHub.Backend.Web.Configurations;
 
 public static class ServiceConfigs
