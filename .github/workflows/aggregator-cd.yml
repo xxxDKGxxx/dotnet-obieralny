@@ -1,4 +1,4 @@
-name: Trigger auto deployment for loanhub-aggregator
+name: Aggregator CD
 
 # When this action will be executed
 on:
@@ -7,7 +7,7 @@ on:
     branches: 
       [ develop ]
     paths:
-    - '**'
+    - 'src/aggregator/**'
     - '.github/workflows/loanhub-aggregator-AutoDeployTrigger-7b142eb9-c48b-45b9-ac02-e0ef4ce8ae02.yml'
 
   # Allow manual trigger 
@@ -42,8 +42,9 @@ jobs:
           registryPassword: ${{ secrets.LOANHUBAGGREGATOR_REGISTRY_PASSWORD }}
           containerAppName: loanhub-aggregator
           resourceGroup: dotnet-obierak
-          imageToBuild: xxxdkgxxx/loanhub-aggregator:${{ github.sha }}
+          imageToBuild: ${{ secrets.LOANHUBAGGREGATOR_REGISTRY_USERNAME }}/loanhub-aggregator:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 
