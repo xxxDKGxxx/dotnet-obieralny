@@ -1,3 +1,5 @@
+using LoanHub.Aggregator.Core.Interfaces;
+
 namespace LoanHub.Aggregator.Core.ApplicationAggregate;
 
 public sealed class Application(

@@ -1,6 +1,8 @@
+using LoanHub.Aggregator.Core.Interfaces;
+
 namespace LoanHub.Aggregator.Core;
 
-public class LoanHubEntityBase : EntityBase
+public class LoanHubEntityBase() : EntityBase
 {
 	public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 	public DateTime? DeletedAt { get; private set; } = null;

@@ -1,10 +1,9 @@
-using LoanHub.Aggregator.Infrastructure.Data;
-using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
-
 namespace LoanHub.Aggregator.FunctionalTests;
 
 public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {
+	public readonly Mock<HttpMessageHandler> DefaultBankApiMockHandler = new();
+
 	/// <summary>
 	/// Overriding CreateHost to avoid creating a separate ServiceProvider per this thread:
 	/// https://github.com/dotnet-architecture/eShopOnWeb/issues/465
@@ -13,11 +12,10 @@ public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactor
 	/// <returns></returns>
 	protected override IHost CreateHost(IHostBuilder builder)
 	{
-		builder.UseEnvironment("Development"); // will not send real emails
+		builder.UseEnvironment("Development");
 		var host = builder.Build();
 		host.Start();
 
-		// Get service provider.
 		var serviceProvider = host.Services;
 
 		// Create a scope to obtain a reference to the database
@@ -59,28 +57,47 @@ public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactor
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
 		builder
+			.ConfigureAppConfiguration((context, config) =>
+			{
+				var variables = new Dictionary<string, string>
+				{
+					{ "DefaultBankUrl", "https://default-bank-api-url.com" },
+				};
+
+				config.AddInMemoryCollection(variables!);
+			})
 			.ConfigureServices(services =>
 			{
 				// Configure test dependencies here
 
-				//// Remove the app's ApplicationDbContext registration.
-				//var descriptor = services.SingleOrDefault(
-				//d => d.ServiceType ==
-				//    typeof(DbContextOptions<AppDbContext>));
+				// Remove the app's ApplicationDbContext registration.
+				var descriptor = services.SingleOrDefault(
+					d =>
+					{
+						return d.ServiceType == typeof(DbContextOptions<AppDbContext>);
+					});
 
-				//if (descriptor != null)
-				//{
-				//  services.Remove(descriptor);
-				//}
+				if (descriptor != null)
+				{
+					services.Remove(descriptor);
+				}
 
-				//// This should be set for each individual test run
-				//string inMemoryCollectionName = Guid.NewGuid().ToString();
+				// This should be set for each individual test run
+				var inMemoryCollectionName = Guid.NewGuid()
+					.ToString();
 
-				//// Add ApplicationDbContext using an in-memory database for testing.
-				//services.AddDbContext<AppDbContext>(options =>
-				//{
-				//  options.UseInMemoryDatabase(inMemoryCollectionName);
-				//});
+				// Add ApplicationDbContext using an in-memory database for testing.
+				services.AddDbContext<AppDbContext>(options =>
+				{
+					options.UseInMemoryDatabase(inMemoryCollectionName)
+						.AddInterceptors(new SoftDeleteInterceptor());
+				});
+
+				services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient")
+					.ConfigurePrimaryHttpMessageHandler(() =>
+					{
+						return DefaultBankApiMockHandler.Object;
+					});
 			});
 	}
 }
