@@ -9,10 +9,19 @@ public static class InfrastructureServicesConfig
 		ConfigurationManager config,
 		ILogger logger)
 	{
-		var connectionString = config.GetConnectionString("DefaultConnection");
-		Guard.Against.Null(connectionString);
-		services.AddApplicationDbContext(connectionString);
+		string? connectionString;
+		try
+		{
+			connectionString = config.GetConnectionString("DefaultConnection");
+			Guard.Against.Null(connectionString);
+		}
+		catch
+		{
+			logger.LogError("Default connection string was not defined in the environment");
+			throw;
+		}
 
+		services.AddApplicationDbContext(connectionString);
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
