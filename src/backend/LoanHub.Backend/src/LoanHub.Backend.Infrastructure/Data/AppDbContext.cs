@@ -1,5 +1,3 @@
-// using LoanHub.Backend.Core.[EntityAggregate];
-
 namespace LoanHub.Backend.Infrastructure.Data;
 
 public sealed class AppDbContext(
