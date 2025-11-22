@@ -1,7 +1,5 @@
 using System.Diagnostics;
 using System.Reflection;
-using FastEndpoints;
-using Microsoft.Extensions.Logging;
 
 namespace LoanHub.Backend.Web;
 

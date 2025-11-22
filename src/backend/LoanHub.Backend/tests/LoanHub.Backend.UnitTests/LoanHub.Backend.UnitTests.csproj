@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\EntityAggregates\**" />
+    <EmbeddedResource Remove="Core\EntityAggregates\**" />
+    <None Remove="Core\EntityAggregates\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Core\Services\ToDoItemSearchService_GetAllIncompleteItems.cs" />
     <Compile Remove="Core\Services\ToDoItemSearchService_GetNextIncompleteItem.cs" />
   </ItemGroup>
@@ -33,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\MyEntityAggregate\" />
     <Folder Include="Core\Services\" />
     <Folder Include="UseCases\MyEntity\" />
   </ItemGroup>
