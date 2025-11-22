@@ -3,6 +3,7 @@
 @theme {
   --color-dark-blue: #1560b6;
   --color-light-blue: #227ac6;
+  --color-background: #0a1929;
   --shadow-header: 0 2px 8px rgba(0,0,0,0.10);
 }
 
@@ -14,4 +15,3 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
-
