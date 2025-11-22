@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LoginButton } from '../login-button/login-button';
 
 @Component({
   selector: 'app-header-bar',
-  imports: [],
+  standalone: true,
+  imports: [LoginButton],
   templateUrl: './header-bar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

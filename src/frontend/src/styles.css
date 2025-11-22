@@ -4,7 +4,15 @@
   --color-dark-blue: #1560b6;
   --color-light-blue: #227ac6;
   --color-background: #0a1929;
+  --color-button: #26C6DA;
+  --color-button-hover: #00BCD4;
   --shadow-header: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+@layer components {
+  .btn-primary {
+    @apply flex items-center px-4 py-2 rounded font-medium transition-colors duration-200 bg-button text-black hover:bg-button-hover;
+  }
 }
 
 html,
