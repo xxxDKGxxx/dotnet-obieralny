@@ -4,6 +4,8 @@
   --color-dark-blue: #1560b6;
   --color-light-blue: #227ac6;
   --color-background: #0a1929;
+  --color-card: #132f4c;
+  --color-input-bg: #1e3a5f;
   --shadow-header: 0 2px 8px rgba(0,0,0,0.10);
 }
 
@@ -14,4 +16,25 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+
+.mat-mdc-card {
+  @apply bg-card!
+}
+
+.mat-mdc-card-header {
+  @apply bg-gradient-to-r from-[#132F4C] to-[#1E3A5F] text-white
+}
+
+.mdc-text-field--filled {
+  @apply bg-input-bg! text-white!
+}
+
+.mat-mdc-form-field-infix {
+  @apply text-white!
+}
+
+.mdc-floating-label {
+  @apply text-white!
 }
