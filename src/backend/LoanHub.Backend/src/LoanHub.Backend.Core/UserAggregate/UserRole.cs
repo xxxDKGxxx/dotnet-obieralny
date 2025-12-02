@@ -1,5 +1,3 @@
-using Ardalis.SmartEnum;
-
 namespace LoanHub.Backend.Core.UserAggregate;
 
 public class UserRole(
