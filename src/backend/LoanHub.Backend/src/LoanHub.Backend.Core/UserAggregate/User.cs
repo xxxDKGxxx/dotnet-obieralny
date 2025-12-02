@@ -34,35 +34,80 @@ public sealed class User(
 
 	public decimal? Income
 	{
-		get => _income;
-		private set => _income = ValidateFinancialAmount(value, nameof(Income));
+		get
+		{
+			return _income;
+		}
+
+		private set
+		{
+			_income = ValidateFinancialAmount(value, nameof(Income));
+		}
 	}
 	public decimal? Costs
 	{
-		get => _costs;
-		private set => _costs = ValidateFinancialAmount(value, nameof(Costs));
+		get
+		{
+			return _costs;
+		}
+
+		private set
+		{
+			_costs = ValidateFinancialAmount(value, nameof(Costs));
+		}
 	}
 	public int? Age
 	{
-		get => _age;
-		private set => _age = ValidateAge(value);
+		get
+		{
+			return _age;
+		}
+
+		private set
+		{
+			_age = ValidateAge(value);
+		}
 	}
 
 	public int? Dependents
 	{
-		get => _dependents;
-		private set => _dependents = ValidateDependents(value);
+		get
+		{
+			return _dependents;
+		}
+
+		private set
+		{
+			_dependents = ValidateDependents(value);
+		}
 	}
 
-	public void SetIncome(decimal? income) => Income = income;
-	public void SetCosts(decimal? costs) => Costs = costs;
-	public void SetAge(int? age) => Age = age;
-	public void SetDependents(int? dependents) => Dependents = dependents;
+	public void SetIncome(decimal? income)
+	{
+		Income = income;
+	}
+
+	public void SetCosts(decimal? costs)
+	{
+		Costs = costs;
+	}
+
+	public void SetAge(int? age)
+	{
+		Age = age;
+	}
+
+	public void SetDependents(int? dependents)
+	{
+		Dependents = dependents;
+	}
 
 	private static decimal? ValidateFinancialAmount(decimal? amount, string propertyName)
 	{
 		if (amount is null)
+		{
 			return null;
+		}
 
 		if (amount < 0)
 		{
@@ -82,9 +127,11 @@ public sealed class User(
 	private static int? ValidateAge(int? age)
 	{
 		if (age is null)
+		{
 			return null;
+		}
 
-		if (age < UserConstants.MinAge || age > UserConstants.MaxAge)
+		if (age is < UserConstants.MinAge or > UserConstants.MaxAge)
 		{
 			throw new ArgumentOutOfRangeException(nameof(age),
 					$"Age must be between {UserConstants.MinAge} and {UserConstants.MaxAge}. Value: {age}");
@@ -96,7 +143,9 @@ public sealed class User(
 	private static int? ValidateDependents(int? dependents)
 	{
 		if (dependents is null)
+		{
 			return null;
+		}
 
 		if (dependents < 0)
 		{
