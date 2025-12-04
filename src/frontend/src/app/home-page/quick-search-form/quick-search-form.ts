@@ -30,7 +30,7 @@ interface QuickSearchFormData {
 })
 export class QuickSearchForm {
   protected amount!: number;
-  protected duration!: Date;
+  protected duration!: number;
 
   private readonly router = inject(Router);
 

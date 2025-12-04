@@ -28,7 +28,7 @@ input {
 }
 
 .mat-mdc-card-header {
-  @apply bg-gradient-to-r from-[#132F4C] to-[#1E3A5F] text-white;
+  @apply bg-gradient-to-r from-[#132F4C] to-[#1E3A5F] text-white font-bold;
 }
 
 .mdc-text-field--filled {

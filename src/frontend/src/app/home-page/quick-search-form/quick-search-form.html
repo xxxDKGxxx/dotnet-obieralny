@@ -1,5 +1,5 @@
-<mat-card class="w-6xl]">
-  <mat-card-header class="text-center font-bold">Szybkie wyszukiwanie </mat-card-header>
+<mat-card>
+  <mat-card-header>Szybkie wyszukiwanie </mat-card-header>
   <mat-card-content>
     <form
       #quickSearchForm="ngForm"
@@ -12,10 +12,10 @@
           name="amount"
           [(ngModel)]="amount"
           type="number"
-          class="text-white"
           matInput
           required
           min="0"
+          step="1000"
         />
       </mat-form-field>
       <mat-form-field>
