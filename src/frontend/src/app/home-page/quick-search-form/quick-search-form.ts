@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import { ApplicationRoutes } from '../../app.routes';
-import { NavigationBehaviorOptions, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 interface QuickSearchFormData {
   amount: number;

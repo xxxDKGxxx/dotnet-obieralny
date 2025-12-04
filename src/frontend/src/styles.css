@@ -7,7 +7,7 @@
   --color-card: #132f4c;
   --color-input-bg: #1e3a5f;
   --color-button-bg: #26c6da;
-  --shadow-header: 0 2px 8px rgba(0,0,0,0.10);
+  --shadow-header: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 html,
@@ -20,29 +20,29 @@ body {
 }
 
 input {
-  @apply text-white! 
+  @apply text-white!;
 }
 
 .mat-mdc-card {
-  @apply bg-card!
+  @apply bg-card!;
 }
 
 .mat-mdc-card-header {
-  @apply bg-gradient-to-r from-[#132F4C] to-[#1E3A5F] text-white
+  @apply bg-gradient-to-r from-[#132F4C] to-[#1E3A5F] text-white;
 }
 
 .mdc-text-field--filled {
-  @apply bg-input-bg! text-white!
+  @apply bg-input-bg! text-white!;
 }
 
 .mat-mdc-form-field-infix {
-  @apply text-white!
+  @apply text-white!;
 }
 
 .mdc-floating-label {
-  @apply text-white!
+  @apply text-white!;
 }
 
 .mat-mdc-raised-button {
-  @apply bg-button-bg! rounded-xl!
+  @apply bg-button-bg! rounded-xl!;
 }
