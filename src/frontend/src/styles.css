@@ -6,6 +6,7 @@
   --color-background: #0a1929;
   --color-card: #132f4c;
   --color-input-bg: #1e3a5f;
+  --color-button-bg: #26c6da;
   --shadow-header: 0 2px 8px rgba(0,0,0,0.10);
 }
 
@@ -18,6 +19,9 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+input {
+  @apply text-white! 
+}
 
 .mat-mdc-card {
   @apply bg-card!
@@ -37,4 +41,8 @@ body {
 
 .mdc-floating-label {
   @apply text-white!
+}
+
+.mat-mdc-raised-button {
+  @apply bg-button-bg! rounded-xl!
 }

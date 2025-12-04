@@ -1,11 +1,30 @@
 <mat-card class="w-6xl]">
   <mat-card-header class="text-center font-bold">Szybkie wyszukiwanie </mat-card-header>
   <mat-card-content>
-    <form class="flex flex-col py-3">
+    <form
+      #quickSearchForm="ngForm"
+      class="flex flex-col py-3"
+      (ngSubmit)="redirectToFullSearch(quickSearchForm.value)"
+    >
       <mat-form-field>
-        <mat-label> Amount </mat-label> <input class="text-white" matInput />
+        <mat-label> Kwota (PLN) </mat-label>
+        <input
+          name="amount"
+          [(ngModel)]="amount"
+          type="number"
+          class="text-white"
+          matInput
+          required
+          min="0"
+        />
       </mat-form-field>
-      <mat-form-field> <mat-label> Duration </mat-label> <input matInput /> </mat-form-field>
+      <mat-form-field>
+        <mat-label> Okres spłaty (Miesiące) </mat-label>
+        <input name="duration" [(ngModel)]="duration" type="number" matInput required min="0" />
+      </mat-form-field>
+      <button type="submit" matButton="elevated" [disabled]="!quickSearchForm.valid">
+        Szukaj ofert
+      </button>
     </form>
   </mat-card-content>
 </mat-card>

@@ -1,8 +1,12 @@
 import { Routes } from '@angular/router';
-import { TestComponent } from './test/test.component';
 import { HomePage } from './home-page/home-page';
+import { FullSearch } from './full-search/full-search';
+
+export const ApplicationRoutes = {
+  search: 'search',
+};
 
 export const routes: Routes = [
-  { path: 'test', component: TestComponent },
+  { path: ApplicationRoutes.search, component: FullSearch },
   { path: '', component: HomePage, pathMatch: 'full' },
 ];
