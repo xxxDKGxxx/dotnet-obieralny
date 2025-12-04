@@ -10,9 +10,11 @@ public static class InfrastructureServicesConfig
 		ILogger logger)
 	{
 		var connectionString = config.GetConnectionString("DefaultConnection");
-		Guard.Against.Null(connectionString);
 
-		services.AddApplicationDbContext(connectionString);
+		if (connectionString is not null)
+		{
+			services.AddApplicationDbContext(connectionString);
+		}
 
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));

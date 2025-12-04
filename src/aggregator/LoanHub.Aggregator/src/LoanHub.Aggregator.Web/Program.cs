@@ -24,7 +24,7 @@ public sealed class Program
 			.CreateLogger<Program>();
 
 		builder.Services.AddInfrastructureServices(builder.Configuration, appLogger);
-		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>();
+		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient");
 
 		var app = builder.Build();
 
