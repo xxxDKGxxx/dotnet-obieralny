@@ -1,3 +1,6 @@
+using LoanHub.Backend.Infrastructure.Data;
+using LoanHub.Backend.Infrastructure.Data.Interceptor;
+
 namespace LoanHub.Backend.Infrastructure.Configs;
 
 public static class DatabaseConfig
