@@ -10,16 +10,16 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 		builder.HasQueryFilter(u => !u.IsDeleted);
 
 		builder.Property(u => u.Email)
-			.HasMaxLength(UserConstants.EmailMaxLength)
+			.HasMaxLength(DataSchemaConstants.User.EmailMaxLength)
 			.IsRequired();
 		builder.HasIndex(u => u.Email).IsUnique();
 
 		builder.Property(u => u.FirstName)
-			.HasMaxLength(UserConstants.FirstNameMaxLength)
+			.HasMaxLength(DataSchemaConstants.User.FirstNameMaxLength)
 			.IsRequired();
 
 		builder.Property(u => u.LastName)
-			.HasMaxLength(UserConstants.LastNameMaxLength)
+			.HasMaxLength(DataSchemaConstants.User.LastNameMaxLength)
 			.IsRequired();
 
 		builder.Property(u => u.Role)
@@ -27,26 +27,26 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 			.IsRequired();
 
 		builder.Property(u => u.Address)
-			.HasMaxLength(UserConstants.AddressMaxLength)
+			.HasMaxLength(DataSchemaConstants.User.AddressMaxLength)
 			.IsRequired(false);
 
 		builder.Property(u => u.Phone)
-			.HasMaxLength(UserConstants.PhoneMaxLength)
+			.HasMaxLength(DataSchemaConstants.User.PhoneMaxLength)
 			.IsRequired(false);
 
 		builder.Property(u => u.Income)
-			.HasColumnType(UserConstants.MoneyColumnType)
+			.HasColumnType(DataSchemaConstants.User.MoneyColumnType)
 			.IsRequired(false);
 
 		builder.Property(u => u.Costs)
-			.HasColumnType(UserConstants.MoneyColumnType)
+			.HasColumnType(DataSchemaConstants.User.MoneyColumnType)
 			.IsRequired(false);
 
 		builder.Property(u => u.Dependents)
 			.IsRequired(false);
 
 		builder.Property(u => u.Job)
-			.HasMaxLength(UserConstants.JobMaxLength)
+			.HasMaxLength(DataSchemaConstants.User.JobMaxLength)
 			.IsRequired(false);
 
 		builder.Property(u => u.Age)
