@@ -23,7 +23,8 @@ public static class InfrastructureServicesConfig
 
 		services.AddApplicationDbContext(connectionString);
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
-			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
+			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
+			   .AddAutoMapperConfigs();
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
