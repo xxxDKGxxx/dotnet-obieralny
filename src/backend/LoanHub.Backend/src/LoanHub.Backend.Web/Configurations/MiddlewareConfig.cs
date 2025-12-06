@@ -22,8 +22,6 @@ public static class MiddlewareConfig
 		app.UseFastEndpoints()
 			.UseSwaggerGen(); // Includes AddFileServer and static files middleware
 
-		app.UseHttpsRedirection(); // Note this will drop Authorization headers
-
 		await SeedDatabase(app);
 
 		return app;
