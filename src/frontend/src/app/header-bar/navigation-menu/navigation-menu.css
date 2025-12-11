@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+
+.menuItem {
+    @apply hover:font-bold transition-all duration-100
+}
