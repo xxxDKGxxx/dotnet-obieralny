@@ -8,7 +8,9 @@ RUN npm ci
 
 COPY . .
 
-RUN npm run build -- --configuration production
+ARG ENVIRONMENT=production
+
+RUN npm run build -- --configuration=${ENVIRONMENT}
 
 FROM nginx:stable-alpine
 
