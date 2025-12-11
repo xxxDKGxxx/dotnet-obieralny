@@ -9,8 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginButton {
-  protected onLoginClick() {
-    console.log('Login button clicked');
-    // Login logic will be implemented later
+  protected login() {
+    // login logic will be implemented later
   }
 }

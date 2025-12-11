@@ -19,22 +19,6 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-.header-bar {
-  @apply h-[70px] bg-gradient-to-r from-dark-blue to-light-blue shadow-header flex items-center;
-}
-
-.header-content {
-  @apply w-full px-8 flex items-center justify-between;
-}
-
-.header-title {
-  @apply text-xl font-bold text-white m-0;
-}
-
-.header-actions {
-  @apply flex items-center;
-}
-
 input {
   @apply text-white!;
 }
