@@ -7,6 +7,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 		builder.ToTable($"{nameof(User)}s");
 
 		builder.HasKey(u => u.Id);
+
 		builder.HasQueryFilter(u => !u.IsDeleted);
 
 		builder.Property(u => u.Email)

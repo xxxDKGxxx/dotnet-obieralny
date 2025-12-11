@@ -44,7 +44,7 @@ public sealed class User(
 
 	private void SetAge(int? age)
 	{
-		if (age is not null && age is < UserConstants.MinAge or > UserConstants.MaxAge)
+		if (age is not null and (< UserConstants.MinAge or > UserConstants.MaxAge))
 		{
 			throw new ArgumentOutOfRangeException(nameof(age),
 				$"Age must be between {UserConstants.MinAge} and {UserConstants.MaxAge}. Value: {age}");
