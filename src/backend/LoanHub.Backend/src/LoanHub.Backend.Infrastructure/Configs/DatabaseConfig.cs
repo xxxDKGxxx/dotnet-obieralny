@@ -1,5 +1,5 @@
 using LoanHub.Backend.Infrastructure.Data;
-using LoanHub.Backend.Infrastructure.Data.Interceptor;
+using LoanHub.Backend.Infrastructure.Data.Interceptors;
 
 namespace LoanHub.Backend.Infrastructure.Configs;
 

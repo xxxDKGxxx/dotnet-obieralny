@@ -1,6 +1,6 @@
-using LoanHub.Backend.Core;
 
-namespace LoanHub.Backend.Infrastructure.Data.Interceptor;
+
+namespace LoanHub.Backend.Infrastructure.Data.Interceptors;
 
 public sealed class SoftDeleteInterceptor : SaveChangesInterceptor
 {
