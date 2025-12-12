@@ -22,10 +22,10 @@ public static class InfrastructureServicesConfig
 		}
 
 		services.AddApplicationDbContext(connectionString);
-		services.AddAutoMapperConfigs(); ;
+		services.AddAutoMapperConfigs();
+		;
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
-			   
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 
