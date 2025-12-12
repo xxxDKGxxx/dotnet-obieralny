@@ -3,6 +3,7 @@ global using System.Reflection;
 global using Ardalis.GuardClauses;
 global using Ardalis.SharedKernel;
 global using Ardalis.Specification.EntityFrameworkCore;
+global using LoanHub.Backend.Core.UserAggregate;
 global using MailKit.Net.Smtp;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
