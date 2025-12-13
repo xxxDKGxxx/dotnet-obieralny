@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core.UserAggregate;
+
 namespace LoanHub.Backend.Infrastructure.Data.Config;
 
 public sealed class UserConfiguration : IEntityTypeConfiguration<User>
@@ -21,7 +23,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
 		builder.Property(u => u.LastName)
 			.HasMaxLength(DataSchemaConstants.LastNameMaxLength)
-			.IsRequired();
+			.IsRequired(false);
 
 		builder.Property(u => u.Role)
 			.HasConversion(r => r.Value, r => UserRole.FromValue(r))

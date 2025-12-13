@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <WebProjectMode>true</WebProjectMode>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <UserSecretsId>06a5cfb0-e45a-43f0-88c1-3e31cc8305b4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Ardalis.Specification" />
   </ItemGroup>
 
   <ItemGroup>
