@@ -1,7 +1,7 @@
 using LoanHub.Backend.Core.UserAggregate;
 
 namespace LoanHub.Backend.UnitTests.Core.UserAggregate;
-public sealed class ApplicationProviderTypeTests
+public sealed class UserRoleTests
 {
 	[Fact]
 	public void User_WhenCreatedAndQueriedByValueAndName_ShouldReturnCorrectInstance()

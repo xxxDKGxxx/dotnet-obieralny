@@ -1,8 +1,7 @@
-using System.Data;
 using LoanHub.Backend.Core.UserAggregate;
 
 namespace LoanHub.Backend.UnitTests.Core.UserAggregate;
-public class ApplicationTests
+public class UserTests
 {
 	[Fact]
 	public void User_WhenCreated_ShouldHaveCorrectFields()
