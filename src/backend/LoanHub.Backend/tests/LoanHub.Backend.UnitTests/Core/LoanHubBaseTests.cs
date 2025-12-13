@@ -1,4 +1,5 @@
 namespace LoanHub.Backend.UnitTests.Core;
+
 public class LoanHubBaseTests
 {
 	[Fact]

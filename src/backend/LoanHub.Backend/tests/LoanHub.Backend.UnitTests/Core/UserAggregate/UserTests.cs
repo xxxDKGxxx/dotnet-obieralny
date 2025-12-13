@@ -1,6 +1,7 @@
 using LoanHub.Backend.Core.UserAggregate;
 
 namespace LoanHub.Backend.UnitTests.Core.UserAggregate;
+
 public class UserTests
 {
 	[Fact]
