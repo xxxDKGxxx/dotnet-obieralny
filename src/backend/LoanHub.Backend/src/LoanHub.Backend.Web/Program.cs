@@ -20,25 +20,30 @@ public sealed class Program
 		var appLogger = new SerilogLoggerFactory(logger)
 			.CreateLogger<Program>();
 
-		builder.Services.AddServiceConfigs(appLogger, builder);
+		try
+		{
+			builder.Services.AddServiceConfigs(appLogger, builder);
 
-		builder.Services.AddFastEndpoints()
-			.SwaggerDocument(o =>
-			{
-				o.ShortSchemaNames = true;
-			})
-			.AddCommandMiddleware(c =>
-			{
-				c.Register(typeof(CommandLogger<,>));
-			});
+			builder.Services.AddFastEndpoints()
+				.SwaggerDocument(o =>
+				{
+					o.ShortSchemaNames = true;
+				})
+				.AddCommandMiddleware(c =>
+				{
+					c.Register(typeof(CommandLogger<,>));
+				});
 
-		// wire up commands
-		//builder.Services.AddTransient<ICommandHandler<CreateContributorCommand2,Result<int>>, CreateContributorCommandHandler2>();
+			var app = builder.Build();
 
-		var app = builder.Build();
+			await app.UseAppMiddlewareAndSeedDatabase();
 
-		await app.UseAppMiddlewareAndSeedDatabase();
-
-		await app.RunAsync();
+			await app.RunAsync();
+		}
+		catch (Exception ex)
+		{
+			logger.Error(ex.Message);
+			return;
+		}
 	}
 }

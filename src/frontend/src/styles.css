@@ -3,7 +3,11 @@
 @theme {
   --color-dark-blue: #1560b6;
   --color-light-blue: #227ac6;
-  --shadow-header: 0 2px 8px rgba(0,0,0,0.10);
+  --color-background: #0a1929;
+  --color-card: #132f4c;
+  --color-input-bg: #1e3a5f;
+  --color-button-bg: #26c6da;
+  --shadow-header: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 html,
@@ -15,3 +19,30 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+input {
+  @apply text-white!;
+}
+
+.mat-mdc-card {
+  @apply bg-card!;
+}
+
+.mat-mdc-card-header {
+  @apply bg-gradient-to-r from-[#132F4C] to-[#1E3A5F] text-white font-bold;
+}
+
+.mdc-text-field--filled {
+  @apply bg-input-bg! text-white!;
+}
+
+.mat-mdc-form-field-infix {
+  @apply text-white!;
+}
+
+.mdc-floating-label {
+  @apply text-white!;
+}
+
+.mat-mdc-raised-button {
+  @apply bg-button-bg! rounded-xl!;
+}

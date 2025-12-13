@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://localhost:5000',
+  apiBaseUrl:
+    'https://loanhub-aggregator.internal.bravemoss-1374d09b.polandcentral.azurecontainerapps.io',
 };

@@ -50,6 +50,8 @@ services:
     build:
       context: ./src/frontend
       dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: development
     container_name: loanhub-frontend
     ports:
       - "8080:80"
