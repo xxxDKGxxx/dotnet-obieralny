@@ -56,24 +56,21 @@ public static class AuthenticationConfig
 				};
 			});
 
-		services.AddAuthorization(options =>
-		{
-			options.AddPolicy("RequireUser", policy =>
+		services.AddAuthorizationBuilder()
+			.AddDefaultPolicy("DefaultPolicy", policy =>
 			{
-				policy.RequireClaim(JwtRegisteredClaimNames.Sub);
-				policy.RequireClaim(JwtRegisteredClaimNames.Email);
-			});
-
-			options.AddPolicy("RequireUserRole", policy =>
+				policy.RequireAuthenticatedUser();
+			})
+			.AddPolicy("UserPolicy", policy =>
 			{
+				policy.RequireAuthenticatedUser();
 				policy.RequireClaim("role", "User");
-			});
-
-			options.AddPolicy("RequireAdminRole", policy =>
+			})
+			.AddPolicy("AdminPolicy", policy =>
 			{
+				policy.RequireAuthenticatedUser();
 				policy.RequireClaim("role", "Admin");
 			});
-		});
 
 		logger.LogInformation("Authentication services registered");
 
