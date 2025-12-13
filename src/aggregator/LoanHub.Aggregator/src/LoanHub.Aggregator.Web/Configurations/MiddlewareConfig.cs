@@ -18,7 +18,6 @@ public static class MiddlewareConfig
 		}
 
 		app.UseMiddleware<DefaultBankRedirectMiddleware>();
-		app.UseHttpsRedirection(); // Note this will drop Authorization headers
 
 		await SeedDatabase(app);
 		return app;
