@@ -1,10 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { QuickSearchForm } from './quick-search-form/quick-search-form';
+import { CounterService } from '../services/counter.service';
 
 @Component({
   selector: 'app-home-page',
-  imports: [QuickSearchForm],
+  imports: [QuickSearchForm, CommonModule],
   templateUrl: './home-page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./home-page.css'],
 })
-export class HomePage {}
+export class HomePage {
+  private counterService = inject(CounterService);
+  counterData$ = this.counterService.getCounterData();
+}
