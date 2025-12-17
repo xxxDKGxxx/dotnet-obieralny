@@ -10,7 +10,10 @@ public sealed class LoginHandler(
 		LoginCommand request,
 		CancellationToken cancellationToken)
 	{
-		var provider = loginProviders.SingleOrDefault(p => p.Type == request.Type);
+		var provider = loginProviders.SingleOrDefault(p =>
+		{
+			return p.Type == request.Type;
+		});
 		if (provider == null)
 		{
 			logger.LogWarning("Login provider not found for type: {LoginType}", request.Type);

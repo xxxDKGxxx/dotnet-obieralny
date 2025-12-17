@@ -4,5 +4,5 @@ namespace LoanHub.Backend.Core.Interfaces;
 
 public interface ITokenProvider
 {
-	string GenerateToken(User user);
+	public string GenerateToken(User user);
 }

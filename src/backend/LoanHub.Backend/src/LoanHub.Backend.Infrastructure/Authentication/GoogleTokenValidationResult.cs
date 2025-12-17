@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Core.Interfaces;
+namespace LoanHub.Backend.Infrastructure.Authentication;
 
 public sealed class GoogleTokenValidationResult
 {

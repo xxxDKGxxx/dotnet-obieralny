@@ -7,7 +7,10 @@ public sealed class GoogleLoginProvider(
 	private readonly string _clientId = configuration["Authentication:Google:ClientId"]
 		?? throw new InvalidOperationException("Google ClientId not configured");
 
-	public LoginType Type => LoginType.Google;
+	public LoginType Type
+	{
+		get { return LoginType.Google; }
+	}
 
 	public async Task<User> AuthenticateAsync(string token, CancellationToken cancellationToken = default)
 	{
