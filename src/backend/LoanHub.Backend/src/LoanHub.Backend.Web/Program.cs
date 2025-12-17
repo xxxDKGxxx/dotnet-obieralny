@@ -24,6 +24,11 @@ public sealed class Program
 		{
 			builder.Services.AddServiceConfigs(appLogger, builder);
 
+			builder.Services.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssembly(typeof(LoanHub.Backend.UseCases.Features.Authentication.Login.LoginCommand).Assembly);
+			});
+
 			builder.Services.AddFastEndpoints()
 				.SwaggerDocument(o =>
 				{
@@ -36,9 +41,12 @@ public sealed class Program
 
 			builder.Services.AddCors(options =>
 		{
+
+			var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:4200";
+
 			options.AddPolicy("AllowFrontend", policy =>
 			{
-				policy.WithOrigins("http://localhost:4200")
+				policy.WithOrigins(frontendOrigin)
 					  .AllowAnyMethod()
 					  .AllowAnyHeader()
 					  .AllowCredentials();

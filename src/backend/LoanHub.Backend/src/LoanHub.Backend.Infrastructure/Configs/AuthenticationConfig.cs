@@ -1,5 +1,6 @@
 using LoanHub.Backend.Core.Interfaces;
 using LoanHub.Backend.Infrastructure.Authentication;
+using LoanHub.Backend.UseCases.Features.Authentication.Login;
 
 namespace LoanHub.Backend.Infrastructure.Configs;
 
@@ -10,8 +11,8 @@ public static class AuthenticationConfig
 		IConfiguration configuration,
 		ILogger logger)
 	{
-		services.AddScoped<IJwtTokenService, JwtTokenService>();
-		services.AddScoped<IGoogleTokenValidator, GoogleTokenValidator>();
+		services.AddScoped<ITokenProvider, JwtTokenService>();
+		services.AddScoped<ILoginProvider, GoogleLoginProvider>();
 
 		var jwtSettings = configuration.GetSection("Authentication:Jwt");
 		var secretKey = jwtSettings["SecretKey"]

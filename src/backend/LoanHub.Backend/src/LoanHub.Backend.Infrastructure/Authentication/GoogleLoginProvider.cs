@@ -1,16 +1,15 @@
-
-using LoanHub.Backend.Core.Interfaces;
-
 namespace LoanHub.Backend.Infrastructure.Authentication;
 
-public sealed class GoogleTokenValidator(
+public sealed class GoogleLoginProvider(
 	IConfiguration configuration,
-	ILogger<GoogleTokenValidator> logger) : IGoogleTokenValidator
+	ILogger<GoogleLoginProvider> logger) : ILoginProvider
 {
 	private readonly string _clientId = configuration["Authentication:Google:ClientId"]
 		?? throw new InvalidOperationException("Google ClientId not configured");
 
-	public async Task<GoogleTokenValidationResult> ValidateTokenAsync(string token)
+	public LoginType Type => LoginType.Google;
+
+	public async Task<User> AuthenticateAsync(string token, CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -21,20 +20,21 @@ public sealed class GoogleTokenValidator(
 
 			logger.LogInformation("Successfully validated Google token for user: {Email}", payload.Email);
 
-			return GoogleTokenValidationResult.Success(
+			return new User(
 				payload.Email,
 				payload.GivenName ?? string.Empty,
-				payload.FamilyName ?? string.Empty);
+				payload.FamilyName ?? string.Empty,
+				UserRole.User);
 		}
 		catch (InvalidJwtException ex)
 		{
 			logger.LogWarning("Invalid Google JWT token: {Error}", ex.Message);
-			return GoogleTokenValidationResult.Failure("Invalid Google token");
+			throw new UnauthorizedAccessException("Invalid Google token", ex);
 		}
 		catch (Exception ex)
 		{
 			logger.LogError(ex, "Error validating Google token");
-			return GoogleTokenValidationResult.Failure("Token validation failed");
+			throw new InvalidOperationException("Token validation failed", ex);
 		}
 	}
 }

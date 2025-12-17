@@ -1,11 +1,8 @@
-using LoanHub.Backend.Core.Interfaces;
-using LoanHub.Backend.Core.UserAggregate;
-
 namespace LoanHub.Backend.Infrastructure.Authentication;
 
 public sealed class JwtTokenService(
 	IConfiguration configuration,
-	ILogger<JwtTokenService> logger) : IJwtTokenService
+	ILogger<JwtTokenService> logger) : ITokenProvider
 {
 	private const int TokenExpirationHours = 24;
 
