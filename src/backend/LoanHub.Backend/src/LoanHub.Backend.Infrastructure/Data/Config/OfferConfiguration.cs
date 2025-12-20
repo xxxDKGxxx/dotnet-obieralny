@@ -11,5 +11,7 @@ public sealed class OfferConfiguration : IEntityTypeConfiguration<Offer>
 		builder.HasKey(o => o.Id);
 
 		builder.HasQueryFilter(o => o.IsDeleted);
+
+
 	}
 }

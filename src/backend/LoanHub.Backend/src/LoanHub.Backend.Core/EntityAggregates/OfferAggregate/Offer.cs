@@ -6,8 +6,9 @@ public sealed class Offer(
 	AmountRange amountRange,
 	DurationRange durationRange,
 	InterestRateRange interestRateRange,
-	ValidRange validRange)
-	: LoanHubEntityBase, IAggregateRoot
+	ValidRange validRange):
+	LoanHubEntityBase,
+	IAggregateRoot
 {
 	public string Title { get; private set; } = title;
 	public string Description { get; private set; } = description;
@@ -15,23 +16,6 @@ public sealed class Offer(
 	public DurationRange DurationRange { get; private set; } = durationRange;
 	public InterestRateRange InterestRateRange { get; private set; } = interestRateRange;
 	public ValidRange ValidRange { get; private set; } = validRange;
-}
-
-public class Range<T>(T min, T max) : ValueObject where T : notnull, IComparable<T>
-{
-	public T Min { get; private set; } = min;
-	public T Max { get; private set; } = max;
-
-	protected override IEnumerable<object> GetEqualityComponents()
-	{
-		yield return Min;
-		yield return Max;
-	}
-
-	public bool IsInRange(T value)
-	{
-		return value.CompareTo(Min) >= 0 && value.CompareTo(Max) <= 0;
-	}
 }
 
 public sealed class AmountRange : Range<decimal>
