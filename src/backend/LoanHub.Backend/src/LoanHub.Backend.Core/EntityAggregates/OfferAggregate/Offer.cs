@@ -11,7 +11,9 @@ public sealed class Offer :
 	public InterestRateRange InterestRateRange { get; private set; }
 	public ValidRange ValidRange { get; private set; }
 
-	public Offer() { /* EF */ }
+#pragma warning disable CS8618
+	private Offer() { /* EF */ }
+#pragma warning restore CS8618
 
 	public Offer(
 		string title,
