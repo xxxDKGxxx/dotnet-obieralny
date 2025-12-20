@@ -24,11 +24,6 @@ public sealed class Program
 		{
 			builder.Services.AddServiceConfigs(appLogger, builder);
 
-			builder.Services.AddMediatR(cfg =>
-			{
-				cfg.RegisterServicesFromAssembly(typeof(LoanHub.Backend.UseCases.Features.Authentication.Login.LoginCommand).Assembly);
-			});
-
 			builder.Services.AddFastEndpoints()
 				.SwaggerDocument(o =>
 				{

@@ -1,6 +1,4 @@
-using LoanHub.Backend.Core.Interfaces;
 using LoanHub.Backend.Infrastructure.Authentication;
-using LoanHub.Backend.UseCases.Features.Authentication.Login;
 
 namespace LoanHub.Backend.Infrastructure.Configs;
 
@@ -11,8 +9,18 @@ public static class AuthenticationConfig
 		IConfiguration configuration,
 		ILogger logger)
 	{
-		services.AddScoped<ITokenProvider, JwtTokenService>();
-		services.AddScoped<ILoginProvider, GoogleLoginProvider>();
+		// Register token provider
+		services.AddScoped<ITokenProvider, JwtTokenProvider>();
+
+		// Register login providers with configuration
+		var googleClientId = configuration["Authentication:Google:ClientId"]
+			?? throw new InvalidOperationException("Google ClientId not configured");
+		services.AddScoped<ILoginProvider>(provider =>
+		{
+			return new GoogleLoginProvider(
+							googleClientId,
+							provider.GetRequiredService<ILogger<GoogleLoginProvider>>());
+		});
 
 		var jwtSettings = configuration.GetSection("Authentication:Jwt");
 		var secretKey = jwtSettings["SecretKey"]

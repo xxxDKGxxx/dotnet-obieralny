@@ -23,7 +23,7 @@ public static class InfrastructureServicesConfig
 
 		services.AddApplicationDbContext(connectionString);
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
-				.AddScoped(typeof(IRepositoryBase<>), typeof(EfRepository<>));
+				.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
 		services.AddAuthenticationServices(config, logger);
 

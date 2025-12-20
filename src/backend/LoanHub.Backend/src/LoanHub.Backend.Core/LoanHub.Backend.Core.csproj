@@ -10,9 +10,6 @@
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="MediatR" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="Google.Apis.Auth" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
 
 </Project>

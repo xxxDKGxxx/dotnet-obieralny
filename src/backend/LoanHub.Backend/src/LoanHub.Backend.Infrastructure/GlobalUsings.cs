@@ -12,6 +12,7 @@ global using LoanHub.Backend.Core;
 global using LoanHub.Backend.Core.Interfaces;
 global using LoanHub.Backend.Core.UserAggregate;
 global using LoanHub.Backend.UseCases.Features.Authentication.Login;
+global using LoanHub.Backend.UseCases.Interfaces;
 global using MailKit.Net.Smtp;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.EntityFrameworkCore;

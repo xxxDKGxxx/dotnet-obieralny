@@ -1,4 +1,3 @@
-using LoanHub.Backend.UseCases.Features.Authentication.Login;
 using LoanHub.Backend.Web.Endpoints.Shared;
 
 namespace LoanHub.Backend.Web.Endpoints.Authentication;

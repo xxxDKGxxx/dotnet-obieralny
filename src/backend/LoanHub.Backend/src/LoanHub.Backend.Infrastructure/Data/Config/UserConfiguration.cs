@@ -23,7 +23,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
 		builder.Property(u => u.LastName)
 			.HasMaxLength(DataSchemaConstants.LastNameMaxLength)
-			.IsRequired(false);
+			.IsRequired();
 
 		builder.Property(u => u.Role)
 			.HasConversion(r => r.Value, r => UserRole.FromValue(r))

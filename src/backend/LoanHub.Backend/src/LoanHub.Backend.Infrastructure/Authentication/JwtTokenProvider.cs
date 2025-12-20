@@ -1,10 +1,10 @@
 namespace LoanHub.Backend.Infrastructure.Authentication;
 
-public sealed class JwtTokenService(
+public sealed class JwtTokenProvider(
 	IConfiguration configuration,
-	ILogger<JwtTokenService> logger) : ITokenProvider
+	ILogger<JwtTokenProvider> logger) : ITokenProvider
 {
-	private const int TokenExpirationHours = 24;
+	private const int TokenExpirationHours = 1;
 
 	private readonly string _secretKey = configuration["Authentication:Jwt:SecretKey"]
 		?? throw new InvalidOperationException("JWT SecretKey not configured");
@@ -17,16 +17,18 @@ public sealed class JwtTokenService(
 	{
 		Guard.Against.Null(user, nameof(user));
 
+		var now = DateTime.UtcNow;
+		var issuedAt = new DateTimeOffset(now).ToUnixTimeSeconds().ToString();
+		var jti = Guid.NewGuid().ToString();
+
 		var claims = new[]
 		{
 			new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
 			new Claim(JwtRegisteredClaimNames.Email, user.Email),
 			new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
 			new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName ?? string.Empty),
-			new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-			new Claim(JwtRegisteredClaimNames.Iat,
-				new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
-				ClaimValueTypes.Integer64),
+			new Claim(JwtRegisteredClaimNames.Jti, jti),
+			new Claim(JwtRegisteredClaimNames.Iat, issuedAt, ClaimValueTypes.Integer64),
 			new Claim("role", user.Role.Value)
 		};
 
@@ -37,7 +39,7 @@ public sealed class JwtTokenService(
 			issuer: _issuer,
 			audience: _audience,
 			claims: claims,
-			expires: DateTime.UtcNow.AddHours(TokenExpirationHours),
+			expires: now.AddHours(TokenExpirationHours),
 			signingCredentials: credentials);
 
 		var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
@@ -47,7 +49,7 @@ public sealed class JwtTokenService(
 		return tokenString;
 	}
 
-	public Task<ClaimsPrincipal?> ValidateTokenAsync(string token)
+	public Task<bool> ValidateTokenAsync(string token)
 	{
 		try
 		{
@@ -72,27 +74,27 @@ public sealed class JwtTokenService(
 			var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
 
 			logger.LogDebug("Successfully validated JWT token");
-			return Task.FromResult<ClaimsPrincipal?>(principal);
+			return Task.FromResult(true);
 		}
 		catch (SecurityTokenExpiredException)
 		{
 			logger.LogWarning("JWT token has expired");
-			return Task.FromResult<ClaimsPrincipal?>(null);
+			return Task.FromResult(false);
 		}
 		catch (SecurityTokenInvalidSignatureException)
 		{
 			logger.LogWarning("JWT token has invalid signature");
-			return Task.FromResult<ClaimsPrincipal?>(null);
+			return Task.FromResult(false);
 		}
 		catch (SecurityTokenValidationException ex)
 		{
 			logger.LogWarning("JWT token validation failed: {Error}", ex.Message);
-			return Task.FromResult<ClaimsPrincipal?>(null);
+			return Task.FromResult(false);
 		}
 		catch (Exception ex)
 		{
 			logger.LogError(ex, "Unexpected error during JWT token validation");
-			return Task.FromResult<ClaimsPrincipal?>(null);
+			return Task.FromResult(false);
 		}
 	}
 }

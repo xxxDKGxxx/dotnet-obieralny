@@ -3,7 +3,7 @@ namespace LoanHub.Backend.Core.UserAggregate;
 public sealed class User(
 	string email,
 	string firstName,
-	string? lastName,
+	string lastName,
 	UserRole role) :
 	LoanHubEntityBase,
 	IAggregateRoot
@@ -11,7 +11,7 @@ public sealed class User(
 	public string Email { get; private set; } = email;
 	public UserRole Role { get; private set; } = role;
 	public string FirstName { get; private set; } = firstName;
-	public string? LastName { get; private set; } = lastName;
+	public string LastName { get; private set; } = lastName;
 	public string? Address { get; private set; }
 	public string? Phone { get; private set; }
 	public string? Job { get; private set; }
