@@ -1,21 +1,33 @@
 namespace LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
 
-public sealed class Offer(
-	string title,
-	string description,
-	AmountRange amountRange,
-	DurationRange durationRange,
-	InterestRateRange interestRateRange,
-	ValidRange validRange):
+public sealed class Offer :
 	LoanHubEntityBase,
 	IAggregateRoot
 {
-	public string Title { get; private set; } = title;
-	public string Description { get; private set; } = description;
-	public AmountRange AmountRange { get; private set; } = amountRange;
-	public DurationRange DurationRange { get; private set; } = durationRange;
-	public InterestRateRange InterestRateRange { get; private set; } = interestRateRange;
-	public ValidRange ValidRange { get; private set; } = validRange;
+	public string Title { get; private set; }
+	public string Description { get; private set; }
+	public AmountRange AmountRange { get; private set; }
+	public DurationRange DurationRange { get; private set; }
+	public InterestRateRange InterestRateRange { get; private set; }
+	public ValidRange ValidRange { get; private set; }
+
+	public Offer() { /* EF */ }
+
+	public Offer(
+		string title,
+		string description,
+		AmountRange amountRange,
+		DurationRange durationRange,
+		InterestRateRange interestRateRange,
+		ValidRange validRange)
+	{
+		Title = title;
+		Description = description;
+		AmountRange = amountRange;
+		DurationRange = durationRange;
+		InterestRateRange = interestRateRange;
+		ValidRange = validRange;
+	}
 }
 
 public sealed class AmountRange : Range<decimal>

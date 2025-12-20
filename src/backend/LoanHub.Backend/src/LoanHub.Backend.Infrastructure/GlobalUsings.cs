@@ -3,6 +3,7 @@ global using Ardalis.GuardClauses;
 global using Ardalis.SharedKernel;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using LoanHub.Backend.Core;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
 global using LoanHub.Backend.Core.UserAggregate;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
