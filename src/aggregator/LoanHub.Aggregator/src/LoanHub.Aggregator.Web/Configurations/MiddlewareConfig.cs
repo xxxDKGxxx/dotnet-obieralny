@@ -1,3 +1,4 @@
+using FastEndpoints.Swagger;
 using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
 using LoanHub.Aggregator.Web.Middleware;
 
@@ -16,6 +17,9 @@ public static class MiddlewareConfig
 		{
 			app.UseHsts();
 		}
+
+		app.UseFastEndpoints()
+			.UseSwaggerGen();
 
 		app.UseMiddleware<DefaultBankRedirectMiddleware>();
 

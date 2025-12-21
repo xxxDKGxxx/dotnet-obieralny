@@ -4,12 +4,12 @@ WORKDIR /aggregator
 COPY *.sln .
 COPY Directory.Build.props ./
 COPY Directory.Packages.props ./
+COPY src/LoanHub.Aggregator.Web/*.csproj src/LoanHub.Aggregator.Web/
+RUN dotnet restore src/LoanHub.Aggregator.Web/LoanHub.Aggregator.Web.csproj
 
 COPY src/ src/
 
 WORKDIR /aggregator/src/LoanHub.Aggregator.Web
-
-RUN dotnet restore LoanHub.Aggregator.Web.csproj
 
 RUN dotnet publish LoanHub.Aggregator.Web.csproj -c Release -o /app/publish /p:UseAppHost=false
 

@@ -1,3 +1,4 @@
+using FastEndpoints.Swagger;
 using LoanHub.Aggregator.Core.ApplicationAggregate;
 using LoanHub.Aggregator.Infrastructure.Configs;
 using LoanHub.Aggregator.Web.Configurations;
@@ -25,6 +26,12 @@ public sealed class Program
 
 		builder.Services.AddInfrastructureServices(builder.Configuration, appLogger);
 		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient");
+
+		builder.Services.AddFastEndpoints()
+			.SwaggerDocument(o =>
+			{
+				o.ShortSchemaNames = true;
+			});
 
 		var app = builder.Build();
 
