@@ -14,7 +14,6 @@ export class CounterService {
   private readonly http = inject(HttpClient);
 
   getCounterData(): Observable<CounterData> {
-    const url = `${environment.apiBaseUrl}/api/counter/users-count`;
-    return this.http.get<CounterData>(url);
+    return this.http.get<CounterData>(`${environment.apiBaseUrl}/counter/users-count`);
   }
 }

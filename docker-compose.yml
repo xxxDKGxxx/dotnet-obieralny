@@ -9,6 +9,7 @@ services:
       - "1433:1433"
     volumes:
       - loanhub-sql-data:/var/opt/mssql
+      - ./seed-db.sql:/var/opt/mssql/backup/seed-db.sql
     networks:
       - loanhub-local
 
@@ -45,6 +46,27 @@ services:
     depends_on:
       - backend
       - sqlserver
+
+  seed-db:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: loanhub-seed
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./seed-db.sql:/seed-db.sql:ro
+    networks:
+      - loanhub-local
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        for i in {1..30}; do
+          /opt/mssql-tools/bin/sqlcmd -S sqlserver,1433 -U sa -P Password1! -Q "SELECT 1" && break
+          echo "Waiting for sqlserver..." && sleep 5
+        done
+        /opt/mssql-tools/bin/sqlcmd -S sqlserver,1433 -U sa -P Password1! -i /seed-db.sql
+    restart: "no"
 
   frontend:
     build:

@@ -15,7 +15,7 @@ public sealed class GetUsersCountEndpoint : EndpointWithoutRequest<GetUsersCount
 
 	public override void Configure()
 	{
-		Get("/api/counter/users-count");
+		Get("/counter/users-count");
 		AllowAnonymous();
 	}
 

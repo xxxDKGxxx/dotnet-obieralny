@@ -4,17 +4,6 @@ public static class ServiceConfigs
 {
 	public static IServiceCollection AddServiceConfigs(this IServiceCollection services, Microsoft.Extensions.Logging.ILogger logger, WebApplicationBuilder builder)
 	{
-		services.AddCors(options =>
-		{
-			options.AddDefaultPolicy(policy =>
-			{
-				policy
-					.WithOrigins("http://localhost:8080")
-					.AllowAnyHeader()
-					.AllowAnyMethod();
-			});
-		});
-
 		services.AddInfrastructureServices(builder.Configuration, logger)
 			.AddMediatrConfigs()
 			.AddAutoMapperConfigs();
