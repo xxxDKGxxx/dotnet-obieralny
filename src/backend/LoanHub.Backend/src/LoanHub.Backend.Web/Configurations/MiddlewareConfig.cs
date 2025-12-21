@@ -19,6 +19,8 @@ public static class MiddlewareConfig
 			app.UseHsts();
 		}
 
+		app.UseCors(); // Cross-Origin Resource Sharing
+
 		app.UseFastEndpoints()
 			.UseSwaggerGen(); // Includes AddFileServer and static files middleware
 

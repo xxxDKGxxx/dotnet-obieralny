@@ -1,15 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { QuickSearchForm } from './quick-search-form/quick-search-form';
-import { CounterService } from '../services/counter.service';
+import { Counter } from '../counter-section/counter';
 
 @Component({
   selector: 'app-home-page',
-  imports: [QuickSearchForm, CommonModule],
+  imports: [QuickSearchForm, Counter],
   templateUrl: './home-page.html',
-  styleUrls: ['./home-page.css'],
 })
-export class HomePage {
-  private counterService = inject(CounterService);
-  counterData$ = this.counterService.getCounterData();
-}
+export class HomePage {}

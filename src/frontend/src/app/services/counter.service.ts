@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface CounterData {
   count: number;
-  label: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CounterService {
+  private readonly http = inject(HttpClient);
+
   getCounterData(): Observable<CounterData> {
-    return of({
-      count: 12847,
-      label: 'osób zarejestrowało się na naszej platformie',
-    });
+    const url = `${environment.apiBaseUrl}/api/counter/users-count`;
+    return this.http.get<CounterData>(url);
   }
 }
