@@ -6,7 +6,6 @@ import { HeaderBar } from './header-bar/header-bar';
   selector: 'app-root',
   imports: [RouterOutlet, HeaderBar],
   templateUrl: './app.html',
-
 })
 export class App {
   protected readonly title = signal('frontend');

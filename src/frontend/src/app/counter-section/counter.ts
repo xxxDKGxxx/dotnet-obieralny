@@ -15,7 +15,7 @@ export class Counter {
   protected counterCount = signal<number | null>(null);
 
   constructor() {
-    this.counterService.getCounterData().subscribe(data => {
+    this.counterService.getCounterData().subscribe((data) => {
       this.counterCount.set(data.count);
     });
   }
