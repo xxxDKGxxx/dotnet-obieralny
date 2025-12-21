@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core;
+
 namespace LoanHub.Backend.UnitTests.Core;
 
 public class LoanHubBaseTests
