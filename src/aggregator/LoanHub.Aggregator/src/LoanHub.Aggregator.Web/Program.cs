@@ -1,6 +1,3 @@
-using FastEndpoints.Swagger;
-using LoanHub.Aggregator.Core.ApplicationAggregate;
-using LoanHub.Aggregator.Infrastructure.Configs;
 using LoanHub.Aggregator.Web.Configurations;
 using LoanHub.Aggregator.Web.Middleware;
 

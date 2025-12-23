@@ -1,5 +1,3 @@
-using FastEndpoints.Swagger;
-using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
 using LoanHub.Aggregator.Web.Middleware;
 
 namespace LoanHub.Aggregator.Web.Configurations;

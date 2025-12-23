@@ -27,8 +27,4 @@
     <ProjectReference Include="..\LoanHub.Aggregator.Infrastructure\LoanHub.Aggregator.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Endpoints\" />
-  </ItemGroup>
-
 </Project>
