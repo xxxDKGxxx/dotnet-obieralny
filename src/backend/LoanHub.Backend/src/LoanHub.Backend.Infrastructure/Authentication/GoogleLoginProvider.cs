@@ -19,17 +19,7 @@ public sealed class GoogleLoginProvider(
 			Audience = [_clientId]
 		};
 
-		GoogleJsonWebSignature.Payload payload;
-
-		try
-		{
-			payload = await GoogleJsonWebSignature.ValidateAsync(token, validationSettings);
-		}
-		catch (InvalidJwtException ex)
-		{
-			logger.LogWarning("Invalid Google JWT token: {Error}", ex.Message);
-			throw new UnauthorizedAccessException("Invalid Google token");
-		}
+		var payload = await GoogleJsonWebSignature.ValidateAsync(token, validationSettings);
 
 		if (payload?.Email == null)
 		{

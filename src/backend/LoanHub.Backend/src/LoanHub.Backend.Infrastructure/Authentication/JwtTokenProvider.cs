@@ -51,50 +51,28 @@ public sealed class JwtTokenProvider(
 
 	public Task<bool> ValidateTokenAsync(string token)
 	{
-		try
-		{
-			Guard.Against.NullOrEmpty(token, nameof(token));
+		Guard.Against.NullOrEmpty(token, nameof(token));
 
-			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+		var tokenHandler = new JwtSecurityTokenHandler();
+		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 
-			var validationParameters = new TokenValidationParameters
-			{
-				ValidateIssuerSigningKey = true,
-				IssuerSigningKey = key,
-				ValidateIssuer = true,
-				ValidIssuer = _issuer,
-				ValidateAudience = true,
-				ValidAudience = _audience,
-				ValidateLifetime = true,
-				ClockSkew = TimeSpan.FromMinutes(5),
-				RequireExpirationTime = true
-			};
+		var validationParameters = new TokenValidationParameters
+		{
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = key,
+			ValidateIssuer = true,
+			ValidIssuer = _issuer,
+			ValidateAudience = true,
+			ValidAudience = _audience,
+			ValidateLifetime = true,
+			ClockSkew = TimeSpan.FromMinutes(5),
+			RequireExpirationTime = true
+		};
 
-			var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+		tokenHandler.ValidateToken(token, validationParameters, out _);
 
-			logger.LogDebug("Successfully validated JWT token");
-			return Task.FromResult(true);
-		}
-		catch (SecurityTokenExpiredException)
-		{
-			logger.LogWarning("JWT token has expired");
-			return Task.FromResult(false);
-		}
-		catch (SecurityTokenInvalidSignatureException)
-		{
-			logger.LogWarning("JWT token has invalid signature");
-			return Task.FromResult(false);
-		}
-		catch (SecurityTokenValidationException ex)
-		{
-			logger.LogWarning("JWT token validation failed: {Error}", ex.Message);
-			return Task.FromResult(false);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError(ex, "Unexpected error during JWT token validation");
-			return Task.FromResult(false);
-		}
+		logger.LogDebug("Successfully validated JWT token");
+		return Task.FromResult(true);
 	}
+
 }

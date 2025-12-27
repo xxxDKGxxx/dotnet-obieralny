@@ -9,17 +9,16 @@ public static class AuthenticationConfig
 		IConfiguration configuration,
 		ILogger logger)
 	{
-		// Register token provider
+
 		services.AddScoped<ITokenProvider, JwtTokenProvider>();
 
-		// Register login providers with configuration
 		var googleClientId = configuration["Authentication:Google:ClientId"]
 			?? throw new InvalidOperationException("Google ClientId not configured");
 		services.AddScoped<ILoginProvider>(provider =>
 		{
 			return new GoogleLoginProvider(
-							googleClientId,
-							provider.GetRequiredService<ILogger<GoogleLoginProvider>>());
+				googleClientId,
+				provider.GetRequiredService<ILogger<GoogleLoginProvider>>());
 		});
 
 		var jwtSettings = configuration.GetSection("Authentication:Jwt");

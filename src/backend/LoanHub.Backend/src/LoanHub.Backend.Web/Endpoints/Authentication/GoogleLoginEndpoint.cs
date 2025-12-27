@@ -1,10 +1,9 @@
-using LoanHub.Backend.Web.Endpoints.Shared;
+using LoanHub.Backend.Web.Extensions;
 
 namespace LoanHub.Backend.Web.Endpoints.Authentication;
 
 public sealed class GoogleLoginEndpoint(
-	IMediator mediator,
-	ILogger<GoogleLoginEndpoint> logger) : Endpoint<GoogleAuthRequest, GoogleAuthResponse>
+	IMediator mediator) : Endpoint<GoogleAuthRequest, GoogleAuthResponse>
 {
 	public override void Configure()
 	{
@@ -22,19 +21,6 @@ public sealed class GoogleLoginEndpoint(
 		var command = new LoginCommand(LoginType.Google, request.Token);
 		var result = await mediator.Send(command, ct);
 
-		if (result.IsSuccess)
-		{
-			var response = new GoogleAuthResponse
-			{
-				AccessToken = result.Value.AccessToken
-			};
-
-			await SendOkAsync(response, ct);
-		}
-		else
-		{
-			logger.LogWarning("Google login failed: {Error}", result.Status);
-			await SendUnauthorizedAsync(ct);
-		}
+		await result.SendResult(this, ct);
 	}
 }

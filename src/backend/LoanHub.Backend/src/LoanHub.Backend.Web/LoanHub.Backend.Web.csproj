@@ -21,7 +21,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Serilog.AspNetCore" />
-    <PackageReference Include="Ardalis.Specification" />
   </ItemGroup>
 
   <ItemGroup>
