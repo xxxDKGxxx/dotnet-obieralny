@@ -1,5 +1,3 @@
-using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
-
 namespace LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 
 public sealed class Application :
@@ -27,15 +25,16 @@ public sealed class Application :
 		Amount = amount;
 		Duration = duration;
 		InterestRate = interestRate;
-		UpdatedAt = DateTime.UtcNow;
+		UpdatedAt = CreatedAt;
 	}
 
 	private void SetStatus(ApplicationStatus status)
 	{
 		Status = status;
+		UpdatedAt = DateTime.Now;
 	}
 
-	private void SetBankEmployee(int? bankEmployeeId)
+	private void SetBankEmployeeId(int? bankEmployeeId)
 	{
 		BankEmployeeId = bankEmployeeId;
 	}

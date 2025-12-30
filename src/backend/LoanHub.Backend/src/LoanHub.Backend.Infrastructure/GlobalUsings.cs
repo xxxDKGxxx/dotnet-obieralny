@@ -9,6 +9,7 @@ global using Ardalis.Specification;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using Google.Apis.Auth;
 global using LoanHub.Backend.Core;
+global using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
 global using LoanHub.Backend.Core.Interfaces;
 global using LoanHub.Backend.Core.UserAggregate;
