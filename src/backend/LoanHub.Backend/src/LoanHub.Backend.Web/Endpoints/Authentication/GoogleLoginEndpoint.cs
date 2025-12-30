@@ -7,7 +7,8 @@ public sealed class GoogleLoginEndpoint(
 {
 	public override void Configure()
 	{
-		Post("/api/auth/google-login");
+		Post("/auth/google-login");
+		Version(1);
 		AllowAnonymous();
 		Summary(s =>
 		{
