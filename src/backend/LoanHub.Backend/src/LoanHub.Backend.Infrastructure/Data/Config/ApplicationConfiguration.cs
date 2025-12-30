@@ -1,4 +1,5 @@
 namespace LoanHub.Backend.Infrastructure.Data.Config;
+
 public sealed class ApplicationConfiguration : LoanHubBaseEntityConfiguration<Application>
 {
 	public override void Configure(EntityTypeBuilder<Application> builder)

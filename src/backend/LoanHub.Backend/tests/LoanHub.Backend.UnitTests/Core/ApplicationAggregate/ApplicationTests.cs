@@ -1,4 +1,5 @@
 using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
+
 namespace LoanHub.Backend.UnitTests.Core.ApplicationAggregate;
 
 public class ApplicationTests
