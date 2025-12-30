@@ -8,6 +8,13 @@ public sealed class ApplicationConfiguration : LoanHubBaseEntityConfiguration<Ap
 
 		builder.ToTable($"{nameof(Application)}s");
 
+		builder.Property(a => a.Description)
+			.IsRequired();
+
+		builder.Property(a => a.Title).
+			HasMaxLength(DataSchemaConstants.TitleMaxLength).
+			IsRequired();
+
 		builder.Property(a => a.Status)
 			.HasConversion(s => s.Value, s => ApplicationStatus.FromValue(s))
 			.IsRequired();
