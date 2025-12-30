@@ -1,19 +1,21 @@
+using LoanHub.Backend.Core.UserAggregate;
+
 namespace LoanHub.Backend.Infrastructure.Data.Config;
 
-public sealed class UserConfiguration : IEntityTypeConfiguration<User>
+public sealed class UserConfiguration : LoanHubBaseEntityConfiguration<User>
 {
-	public void Configure(EntityTypeBuilder<User> builder)
+	public override void Configure(EntityTypeBuilder<User> builder)
 	{
+		base.Configure(builder);
+
 		builder.ToTable($"{nameof(User)}s");
-
-		builder.HasKey(u => u.Id);
-
-		builder.HasQueryFilter(u => !u.IsDeleted);
 
 		builder.Property(u => u.Email)
 			.HasMaxLength(DataSchemaConstants.EmailMaxLength)
 			.IsRequired();
-		builder.HasIndex(u => u.Email).IsUnique();
+
+		builder.HasIndex(u => u.Email)
+			.IsUnique();
 
 		builder.Property(u => u.FirstName)
 			.HasMaxLength(DataSchemaConstants.FirstNameMaxLength)

@@ -34,7 +34,26 @@ public sealed class Program
 					c.Register(typeof(CommandLogger<,>));
 				});
 
+			builder.Services.AddCors(options =>
+		{
+
+			var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:4200";
+
+			options.AddPolicy("AllowFrontend", policy =>
+			{
+				policy.WithOrigins(frontendOrigin)
+					  .AllowAnyMethod()
+					  .AllowAnyHeader()
+					  .AllowCredentials();
+			});
+		});
+
 			var app = builder.Build();
+
+			app.UseCors("AllowFrontend");
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			await app.UseAppMiddlewareAndSeedDatabase();
 
