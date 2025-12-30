@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core.UserAggregate;
+
 namespace LoanHub.Backend.Infrastructure.Data.Config;
 
 public sealed class UserConfiguration : LoanHubBaseEntityConfiguration<User>

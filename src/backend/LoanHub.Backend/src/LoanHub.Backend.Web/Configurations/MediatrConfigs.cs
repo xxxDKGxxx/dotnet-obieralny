@@ -9,7 +9,8 @@ public static class MediatrConfigs
 	{
 		var mediatRAssemblies = new[]
 		{
-		  Assembly.GetAssembly(typeof(Program))
+			Assembly.GetAssembly(typeof(Program)),
+			Assembly.GetAssembly(typeof(LoanHub.Backend.UseCases.Features.Authentication.Login.LoginCommand))
 		};
 
 		services.AddMediatR(cfg =>
