@@ -35,21 +35,6 @@ public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactor
 
 			// Ensure the database is created.
 			db.Database.EnsureCreated();
-
-			try
-			{
-				// Can also skip creating the items
-				//if (!db.ToDoItems.Any())
-				//{
-				// Seed the database with test data.
-				SeedData.PopulateTestDataAsync(db).Wait();
-				//}
-			}
-			catch (Exception ex)
-			{
-				logger.LogError(ex, "An error occurred seeding the " +
-									"database with test messages. Error: {exceptionMessage}", ex.Message);
-			}
 		}
 
 		return host;
