@@ -1,3 +1,4 @@
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 using LoanHub.Backend.Core.UserAggregate;
 
 namespace LoanHub.Backend.Infrastructure.Data.Config;
