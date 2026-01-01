@@ -1,5 +1,3 @@
-using LoanHub.Backend.Core.UserAggregate;
-
 namespace LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 
 public sealed class User(
