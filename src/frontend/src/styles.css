@@ -46,3 +46,17 @@ input {
 .mat-mdc-raised-button {
   @apply bg-button-bg! rounded-xl!;
 }
+
+.mat-mdc-menu-panel.user-dropdown-menu {
+  background-color: var(--color-input-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.user-dropdown-menu .mat-mdc-menu-item {
+  color: white !important;
+}
+
+.user-dropdown-menu .mat-mdc-menu-item:hover {
+  background-color: #2A4A6F !important;
+}

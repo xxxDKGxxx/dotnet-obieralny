@@ -36,6 +36,7 @@
     "@angular/platform-browser": "20.3.0",
     "@angular/router": "20.3.0",
     "@tailwindcss/postcss": "^4.1.13",
+    "@types/google.accounts": "^0.0.18",
     "@typescript-eslint/parser": "^8.45.0",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin-template": "^20.3.0",
+    "@angular-eslint/template-parser": "^21.1.0",
     "@angular/build": "^20.3.0",
     "@angular/cli": "^20.3.0",
     "@angular/compiler-cli": "^20.3.0",

@@ -5,7 +5,6 @@ import { LoginButton } from '../login-button/login-button';
 
 @Component({
   selector: 'app-header-bar',
-  standalone: true,
   imports: [NavigationMenu, RouterLink, LoginButton],
   templateUrl: './header-bar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
