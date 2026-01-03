@@ -27,7 +27,13 @@ public sealed class Program
 			builder.Services.AddFastEndpoints()
 				.SwaggerDocument(o =>
 				{
+					o.DocumentSettings = s =>
+					{
+						s.Title = "LoanHub API";
+						s.Version = "1";
+					};
 					o.ShortSchemaNames = true;
+					o.MaxEndpointVersion = 1;
 				})
 				.AddCommandMiddleware(c =>
 				{
