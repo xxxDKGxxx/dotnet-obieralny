@@ -8,5 +8,6 @@ public static class DataSchemaConstants
 	public const int AddressMaxLength = 200;
 	public const int PhoneMaxLength = 9;
 	public const int JobMaxLength = 100;
+	public const int TitleMaxLength = 200;
 	public const string MoneyColumnType = "decimal(18,2)";
 }

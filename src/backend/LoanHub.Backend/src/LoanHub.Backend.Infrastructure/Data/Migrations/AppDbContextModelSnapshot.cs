@@ -22,6 +22,39 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Offers", (string)null);
+                });
+
             modelBuilder.Entity("LoanHub.Backend.Core.UserAggregate.User", b =>
                 {
                     b.Property<int>("Id")
@@ -63,7 +96,9 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Job")
                         .HasMaxLength(100)
@@ -88,6 +123,97 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer", b =>
+                {
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.AmountRange", "AmountRange", b1 =>
+                        {
+                            b1.Property<int>("OfferId")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Max")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<decimal>("Min")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("OfferId");
+
+                            b1.ToTable("Offers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OfferId");
+                        });
+
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.DurationRange", "DurationRange", b1 =>
+                        {
+                            b1.Property<int>("OfferId")
+                                .HasColumnType("int");
+
+                            b1.Property<long>("Max")
+                                .HasColumnType("bigint");
+
+                            b1.Property<long>("Min")
+                                .HasColumnType("bigint");
+
+                            b1.HasKey("OfferId");
+
+                            b1.ToTable("Offers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OfferId");
+                        });
+
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.InterestRateRange", "InterestRateRange", b1 =>
+                        {
+                            b1.Property<int>("OfferId")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Max")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<decimal>("Min")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("OfferId");
+
+                            b1.ToTable("Offers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OfferId");
+                        });
+
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.ValidRange", "ValidRange", b1 =>
+                        {
+                            b1.Property<int>("OfferId")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("Max")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<DateTime>("Min")
+                                .HasColumnType("datetime2");
+
+                            b1.HasKey("OfferId");
+
+                            b1.ToTable("Offers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OfferId");
+                        });
+
+                    b.Navigation("AmountRange")
+                        .IsRequired();
+
+                    b.Navigation("DurationRange")
+                        .IsRequired();
+
+                    b.Navigation("InterestRateRange")
+                        .IsRequired();
+
+                    b.Navigation("ValidRange")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

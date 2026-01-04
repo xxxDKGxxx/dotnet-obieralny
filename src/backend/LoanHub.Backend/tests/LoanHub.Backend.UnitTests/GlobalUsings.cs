@@ -1,8 +1,7 @@
 global using System.Runtime.CompilerServices;
-global using Ardalis.SharedKernel;
 global using LoanHub.Backend.Core;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
+global using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 global using MediatR;
-global using Microsoft.Extensions.Logging;
-global using NSubstitute;
 global using Shouldly;
 global using Xunit;
