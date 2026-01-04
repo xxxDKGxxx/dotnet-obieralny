@@ -13,7 +13,7 @@ export interface CounterResponse {
 export class CounterService {
   private readonly http = inject(HttpClient);
 
-  getCounterData(): Observable<CounterData> {
-    return this.http.get<CounterData>(`${environment.apiBaseUrl}/counter/users-count`);
+  getCounterData(): Observable<CounterResponse> {
+    return this.http.get<CounterResponse>(`${environment.apiBaseUrl}/counter`);
   }
 }

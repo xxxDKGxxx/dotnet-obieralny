@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CounterService } from '../services/counter.service';
@@ -12,11 +12,11 @@ import { CounterService } from '../services/counter.service';
 })
 export class Counter {
   private counterService = inject(CounterService);
-  protected counterCount = signal<number | null>(null);
+  protected counterCount: number | null = null;
 
   constructor() {
     this.counterService.getCounterData().subscribe((data) => {
-      this.counterCount.set(data.count);
+      this.counterCount = data.count;
     });
   }
 }
