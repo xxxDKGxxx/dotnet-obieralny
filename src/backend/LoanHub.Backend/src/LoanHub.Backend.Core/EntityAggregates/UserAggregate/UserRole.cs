@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Core.UserAggregate;
+namespace LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 
 public class UserRole(
 	string name,

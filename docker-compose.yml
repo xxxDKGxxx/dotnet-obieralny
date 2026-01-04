@@ -21,6 +21,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:90
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LoanHubBackend;User Id=sa;Password=Password1!;TrustServerCertificate=True;
+      - Authentication__Jwt__SecretKey=YourSuperSecretJwtKeyThatShouldBeAtLeast32CharactersLong123456
+      - FrontendOrigin=http://localhost:8080
     ports:
       - "5000:90"
     networks:
@@ -39,7 +41,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LoanHubAggregator;User Id=sa;Password=Password1!;TrustServerCertificate=True;
       - DefaultBankUrl=http://backend:90
     ports:
-      - "6000:100"
+      - "5001:100"
     networks:
       - loanhub-local
     depends_on:

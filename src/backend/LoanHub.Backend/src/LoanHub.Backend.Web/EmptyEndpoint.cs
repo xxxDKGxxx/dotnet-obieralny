@@ -4,7 +4,8 @@ public sealed class EmptyEndpoint : EndpointWithoutRequest<string>
 {
 	public override void Configure()
 	{
-		Get("/api/mock");
+		Get("/mock");
+		Version(1);
 		AllowAnonymous();
 	}
 

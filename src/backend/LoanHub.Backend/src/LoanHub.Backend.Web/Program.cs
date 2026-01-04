@@ -27,14 +27,39 @@ public sealed class Program
 			builder.Services.AddFastEndpoints()
 				.SwaggerDocument(o =>
 				{
+					o.DocumentSettings = s =>
+					{
+						s.Title = "LoanHub API";
+						s.Version = "1";
+					};
 					o.ShortSchemaNames = true;
+					o.MaxEndpointVersion = 1;
 				})
 				.AddCommandMiddleware(c =>
 				{
 					c.Register(typeof(CommandLogger<,>));
 				});
 
+			builder.Services.AddCors(options =>
+		{
+
+			var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:4200";
+
+			options.AddPolicy("AllowFrontend", policy =>
+			{
+				policy.WithOrigins(frontendOrigin)
+					  .AllowAnyMethod()
+					  .AllowAnyHeader()
+					  .AllowCredentials();
+			});
+		});
+
 			var app = builder.Build();
+
+			app.UseCors("AllowFrontend");
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			await app.UseAppMiddlewareAndSeedDatabase();
 
