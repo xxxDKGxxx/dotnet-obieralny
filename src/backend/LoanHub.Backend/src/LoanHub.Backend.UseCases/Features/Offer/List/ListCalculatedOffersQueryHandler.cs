@@ -14,13 +14,14 @@ public sealed class ListCalculatedOffersQueryHandler(
 		var offers = await offersRepository.ListAsync(specification, cancellationToken);
 
 		var calculatedOffers = offers.Select(o =>
-		{
-			return mapper.Map<CalculatedOfferDto>((o, offerCalculator.Calculate(o,
-						request.MonthlyIncome,
-						request.MonthlyCosts,
-						request.Age,
-						request.Dependants)));
-		})
+			{
+				return mapper.Map<CalculatedOfferDto>((o, offerCalculator.Calculate(
+					o,
+					request.MonthlyIncome,
+					request.MonthlyCosts,
+					request.Age,
+					request.Dependants)));
+			})
 			.Where(co =>
 			{
 				return co.Amount >= request.Amount && co.Duration >= request.Duration;
