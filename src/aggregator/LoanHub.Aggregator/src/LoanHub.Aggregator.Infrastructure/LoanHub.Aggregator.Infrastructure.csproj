@@ -32,4 +32,10 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
+      <HintPath>..\..\..\..\..\..\..\..\..\home\xxxdkgxxx\.nuget\packages\microsoft.aspnetcore.app.ref\9.0.11\ref\net9.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

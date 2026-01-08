@@ -1,5 +1,3 @@
-using LoanHub.Aggregator.Infrastructure.Configs;
-
 namespace LoanHub.Aggregator.Web.Configurations;
 
 public static class ServiceConfigs
@@ -9,7 +7,7 @@ public static class ServiceConfigs
 		Microsoft.Extensions.Logging.ILogger logger,
 		WebApplicationBuilder builder)
 	{
-		services.AddInfrastructureServices(builder.Configuration, logger);
+		services.AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment(), logger);
 
 		return services;
 	}
