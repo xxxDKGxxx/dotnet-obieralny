@@ -1,8 +1,11 @@
-global using System.Reflection;
 global using Ardalis.Result;
 global using Ardalis.SharedKernel;
+global using AutoMapper;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Specifications;
 global using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 global using LoanHub.Backend.Core.Interfaces;
+global using LoanHub.Backend.UseCases.Features.Offer;
 global using MediatR;
-global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
+global using OfferEntity = LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer;
