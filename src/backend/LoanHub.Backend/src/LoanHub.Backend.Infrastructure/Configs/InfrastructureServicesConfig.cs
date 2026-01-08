@@ -27,6 +27,8 @@ public static class InfrastructureServicesConfig
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 				.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
+		services.AddScoped<IOfferCalculator, OfferCalculatorService>();
+
 		services.AddAuthenticationServices(config, logger);
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");

@@ -1,5 +1,3 @@
-using LoanHub.Backend.Core.Services;
-
 namespace LoanHub.Backend.UnitTests.Core.Services;
 
 public class OfferCalculatorServiceTests
@@ -20,15 +18,15 @@ public class OfferCalculatorServiceTests
 		result.ShouldSatisfyAllConditions(
 			() =>
 			{
-				result.amount.ShouldBe(offer.AmountRange.Min);
+				result.Amount.ShouldBe(offer.AmountRange.Min);
 			},
 			() =>
 			{
-				result.duration.ShouldBe(offer.DurationRange.Min);
+				result.Duration.ShouldBe(offer.DurationRange.Min);
 			},
 			() =>
 			{
-				result.interestRate.ShouldBe(offer.InterestRateRange.Max) // Worst interest is Max
+				result.InterestRate.ShouldBe(offer.InterestRateRange.Max) // Worst interest is Max
 				;
 			});
 	}
@@ -48,15 +46,15 @@ public class OfferCalculatorServiceTests
 		result.ShouldSatisfyAllConditions(
 			() =>
 			{
-				result.amount.ShouldBe(offer.AmountRange.Min);
+				result.Amount.ShouldBe(offer.AmountRange.Min);
 			},
 			() =>
 			{
-				result.duration.ShouldBe(offer.DurationRange.Min);
+				result.Duration.ShouldBe(offer.DurationRange.Min);
 			},
 			() =>
 			{
-				result.interestRate.ShouldBe(offer.InterestRateRange.Max);
+				result.InterestRate.ShouldBe(offer.InterestRateRange.Max);
 			});
 	}
 
@@ -83,31 +81,31 @@ public class OfferCalculatorServiceTests
 			// Kwota powinna dążyć do Max (interpolacja) i nie być ograniczona zdolnością (bo zarabia dużo)
 			() =>
 			{
-				result.amount.ShouldBeGreaterThan(80000m);
+				result.Amount.ShouldBeGreaterThan(80000m);
 			},
 			() =>
 			{
-				result.amount.ShouldBeLessThanOrEqualTo(offer.AmountRange.Max);
+				result.Amount.ShouldBeLessThanOrEqualTo(offer.AmountRange.Max);
 			},
 
 			// Oprocentowanie powinno być bliskie Min
 			() =>
 			{
-				result.interestRate.ShouldBeLessThan(6.0m);
+				result.InterestRate.ShouldBeLessThan(6.0m);
 			},
 			() =>
 			{
-				result.interestRate.ShouldBeGreaterThanOrEqualTo(offer.InterestRateRange.Min);
+				result.InterestRate.ShouldBeGreaterThanOrEqualTo(offer.InterestRateRange.Min);
 			},
 
 			// Okres kredytowania powinien być bliski Max
 			() =>
 			{
-				result.duration.ShouldBeGreaterThan(50u);
+				result.Duration.ShouldBeGreaterThan(50u);
 			},
 			() =>
 			{
-				result.duration.ShouldBeLessThanOrEqualTo(offer.DurationRange.Max);
+				result.Duration.ShouldBeLessThanOrEqualTo(offer.DurationRange.Max);
 			});
 	}
 
@@ -128,8 +126,8 @@ public class OfferCalculatorServiceTests
 
 		// Assert
 		// Mimo dobrego scoringu (finanse), wiek musi przyciąć okres kredytowania do max 12 miesięcy
-		result.duration.ShouldBeLessThanOrEqualTo((uint)12);
-		result.duration.ShouldBeGreaterThanOrEqualTo(offer.DurationRange.Min);
+		result.Duration.ShouldBeLessThanOrEqualTo((uint)12);
+		result.Duration.ShouldBeGreaterThanOrEqualTo(offer.DurationRange.Min);
 	}
 
 	[Fact]
@@ -148,7 +146,7 @@ public class OfferCalculatorServiceTests
 		var result = _sut.Calculate(strictOffer, 5000m, 1000m, age, 0);
 
 		// Assert
-		result.duration.ShouldBe(strictOffer.DurationRange.Min);
+		result.Duration.ShouldBe(strictOffer.DurationRange.Min);
 	}
 
 	[Fact]
@@ -172,8 +170,8 @@ public class OfferCalculatorServiceTests
 		// Assert
 		// Sprawdzamy, czy kwota jest drastycznie mniejsza niż Max oferty,
 		// wynikająca z matematyki finansowej dla raty 250zł.
-		result.amount.ShouldBeLessThan(15000m); // Szacunek z zapasem
-		result.amount.ShouldBeGreaterThanOrEqualTo(offer.AmountRange.Min);
+		result.Amount.ShouldBeLessThan(15000m); // Szacunek z zapasem
+		result.Amount.ShouldBeGreaterThanOrEqualTo(offer.AmountRange.Min);
 	}
 
 	[Fact]
@@ -189,7 +187,7 @@ public class OfferCalculatorServiceTests
 		var result = _sut.Calculate(offer, 2001m, 2000m, 30, 0);
 
 		// Assert
-		result.amount.ShouldBe(offer.AmountRange.Min);
+		result.Amount.ShouldBe(offer.AmountRange.Min);
 	}
 
 	// --- Helper ---
