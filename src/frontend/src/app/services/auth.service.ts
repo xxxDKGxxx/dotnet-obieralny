@@ -30,7 +30,7 @@ export class AuthService {
     }
 
     this.googleCallback = callback;
-    
+
     const googleApi = (globalThis as any).google;
     if (typeof googleApi !== 'undefined' && googleApi.accounts?.id) {
       googleApi.accounts.id.initialize({
@@ -41,18 +41,18 @@ export class AuthService {
           }
         },
       });
-      
+
       if (!this.googleButtonElement) {
         const container = globalThis.document.createElement('div');
         container.id = 'google-signin-hidden';
         container.style.cssText = 'position: absolute; top: -9999px; left: -9999px;';
         globalThis.document.body.appendChild(container);
-        
+
         googleApi.accounts.id.renderButton(container, {
           theme: 'outline',
           size: 'large',
         });
-        
+
         this.googleButtonElement = container;
       }
     }
@@ -62,7 +62,7 @@ export class AuthService {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    
+
     if (this.googleButtonElement) {
       const button = this.googleButtonElement.querySelector('div[role="button"]') as HTMLElement;
       if (button) {
