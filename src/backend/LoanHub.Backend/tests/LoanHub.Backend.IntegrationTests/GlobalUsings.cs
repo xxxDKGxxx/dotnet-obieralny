@@ -1,6 +1,17 @@
 global using Ardalis.SharedKernel;
+global using AutoMapper;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Specifications;
+global using LoanHub.Backend.Core.Interfaces;
+global using LoanHub.Backend.Infrastructure.Data;
+global using LoanHub.Backend.UseCases.Features.Offer;
+global using LoanHub.Backend.UseCases.Features.Offer.List;
+global using LoanHub.Backend.UseCases.Mapping.Profiles;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.DependencyInjection;
 global using NSubstitute;
+global using Serilog.Extensions.Logging;
 global using Shouldly;
 global using Xunit;
+global using OfferEntity = LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer;

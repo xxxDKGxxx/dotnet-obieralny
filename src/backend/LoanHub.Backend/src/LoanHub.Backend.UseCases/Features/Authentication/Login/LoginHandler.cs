@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Specifications;
 using LoanHub.Backend.UseCases.Interfaces;
 
 namespace LoanHub.Backend.UseCases.Features.Authentication.Login;

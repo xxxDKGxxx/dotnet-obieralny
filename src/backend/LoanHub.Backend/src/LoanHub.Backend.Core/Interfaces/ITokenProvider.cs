@@ -1,4 +1,4 @@
-using LoanHub.Backend.Core.UserAggregate;
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 
 namespace LoanHub.Backend.Core.Interfaces;
 
