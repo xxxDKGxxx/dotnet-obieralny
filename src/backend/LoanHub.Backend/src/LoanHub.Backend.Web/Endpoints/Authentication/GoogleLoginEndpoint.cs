@@ -21,14 +21,7 @@ public sealed class GoogleLoginEndpoint(
 	{
 		var command = new LoginCommand(LoginType.Google, request.Token);
 		var result = await mediator.Send(command, ct);
-
-		if (result.IsSuccess)
-		{
-			await SendOkAsync(new GoogleAuthResponse { AccessToken = result.Value.AccessToken }, ct);
-		}
-		else
-		{
-			await result.SendResult(this, ct);
-		}
+		
+		await result.SendResult(this, ct);
 	}
 }
