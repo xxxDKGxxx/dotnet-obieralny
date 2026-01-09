@@ -14,5 +14,5 @@ public sealed record OfferWithProviderTypeDto(
 	decimal MaxInterestRate,
 	DateTime ValidFrom,
 	DateTime ValidTo,
-	ApplicationProviderType ProviderType
+	string ProviderType
 );

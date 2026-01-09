@@ -8,7 +8,6 @@ public static class InfrastructureServicesConfig
 {
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
 		ConfigurationManager config,
-		bool isDevelopment,
 		ILogger logger)
 	{
 		var connectionString = config.GetConnectionString("DefaultConnection");
@@ -21,12 +20,15 @@ public static class InfrastructureServicesConfig
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
 			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
-		var ardalisBankUrl = config.GetSection("ArdalisBankUrl").Value
-		    ?? throw new Exception("ArdalisBankUrl was not defined");
+		var ardalisBankUrl = config.GetValue<string>("ArdalisBankUrl")
+			?? throw new Exception("ArdalisBankUrl was not defined");
 
-		services.AddScoped<IOfferProvider, ArdalisBankOfferProvider>(sp => new ArdalisBankOfferProvider(
-			ardalisBankUrl,
-			sp.GetService<HttpClient>() ?? throw new Exception("Could not inject HttpClient")));
+		services.AddScoped<IOfferProvider, ArdalisBankOfferProvider>(sp =>
+		{
+			return new ArdalisBankOfferProvider(
+						ardalisBankUrl,
+						sp.GetService<HttpClient>() ?? throw new Exception("Could not inject HttpClient"));
+		});
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 

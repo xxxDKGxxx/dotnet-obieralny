@@ -11,5 +11,5 @@ public sealed record CalculatedOfferWithProviderTypeDto(
 	decimal InterestRate,
 	DateTime ValidFrom,
 	DateTime ValidTo,
-	ApplicationProviderType ProviderType
+	string ProviderType
 );

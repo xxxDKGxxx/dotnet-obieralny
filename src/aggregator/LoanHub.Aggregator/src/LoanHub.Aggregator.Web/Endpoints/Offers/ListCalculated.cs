@@ -26,13 +26,13 @@ public sealed class ListCalculated(IEnumerable<IOfferProvider> offerProviders) :
 					req.Age,
 					req.Dependants);
 
-				return (Offers: offers, ProviderType: provider.ProviderType);
+				return (Offers: offers, ProviderType: provider.ProviderType.Value);
 			}
 			catch (Exception ex)
 			{
 				Logger.LogError("{Message}", ex.Message);
 
-				return (Offers: [], ProviderType: provider.ProviderType);
+				return (Offers: [], ProviderType: provider.ProviderType.Value);
 			}
 		});
 
@@ -44,16 +44,19 @@ public sealed class ListCalculated(IEnumerable<IOfferProvider> offerProviders) :
 		{
 			result.AddRange(
 				offerCollection.Select(
-					cod => new CalculatedOfferWithProviderTypeDto(
-						cod.Id,
-						cod.Title,
-						cod.Description,
-						cod.Amount,
-						cod.Duration,
-						cod.InterestRate,
-						cod.ValidFrom,
-						cod.ValidTo,
-						providerType)));
+					cod =>
+					{
+						return new CalculatedOfferWithProviderTypeDto(
+												cod.Id,
+												cod.Title,
+												cod.Description,
+												cod.Amount,
+												cod.Duration,
+												cod.InterestRate,
+												cod.ValidFrom,
+												cod.ValidTo,
+												providerType);
+					}));
 		}
 
 		Response = result;

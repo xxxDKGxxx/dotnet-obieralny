@@ -13,7 +13,7 @@ public sealed class ListCalculatedOffersValidator : Validator<ListCalculatedOffe
 		RuleFor(request => request.Age).
 			InclusiveBetween(1, 75);
 		RuleFor(request => request.Dependants)
-			.GreaterThan(0);
+			.GreaterThanOrEqualTo(0);
 		RuleFor(request => request.MonthlyCosts)
 			.GreaterThan(0);
 		RuleFor(request => request.MonthlyIncome)

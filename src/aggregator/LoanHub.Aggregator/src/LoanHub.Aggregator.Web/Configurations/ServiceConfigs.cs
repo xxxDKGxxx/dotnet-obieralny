@@ -7,7 +7,7 @@ public static class ServiceConfigs
 		Microsoft.Extensions.Logging.ILogger logger,
 		WebApplicationBuilder builder)
 	{
-		services.AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment(), logger);
+		services.AddInfrastructureServices(builder.Configuration, logger);
 
 		return services;
 	}

@@ -19,13 +19,13 @@ public class List(IEnumerable<IOfferProvider> offerProviders) :
 			try
 			{
 				var offers = await provider.ListOffersAsync(req.Amount, req.Duration);
-				return (Offers: offers, ProviderType: provider.ProviderType);
+				return (Offers: offers, ProviderType: provider.ProviderType.Value);
 			}
 			catch (Exception ex)
 			{
 				Logger.LogError("{Message}", ex.Message);
 
-				return (Offers: [], ProviderType: provider.ProviderType);
+				return (Offers: [], ProviderType: provider.ProviderType.Value);
 			}
 		});
 
@@ -37,19 +37,22 @@ public class List(IEnumerable<IOfferProvider> offerProviders) :
 		{
 			result.AddRange(
 				offerCollection.Select(
-					od => new OfferWithProviderTypeDto(
-						od.Id,
-						od.Title,
-						od.Description,
-						od.MinAmount,
-						od.MaxAmount,
-						od.MinDuration,
-						od.MaxDuration,
-						od.MinInterestRate,
-						od.MaxInterestRate,
-						od.ValidFrom,
-						od.ValidTo,
-						providerType)));
+					od =>
+					{
+						return new OfferWithProviderTypeDto(
+												od.Id,
+												od.Title,
+												od.Description,
+												od.MinAmount,
+												od.MaxAmount,
+												od.MinDuration,
+												od.MaxDuration,
+												od.MinInterestRate,
+												od.MaxInterestRate,
+												od.ValidFrom,
+												od.ValidTo,
+												providerType);
+					}));
 		}
 
 		Response = result;

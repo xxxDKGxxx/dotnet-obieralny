@@ -15,6 +15,10 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 	}
 
 	private readonly string _apiUrl = apiUrl;
+	private readonly JsonSerializerOptions _jsonSerializerOptions = new()
+	{
+		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+	};
 
 	public async Task<IEnumerable<OfferDto>> ListOffersAsync(decimal amount, uint duration)
 	{
@@ -27,7 +31,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		}
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
-		var deserialized = JsonSerializer.Deserialize<IEnumerable<OfferDto>>(content);
+		var deserialized = JsonSerializer.Deserialize<IEnumerable<OfferDto>>(content, _jsonSerializerOptions);
 		return deserialized ?? throw new JsonException("Could not deserialize response");
 	}
 
@@ -40,11 +44,11 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		int dependants)
 	{
 		var responseMessage = await httpClient.GetAsync($"{_apiUrl}/calculated-offers?Amount={amount}"
-	        + $"&Duration={duration}"
-	        + $"&MonthlyIncome={monthlyIncome}"
-	        + $"&MonthlyCosts={monthlyCosts}"
-	        + $"&Age={age}"
-	        + $"&Dependants={dependants}");
+			+ $"&Duration={duration}"
+			+ $"&MonthlyIncome={monthlyIncome}"
+			+ $"&MonthlyCosts={monthlyCosts}"
+			+ $"&Age={age}"
+			+ $"&Dependants={dependants}");
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
@@ -53,7 +57,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		}
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
-		var deserialized = JsonSerializer.Deserialize<IEnumerable<CalculatedOfferDto>>(content);
+		var deserialized = JsonSerializer.Deserialize<IEnumerable<CalculatedOfferDto>>(content, _jsonSerializerOptions);
 		return deserialized ?? throw new JsonException("Could not deserialize response");
 	}
 }

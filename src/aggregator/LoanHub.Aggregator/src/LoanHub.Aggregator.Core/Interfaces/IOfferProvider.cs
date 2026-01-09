@@ -5,7 +5,10 @@ namespace LoanHub.Aggregator.Core.Interfaces;
 
 public interface IOfferProvider
 {
-	public ApplicationProviderType ProviderType { get; }
+	public ApplicationProviderType ProviderType
+	{
+		get;
+	}
 	public Task<IEnumerable<OfferDto>> ListOffersAsync(decimal amount, uint duration);
 	public Task<IEnumerable<CalculatedOfferDto>> ListCalculatedOffersAsync(
 		decimal amount,
