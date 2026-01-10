@@ -1,9 +1,8 @@
-using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
-
 namespace LoanHub.Backend.UseCases.Features.CurrentUser.GetCurrentUser;
 
 public sealed class GetCurrentUserHandler(
 	IRepository<Core.EntityAggregates.UserAggregate.User> userRepository,
+	IMapper mapper,
 	ILogger<GetCurrentUserHandler> logger) : IRequestHandler<GetCurrentUserQuery, Result<UserProfileDto>>
 {
 	public async Task<Result<UserProfileDto>> Handle(
@@ -18,21 +17,7 @@ public sealed class GetCurrentUserHandler(
 			return Result.NotFound("User not found");
 		}
 
-		var userDto = new UserProfileDto
-		{
-			Id = user.Id,
-			Email = user.Email,
-			FirstName = user.FirstName,
-			LastName = user.LastName,
-			Role = user.Role.Value,
-			Address = user.Address,
-			Phone = user.Phone,
-			Job = user.Job,
-			Income = user.Income,
-			Costs = user.Costs,
-			Age = user.Age,
-			Dependents = user.Dependents
-		};
+		var userDto = mapper.Map<UserProfileDto>(user);
 
 		logger.LogInformation("Retrieved current user info for: {UserId}", user.Id);
 

@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.UseCases.Features.CurrentUser.GetCurrentUser;
+namespace LoanHub.Backend.Core.EntityAggregates.UserAggregate.Dto;
 
 public sealed class UserProfileDto
 {
