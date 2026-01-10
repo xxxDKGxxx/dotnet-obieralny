@@ -24,7 +24,7 @@ import { CalculatedOfferDto, OfferDto } from '../services/offers/offer-model';
     OffersList,
   ],
   templateUrl: './full-search.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class FullSearch implements OnInit {
   protected amount!: number;
@@ -53,6 +53,8 @@ export class FullSearch implements OnInit {
 
       this.amount = amountAsNumber;
       this.duration = durationAsNumber;
+
+      this.fetchOffers();
     });
   }
 
@@ -68,6 +70,19 @@ export class FullSearch implements OnInit {
           this.offers = offers;
         },
       });
+      return;
     }
+
+    this.offers = [];
+    this.offersService
+      .listCalculatedOffers(
+        this.amount,
+        this.duration,
+        this.monthlyIncome,
+        this.monthlyCosts,
+        this.age,
+        this.dependants,
+      )
+      .subscribe({ next: (calculatedOffers) => (this.calculatedOffers = calculatedOffers) });
   }
 }

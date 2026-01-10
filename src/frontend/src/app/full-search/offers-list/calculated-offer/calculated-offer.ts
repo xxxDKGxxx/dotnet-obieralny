@@ -1,11 +1,16 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CalculatedOfferDto } from '../../../services/offers/offer-model';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { ProviderTypePipe } from '../offer/provider-type-pipe';
 
 @Component({
   selector: 'app-calculated-offer',
-  imports: [],
+  imports: [MatCardModule, MatButtonModule, ProviderTypePipe],
   templateUrl: './calculated-offer.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculatedOffer {
-
+  @Input({ required: true })
+  calculatedOffer!: CalculatedOfferDto;
 }
