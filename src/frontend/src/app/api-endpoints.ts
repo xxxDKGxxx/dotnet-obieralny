@@ -11,5 +11,5 @@ export const apiEndpoints = {
     age: number,
     dependants: number,
   ) =>
-    `${environment.apiBaseUrl}/api/v1/calculated-offers?amount=${amount}&duration=${duration}&monthlyIncome=${monthlyIncome}&monthlyCosts=${monthlyCosts}&age=${age}&dependants=${dependants}`,
+    `${environment.apiBaseUrl}/calculated-offers?amount=${amount}&duration=${duration}&monthlyIncome=${monthlyIncome}&monthlyCosts=${monthlyCosts}&age=${age}&dependants=${dependants}`,
 };
