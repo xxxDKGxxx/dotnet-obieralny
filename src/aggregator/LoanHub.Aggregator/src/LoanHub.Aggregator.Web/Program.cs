@@ -21,7 +21,8 @@ public sealed class Program
 		var appLogger = new SerilogLoggerFactory(logger)
 			.CreateLogger<Program>();
 
-		builder.Services.AddInfrastructureServices(builder.Configuration, appLogger);
+		builder.Services.AddServiceConfigs(appLogger, builder);
+
 		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient");
 
 		builder.Services.AddFastEndpoints()
