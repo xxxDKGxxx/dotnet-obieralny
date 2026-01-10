@@ -79,7 +79,6 @@ export class LoginButton implements OnInit, OnDestroy {
   }
 
   private handleGoogleResponse(response: any): void {
-    this.authService.setUserFromToken(response);
     this.authService
       .loginWithGoogle(response.credential)
       .pipe(takeUntil(this.destroy$))

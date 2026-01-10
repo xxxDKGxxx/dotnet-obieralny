@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { UserInfo, GoogleAuthResponse, GoogleCredentialResponse, JwtPayload } from './auth.model';
+import { UserInfo, GoogleAuthResponse, GoogleCredentialResponse } from './auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,9 @@ export class AuthService {
   public readonly currentUser = signal<UserInfo | null>(null);
 
   constructor() {
-    this.restoreUserFromToken();
+    if (this.hasToken()) {
+      this.loadUserProfile();
+    }
   }
 
   private googleCallback: ((response: GoogleCredentialResponse) => void) | null = null;
@@ -102,17 +104,8 @@ export class AuthService {
     return null;
   }
 
-  // TODO: Remove this method when /users/me endpoint is available
-  // Currently using data from Google token - should fetch from backend database instead
-  setUserFromToken(credential: GoogleCredentialResponse): void {
-    const payload = this.parseJwt(credential.credential);
-    if (payload) {
-      this.currentUser.set({
-        email: payload.email ?? '',
-        firstName: payload.given_name ?? '',
-        lastName: payload.family_name ?? '',
-      });
-    }
+  getUserProfile(): Observable<UserInfo> {
+    return this.http.get<UserInfo>(`${environment.apiBaseUrl}/api/v1/users/me`);
   }
 
   private saveToken(token: string): void {
@@ -120,7 +113,7 @@ export class AuthService {
       globalThis.localStorage?.setItem(this.tokenKey, token);
     }
     this.isAuthenticated.set(true);
-    this.restoreUserFromToken();
+    this.loadUserProfile();
   }
 
   private hasToken(): boolean {
@@ -130,38 +123,15 @@ export class AuthService {
     return false;
   }
 
-  // TODO: Replace with call to /users/me endpoint when available
-  // Currently parsing JWT on frontend - user data should come from backend database
-  private restoreUserFromToken(): void {
-    const token = this.getToken();
-    if (token) {
-      const payload = this.parseJwt(token);
-      if (payload) {
-        this.currentUser.set({
-          email: payload.email ?? '',
-          firstName: payload.given_name ?? '',
-          lastName: payload.family_name ?? '',
-        });
-      }
-    }
-  }
-
-  // TODO: Remove this method when /users/me endpoint is available
-  private parseJwt(token: string): JwtPayload | null {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        globalThis
-          .atob(base64)
-          .split('')
-          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join(''),
-      );
-      return JSON.parse(jsonPayload) as JwtPayload;
-    } catch (error) {
-      console.error('Failed to parse JWT token:', error);
-      return null;
-    }
+  private loadUserProfile(): void {
+    this.getUserProfile().subscribe({
+      next: (userInfo) => {
+        this.currentUser.set(userInfo);
+      },
+      error: (error) => {
+        console.error('Failed to load user profile:', error);
+        this.logout();
+      },
+    });
   }
 }
