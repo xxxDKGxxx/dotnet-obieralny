@@ -17,6 +17,6 @@ public sealed class ListCalculatedOffersValidator : Validator<ListCalculatedOffe
 		RuleFor(request => request.MonthlyCosts)
 			.GreaterThan(0);
 		RuleFor(request => request.MonthlyIncome)
-			.GreaterThan(0);
+			.GreaterThan(request => request.MonthlyCosts);
 	}
 }

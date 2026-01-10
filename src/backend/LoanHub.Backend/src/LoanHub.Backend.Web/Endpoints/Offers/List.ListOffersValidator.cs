@@ -8,6 +8,6 @@ public sealed class ListOffersValidator : Validator<ListOffersRequest>
 			GreaterThan(0);
 
 		RuleFor(x => x.Duration).
-			GreaterThanOrEqualTo(0u);
+			GreaterThan(0u);
 	}
 }
