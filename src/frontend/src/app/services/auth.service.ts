@@ -14,12 +14,13 @@ export class AuthService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly tokenKey = 'auth_token';
 
-  public readonly isAuthenticated = signal<boolean>(this.hasToken());
+  public readonly isAuthenticated = signal<boolean>(false);
   public readonly currentUser = signal<UserInfo | null>(null);
 
   constructor() {
     if (this.hasToken()) {
-      this.loadUserProfile();
+      this.isAuthenticated.set(true);
+      setTimeout(() => this.loadUserProfile(), 0);
     }
   }
 
@@ -88,10 +89,6 @@ export class AuthService {
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       globalThis.localStorage?.removeItem(this.tokenKey);
-      const googleApi = (globalThis as any).google;
-      if (googleApi?.accounts?.id && this.currentUser()?.email) {
-        googleApi.accounts.id.revoke(this.currentUser()!.email, () => {});
-      }
     }
     this.isAuthenticated.set(false);
     this.currentUser.set(null);
@@ -116,6 +113,8 @@ export class AuthService {
     this.loadUserProfile();
   }
 
+
+
   private hasToken(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       return !!globalThis.localStorage?.getItem(this.tokenKey);
@@ -127,10 +126,13 @@ export class AuthService {
     this.getUserProfile().subscribe({
       next: (userInfo) => {
         this.currentUser.set(userInfo);
+        this.isAuthenticated.set(true);
       },
       error: (error) => {
         console.error('Failed to load user profile:', error);
-        this.logout();
+        if (error.status === 401) {
+          this.logout();
+        }
       },
     });
   }
