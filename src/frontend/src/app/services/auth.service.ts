@@ -20,7 +20,7 @@ export class AuthService {
   constructor() {
     if (this.hasToken()) {
       this.isAuthenticated.set(true);
-      setTimeout(() => this.loadUserProfile(), 0);
+      globalThis.setTimeout(() => this.loadUserProfile(), 0);
     }
   }
 
@@ -112,8 +112,6 @@ export class AuthService {
     this.isAuthenticated.set(true);
     this.loadUserProfile();
   }
-
-
 
   private hasToken(): boolean {
     if (isPlatformBrowser(this.platformId)) {
