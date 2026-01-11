@@ -41,7 +41,7 @@ public sealed class Program
 				});
 
 			var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin")
-			                     ?? "http://localhost:4200";
+								 ?? "http://localhost:4200";
 
 			builder.Services.AddCors(options =>
 			{
