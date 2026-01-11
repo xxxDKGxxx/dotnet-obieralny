@@ -8,7 +8,13 @@ export class ProviderTypePipe implements PipeTransform {
   private readonly map: Record<ApplicationProviderType, string> = {
     [ApplicationProviderType.ArdalisBank]: 'ArdalisBank',
   };
-  transform(value: ApplicationProviderType): string {
-    return this.map[value];
+  transform(value: ApplicationProviderType | string): string {
+    if (typeof value === 'string' && value in ApplicationProviderType) {
+      const mapped = ApplicationProviderType[value as keyof typeof ApplicationProviderType];
+      if (typeof mapped === 'number') {
+        return this.map[mapped];
+      }
+    }
+    return this.map[value as ApplicationProviderType];
   }
 }
