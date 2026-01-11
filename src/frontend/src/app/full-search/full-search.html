@@ -1,7 +1,3 @@
-@if (this.amount && this.duration) {
-  <p>Amount : {{ amount }}, Duration : {{ duration }}</p>
-}
-
 <mat-card>
   <mat-card-header>Parametry wyszukiwania</mat-card-header>
   <mat-card-content>
@@ -83,4 +79,8 @@
   </mat-card-content>
 </mat-card>
 
-<app-offers-list [offers]="this.offers" [calculatedOffers]="this.calculatedOffers" />
+@if (this.offers.length == 0 && this.calculatedOffers.length == 0) {
+  <div class="my-4 text-white text-center">Nie znaleziono żadnych ofert</div>
+} @else {
+  <app-offers-list [offers]="this.offers" [calculatedOffers]="this.calculatedOffers" />
+}

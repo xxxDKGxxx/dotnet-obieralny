@@ -12,7 +12,7 @@ public class OfferCalculatorServiceTests
 		var offer = CreateOffer(validFrom: pastDate.AddDays(-10), validTo: pastDate);
 
 		// Act
-		var result = _sut.Calculate(offer, 5000m, 1000m, 30, 0);
+		var result = _sut.Calculate(offer, offer.AmountRange.Min, offer.DurationRange.Min, 5000m, 1000m, 30, 0);
 
 		// Assert
 		result.ShouldSatisfyAllConditions(
@@ -40,7 +40,7 @@ public class OfferCalculatorServiceTests
 		const decimal costs = 2000m; // Income == Costs
 
 		// Act
-		var result = _sut.Calculate(offer, income, costs, 30, 0);
+		var result = _sut.Calculate(offer, offer.AmountRange.Min, offer.DurationRange.Min, income, costs, 30, 0);
 
 		// Assert
 		result.ShouldSatisfyAllConditions(
@@ -74,7 +74,7 @@ public class OfferCalculatorServiceTests
 		const int dependants = 0;
 
 		// Act
-		var result = _sut.Calculate(offer, income, costs, age, dependants);
+		var result = _sut.Calculate(offer, 90000, 55, income, costs, age, dependants);
 
 		// Assert
 		result.ShouldSatisfyAllConditions(
@@ -122,7 +122,8 @@ public class OfferCalculatorServiceTests
 		const int age = 74;
 
 		// Act
-		var result = _sut.Calculate(offer, income, costs, age, 0);
+		// Pass requestedDuration=1 so it doesn't override the age limit calculation (which clamps to 12)
+		var result = _sut.Calculate(offer, 10000, 1, income, costs, age, 0);
 
 		// Assert
 		// Mimo dobrego scoringu (finanse), wiek musi przyciąć okres kredytowania do max 12 miesięcy
@@ -143,7 +144,8 @@ public class OfferCalculatorServiceTests
 		var strictOffer = CreateOffer(minDur: 24, maxDur: 48);
 
 		// Act
-		var result = _sut.Calculate(strictOffer, 5000m, 1000m, age, 0);
+		// Added missing arguments: requestedAmount (5000), requestedDuration (24) to match signature
+		var result = _sut.Calculate(strictOffer, 5000m, 24, 5000m, 1000m, age, 0);
 
 		// Assert
 		result.Duration.ShouldBe(strictOffer.DurationRange.Min);
@@ -165,7 +167,8 @@ public class OfferCalculatorServiceTests
 		const decimal costs = 2000m;
 
 		// Act
-		var result = _sut.Calculate(offer, income, costs, 25, 0);
+		// Added requestedAmount=100000 and requestedDuration=36 to match signature
+		var result = _sut.Calculate(offer, 100000m, 36, income, costs, 25, 0);
 
 		// Assert
 		// Sprawdzamy, czy kwota jest drastycznie mniejsza niż Max oferty,
@@ -184,10 +187,39 @@ public class OfferCalculatorServiceTests
 
 		// Act
 		// Dochód 2001, koszty 2000 -> 1 zł wolnego.
-		var result = _sut.Calculate(offer, 2001m, 2000m, 30, 0);
+		// Added requestedAmount=5000 and requestedDuration=12 to match signature
+		var result = _sut.Calculate(offer, 5000m, 12, 2001m, 2000m, 30, 0);
 
 		// Assert
 		result.Amount.ShouldBe(offer.AmountRange.Min);
+	}
+
+	[Fact]
+	public void Calculate_ShouldExtendDuration_WhenRequestedDurationIsInsufficientForAmount()
+	{
+		// Arrange
+		// Offer: Min 1000, Max 20000. Duration 12-60.
+		var offer = CreateOffer(minAmount: 1000, maxAmount: 20000, minDur: 12, maxDur: 60);
+
+		// Client:
+		// Disposable income: 1500 (Income) - 1000 (Costs) = 500.
+		// Max Installment (50% DTI) = 250.
+		// Requested Amount: 10000.
+		// Required months approx: 10000 / 250 = 40 months.
+		
+		const decimal income = 1500m;
+		const decimal costs = 1000m;
+		
+		var requestedDuration = 12u; // User asks for 12 months.
+		var requestedAmount = 10000m;
+
+		// Act
+		var result = _sut.Calculate(offer, requestedAmount, requestedDuration, income, costs, 30, 0);
+
+		// Assert
+		// Should return Amount = 10000 and Duration >= 40 (instead of reducing Amount)
+		result.Amount.ShouldBe(10000m);
+		result.Duration.ShouldBeGreaterThanOrEqualTo(40u);
 	}
 
 	// --- Helper ---

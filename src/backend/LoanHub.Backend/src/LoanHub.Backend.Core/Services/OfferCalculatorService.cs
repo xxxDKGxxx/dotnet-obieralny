@@ -12,6 +12,8 @@ public sealed class OfferCalculatorService : IOfferCalculator
 
 	public OfferConditionsDto Calculate(
 	   Offer offer,
+	   decimal requestedAmount,
+	   uint requestedDuration,
 	   decimal monthlyIncome,
 	   decimal monthlyCosts,
 	   int age,
@@ -29,38 +31,92 @@ public sealed class OfferCalculatorService : IOfferCalculator
 			offer.InterestRateRange.Min,
 			clientScore);
 
-		var ageMaxDuration = (uint)Math.Max(0, (MaxBorrowerAge - age) * 12);
-
-		var interpolatedDuration = (uint)Lerp(
-			offer.DurationRange.Min,
-			offer.DurationRange.Max,
-			clientScore);
-
-		var possibleDuration = Math.Min(interpolatedDuration, ageMaxDuration);
-
-		var finalDuration = Math.Max(possibleDuration, offer.DurationRange.Min);
-
+		// 1. Determine Amount
 		var interpolatedAmount = Lerp(
 			offer.AmountRange.Min,
 			offer.AmountRange.Max,
 			clientScore);
 
+		var targetAmount = Math.Min(interpolatedAmount, requestedAmount);
+		targetAmount = Math.Clamp(targetAmount, offer.AmountRange.Min, offer.AmountRange.Max);
+
+		// 2. Determine Duration based on Amount & Capacity
+		var interpolatedDuration = (uint)Lerp(
+			offer.DurationRange.Min,
+			offer.DurationRange.Max,
+			clientScore);
+
+		var minCapacityDuration = CalculateMinDuration(
+			targetAmount,
+			interpolatedRate,
+			monthlyIncome,
+			monthlyCosts,
+			dependants);
+
+		var targetDuration = Math.Max(requestedDuration, interpolatedDuration);
+		targetDuration = Math.Max(targetDuration, minCapacityDuration);
+
+		// 3. Apply Constraints to Duration
+		var ageMaxDuration = (uint)Math.Max(0, (MaxBorrowerAge - age) * 12);
+
+		var finalDuration = Math.Min(targetDuration, ageMaxDuration);
+		finalDuration = Math.Clamp(finalDuration, offer.DurationRange.Min, offer.DurationRange.Max);
+
+		// 4. Adjust Amount if Duration was constrained (capacity check)
 		var capacityAmount = AdjustAmountToCapacity(
-			interpolatedAmount,
+			targetAmount,
 			finalDuration,
 			interpolatedRate,
 			monthlyIncome,
 			monthlyCosts,
 			dependants);
 
-		var finalAmount = Math.Max(capacityAmount, offer.AmountRange.Min);
-
-		finalAmount = Math.Min(finalAmount, offer.AmountRange.Max);
+		var finalAmount = Math.Min(targetAmount, capacityAmount);
+		finalAmount = Math.Clamp(finalAmount, offer.AmountRange.Min, offer.AmountRange.Max);
 
 		return new OfferConditionsDto(
 			Math.Round(finalAmount, 2),
 			finalDuration,
 			Math.Round(interpolatedRate, 2));
+	}
+
+	private static uint CalculateMinDuration(
+		decimal amount,
+		decimal ratePct,
+		decimal income,
+		decimal costs,
+		int dependants)
+	{
+		var disposableIncome = income - costs - (dependants * CostPerDependant);
+		if (disposableIncome <= 0) return uint.MaxValue;
+
+		var maxInstallment = (double)(disposableIncome * MaxDebtToIncomeRatio);
+		var r = (double)(ratePct / 100 / 12);
+		var pv = (double)amount;
+
+		// If rate is 0, pmt = pv / n => n = pv / pmt
+		if (ratePct == 0)
+		{
+			if (maxInstallment <= 0) return uint.MaxValue;
+			return (uint)Math.Ceiling(pv / maxInstallment);
+		}
+
+		// pv = pmt * (1 - (1+r)^-n) / r
+		// pv * r / pmt = 1 - (1+r)^-n
+		// (1+r)^-n = 1 - (pv * r / pmt)
+
+		var ratio = pv * r / maxInstallment;
+		if (ratio >= 1.0)
+		{
+			// Cannot afford even interest
+			return uint.MaxValue;
+		}
+
+		// -n * ln(1+r) = ln(1 - ratio)
+		// n = - ln(1 - ratio) / ln(1+r)
+
+		var n = -Math.Log(1 - ratio) / Math.Log(1 + r);
+		return (uint)Math.Ceiling(n);
 	}
 
 	private static OfferConditionsDto GetWorstCaseConditions(Offer offer)
@@ -71,6 +127,7 @@ public sealed class OfferCalculatorService : IOfferCalculator
 			offer.InterestRateRange.Max
 		);
 	}
+
 
 	private static bool IsValidRequest(Offer offer, decimal income, decimal costs, int age)
 	{
