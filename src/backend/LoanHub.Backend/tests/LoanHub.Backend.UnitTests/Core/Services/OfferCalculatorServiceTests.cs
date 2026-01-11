@@ -206,10 +206,10 @@ public class OfferCalculatorServiceTests
 		// Max Installment (50% DTI) = 250.
 		// Requested Amount: 10000.
 		// Required months approx: 10000 / 250 = 40 months.
-		
+
 		const decimal income = 1500m;
 		const decimal costs = 1000m;
-		
+
 		var requestedDuration = 12u; // User asks for 12 months.
 		var requestedAmount = 10000m;
 

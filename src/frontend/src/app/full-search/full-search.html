@@ -79,7 +79,7 @@
   </mat-card-content>
 </mat-card>
 
-@if (this.offers.length == 0 && this.calculatedOffers.length == 0) {
+@if (this.offers.length === 0 && this.calculatedOffers.length === 0) {
   <div class="my-4 text-white text-center">Nie znaleziono żadnych ofert</div>
 } @else {
   <app-offers-list [offers]="this.offers" [calculatedOffers]="this.calculatedOffers" />

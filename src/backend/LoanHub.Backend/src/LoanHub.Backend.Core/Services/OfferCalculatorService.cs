@@ -31,7 +31,6 @@ public sealed class OfferCalculatorService : IOfferCalculator
 			offer.InterestRateRange.Min,
 			clientScore);
 
-		// 1. Determine Amount
 		var interpolatedAmount = Lerp(
 			offer.AmountRange.Min,
 			offer.AmountRange.Max,
@@ -40,7 +39,6 @@ public sealed class OfferCalculatorService : IOfferCalculator
 		var targetAmount = Math.Min(interpolatedAmount, requestedAmount);
 		targetAmount = Math.Clamp(targetAmount, offer.AmountRange.Min, offer.AmountRange.Max);
 
-		// 2. Determine Duration based on Amount & Capacity
 		var interpolatedDuration = (uint)Lerp(
 			offer.DurationRange.Min,
 			offer.DurationRange.Max,
@@ -56,13 +54,11 @@ public sealed class OfferCalculatorService : IOfferCalculator
 		var targetDuration = Math.Max(requestedDuration, interpolatedDuration);
 		targetDuration = Math.Max(targetDuration, minCapacityDuration);
 
-		// 3. Apply Constraints to Duration
 		var ageMaxDuration = (uint)Math.Max(0, (MaxBorrowerAge - age) * 12);
 
 		var finalDuration = Math.Min(targetDuration, ageMaxDuration);
 		finalDuration = Math.Clamp(finalDuration, offer.DurationRange.Min, offer.DurationRange.Max);
 
-		// 4. Adjust Amount if Duration was constrained (capacity check)
 		var capacityAmount = AdjustAmountToCapacity(
 			targetAmount,
 			finalDuration,
@@ -88,7 +84,10 @@ public sealed class OfferCalculatorService : IOfferCalculator
 		int dependants)
 	{
 		var disposableIncome = income - costs - (dependants * CostPerDependant);
-		if (disposableIncome <= 0) return uint.MaxValue;
+		if (disposableIncome <= 0)
+		{
+			return uint.MaxValue;
+		}
 
 		var maxInstallment = (double)(disposableIncome * MaxDebtToIncomeRatio);
 		var r = (double)(ratePct / 100 / 12);
@@ -97,7 +96,11 @@ public sealed class OfferCalculatorService : IOfferCalculator
 		// If rate is 0, pmt = pv / n => n = pv / pmt
 		if (ratePct == 0)
 		{
-			if (maxInstallment <= 0) return uint.MaxValue;
+			if (maxInstallment <= 0)
+			{
+				return uint.MaxValue;
+			}
+
 			return (uint)Math.Ceiling(pv / maxInstallment);
 		}
 
@@ -127,7 +130,6 @@ public sealed class OfferCalculatorService : IOfferCalculator
 			offer.InterestRateRange.Max
 		);
 	}
-
 
 	private static bool IsValidRequest(Offer offer, decimal income, decimal costs, int age)
 	{
