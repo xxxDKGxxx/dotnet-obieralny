@@ -40,7 +40,7 @@ public sealed class DefaultBankRedirectMiddleware(
 
 			if (context.Request.Headers.TryGetValue("Content-Type", out var contentType))
 			{
-				requestMessage.Content.Headers.TryAddWithoutValidation("Content-Type", contentType.ToArray());
+				requestMessage.Content.Headers.TryAddWithoutValidation("Content-Type", [.. contentType]);
 			}
 		}
 
