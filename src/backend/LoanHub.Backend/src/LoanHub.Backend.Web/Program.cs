@@ -42,21 +42,17 @@ public sealed class Program
 
 			builder.Services.AddCors(options =>
 		{
-
-			var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:4200";
-
-			options.AddPolicy("AllowFrontend", policy =>
+			options.AddPolicy("AllowAll", policy =>
 			{
-				policy.WithOrigins(frontendOrigin)
-					  .AllowAnyMethod()
-					  .AllowAnyHeader()
-					  .AllowCredentials();
+				policy.AllowAnyOrigin().
+					AllowAnyMethod().
+					AllowAnyHeader();
 			});
 		});
 
 			var app = builder.Build();
 
-			app.UseCors("AllowFrontend");
+			app.UseCors("AllowAll");
 
 			app.UseAuthentication();
 			app.UseAuthorization();
