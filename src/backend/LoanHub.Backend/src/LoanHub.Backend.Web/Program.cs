@@ -41,18 +41,17 @@ public sealed class Program
 				});
 
 			builder.Services.AddCors(options =>
-		{
-
-			var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:4200";
-
-			options.AddPolicy("AllowFrontend", policy =>
 			{
-				policy.WithOrigins(frontendOrigin)
-					  .AllowAnyMethod()
-					  .AllowAnyHeader()
-					  .AllowCredentials();
+				var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin") ?? "http://localhost:4200";
+
+				options.AddPolicy("AllowFrontend", policy =>
+				{
+					policy.WithOrigins(frontendOrigin)
+						  .AllowAnyMethod()
+						  .AllowAnyHeader()
+						  .AllowCredentials();
+				});
 			});
-		});
 
 			var app = builder.Build();
 
