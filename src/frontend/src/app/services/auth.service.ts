@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { UserInfo, GoogleAuthResponse, GoogleCredentialResponse } from './auth.model';
+import { UserDto, GoogleAuthResponse, GoogleCredentialResponse } from './auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class AuthService {
   private readonly tokenKey = 'auth_token';
 
   public readonly isAuthenticated = signal<boolean>(false);
-  public readonly currentUser = signal<UserInfo | null>(null);
+  public readonly currentUser = signal<UserDto | null>(null);
 
   constructor() {
     if (this.hasToken()) {
@@ -76,7 +76,7 @@ export class AuthService {
 
   loginWithGoogle(googleToken: string): Observable<GoogleAuthResponse> {
     return this.http
-      .post<GoogleAuthResponse>(`${environment.apiBaseUrl}/api/v1/auth/google-login`, {
+      .post<GoogleAuthResponse>(`${environment.apiBaseUrl}/auth/google-login`, {
         token: googleToken,
       })
       .pipe(
@@ -101,8 +101,8 @@ export class AuthService {
     return null;
   }
 
-  getUserProfile(): Observable<UserInfo> {
-    return this.http.get<UserInfo>(`${environment.apiBaseUrl}/api/v1/users/me`);
+  getUserProfile(): Observable<UserDto> {
+    return this.http.get<UserDto>(`${environment.apiBaseUrl}/users/me`);
   }
 
   private saveToken(token: string): void {
