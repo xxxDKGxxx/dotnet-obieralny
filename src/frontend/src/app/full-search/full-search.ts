@@ -7,6 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { OffersList } from './offers-list/offers-list';
+import { OffersService } from '../services/offers/offers-service';
+import { CalculatedOfferDto, OfferDto } from '../services/offers/offer-model';
 
 @Component({
   selector: 'app-full-search',
@@ -18,9 +21,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatDividerModule,
     FormsModule,
+    OffersList,
   ],
   templateUrl: './full-search.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class FullSearch implements OnInit {
   protected amount!: number;
@@ -29,8 +33,11 @@ export class FullSearch implements OnInit {
   protected monthlyCosts!: number;
   protected age!: number;
   protected dependants!: number;
+  protected calculatedOffers!: CalculatedOfferDto[];
+  protected offers!: OfferDto[];
 
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly offersService = inject(OffersService);
 
   ngOnInit(): void {
     this.activatedRoute.queryParamMap.subscribe((params) => {
@@ -46,6 +53,8 @@ export class FullSearch implements OnInit {
 
       this.amount = amountAsNumber;
       this.duration = durationAsNumber;
+
+      this.fetchOffers();
     });
   }
 
@@ -53,7 +62,27 @@ export class FullSearch implements OnInit {
     return !!this.monthlyIncome || !!this.monthlyCosts || !!this.age || !!this.dependants;
   }
 
-  protected fetchCalculatedOffers() {
-    // TODO
+  protected fetchOffers() {
+    if (!this.additionalDataProvided()) {
+      this.calculatedOffers = [];
+      this.offersService.listOffers(this.amount, this.duration).subscribe({
+        next: (offers) => {
+          this.offers = offers;
+        },
+      });
+      return;
+    }
+
+    this.offers = [];
+    this.offersService
+      .listCalculatedOffers(
+        this.amount,
+        this.duration,
+        this.monthlyIncome,
+        this.monthlyCosts,
+        this.age,
+        this.dependants,
+      )
+      .subscribe({ next: (calculatedOffers) => (this.calculatedOffers = calculatedOffers) });
   }
 }
