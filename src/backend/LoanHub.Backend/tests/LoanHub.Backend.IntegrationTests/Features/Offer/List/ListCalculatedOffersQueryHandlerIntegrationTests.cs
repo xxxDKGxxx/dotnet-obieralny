@@ -44,7 +44,7 @@ public class ListCalculatedOffersQueryHandlerIntegrationTests : BaseEfRepoTestFi
 		var conditions = new OfferConditionsDto(1000, 12, 7.5m);
 		var dto = new CalculatedOfferDto(offer.Id, "Offer1", "Desc1", 1000, 12, 7.5m, offer.ValidRange.Min, offer.ValidRange.Max);
 
-		_offerCalculator.Calculate(offer, 5000, 1000, 30, 2)
+		_offerCalculator.Calculate(offer, 1000, 12, 5000, 1000, 30, 2)
 			.Returns(conditions);
 
 		// Act
@@ -65,8 +65,9 @@ public class ListCalculatedOffersQueryHandlerIntegrationTests : BaseEfRepoTestFi
 
 		var query = new ListCalculatedOffersQuery(1000, 12, 5000, 1000, 30, 2);
 		var conditions = new OfferConditionsDto(800, 12, 7.5m); // Amount less
+		var dto = new CalculatedOfferDto(offer.Id, "Offer1", "Desc1", 800, 12, 7.5m, offer.ValidRange.Min, offer.ValidRange.Max);
 
-		_offerCalculator.Calculate(offer, 5000, 1000, 30, 2)
+		_offerCalculator.Calculate(offer, 1000, 12, 5000, 1000, 30, 2)
 			.Returns(conditions);
 
 		// Act
@@ -74,6 +75,6 @@ public class ListCalculatedOffersQueryHandlerIntegrationTests : BaseEfRepoTestFi
 
 		// Assert
 		result.IsSuccess.ShouldBeTrue();
-		result.Value.ShouldBeEmpty();
+		result.Value.ShouldContain(dto);
 	}
 }

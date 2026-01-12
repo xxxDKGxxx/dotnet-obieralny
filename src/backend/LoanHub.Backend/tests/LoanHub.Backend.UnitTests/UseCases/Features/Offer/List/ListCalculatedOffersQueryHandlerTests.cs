@@ -1,6 +1,6 @@
 namespace LoanHub.Backend.UnitTests.UseCases.Features.Offer.List;
 
-public class ListCalculatedOffersQueryHandlerTests
+public class @ListCalculatedOffersQueryHandlerTests
 {
 	private readonly IOfferCalculator _offerCalculator;
 	private readonly IReadRepository<OfferEntity> _offersRepository;
@@ -27,7 +27,7 @@ public class ListCalculatedOffersQueryHandlerTests
 
 		_offersRepository.ListAsync(Arg.Any<OffersByAmountAndDurationSpec>(), Arg.Any<CancellationToken>())
 			.Returns(offers);
-		_offerCalculator.Calculate(offer, 5000, 1000, 30, 2)
+		_offerCalculator.Calculate(offer, 1000, 12, 5000, 1000, 30, 2)
 			.Returns(conditions);
 		_mapper.Map<CalculatedOfferDto>((offer, conditions))
 			.Returns(dto);
@@ -39,7 +39,7 @@ public class ListCalculatedOffersQueryHandlerTests
 		result.IsSuccess.ShouldBeTrue();
 		result.Value.ShouldContain(dto);
 		await _offersRepository.Received(1).ListAsync(Arg.Is<OffersByAmountAndDurationSpec>(s => s != null), Arg.Any<CancellationToken>());
-		_offerCalculator.Received(1).Calculate(offer, 5000, 1000, 30, 2);
+		_offerCalculator.Received(1).Calculate(offer, 1000, 12, 5000, 1000, 30, 2);
 		_mapper.Received(1).Map<CalculatedOfferDto>((offer, conditions));
 	}
 
@@ -50,13 +50,14 @@ public class ListCalculatedOffersQueryHandlerTests
 		var query = new ListCalculatedOffersQuery(1000, 12, 5000, 1000, 30, 2);
 		var offer = new OfferEntity("Offer1", "Desc1", new AmountRange(500, 1500), new DurationRange(6, 24), new InterestRateRange(5, 10), new ValidRange(DateTime.UtcNow, DateTime.UtcNow.AddDays(30)));
 		var offers = new List<OfferEntity> { offer };
-		var conditions = new OfferConditionsDto(800, 12, 7.5m); // Amount less than requested
+		// Duration set to 10 (!= 12) so the OR condition doesn't pass on duration.
+		var conditions = new OfferConditionsDto(800, 10, 7.5m); // Amount less than requested
 		var calculatedOffer = new CalculatedOfferDto(
 			0,
 			"Offer1",
 			"Desc1",
 			800,
-			12,
+			10,
 			7.5m,
 			DateTime.UtcNow,
 			DateTime.UtcNow.AddDays(30));
@@ -66,7 +67,7 @@ public class ListCalculatedOffersQueryHandlerTests
 
 		_offersRepository.ListAsync(Arg.Any<OffersByAmountAndDurationSpec>(), Arg.Any<CancellationToken>())
 			.Returns(offers);
-		_offerCalculator.Calculate(offer, 5000, 1000, 30, 2)
+		_offerCalculator.Calculate(offer, 1000, 12, 5000, 1000, 30, 2)
 			.Returns(conditions);
 
 		// Act
@@ -95,12 +96,13 @@ public class ListCalculatedOffersQueryHandlerTests
 				DateTime.UtcNow.AddDays(30)));
 
 		var offers = new List<OfferEntity> { offer };
-		var conditions = new OfferConditionsDto(1000, 10, 7.5m); // Duration less than requested
+		// Amount set to 800 (!= 1000) so the OR condition doesn't pass on amount.
+		var conditions = new OfferConditionsDto(800, 10, 7.5m); // Duration less than requested
 
 		var calculatedOffer = new CalculatedOfferDto(0,
 			"Offer1",
 			"Desc1",
-			1000,
+			800,
 			10,
 			7.5m,
 			DateTime.UtcNow,
@@ -109,7 +111,7 @@ public class ListCalculatedOffersQueryHandlerTests
 		_mapper.Map<CalculatedOfferDto>((offer, conditions)).Returns(calculatedOffer);
 		_offersRepository.ListAsync(Arg.Any<OffersByAmountAndDurationSpec>(), Arg.Any<CancellationToken>())
 			.Returns(offers);
-		_offerCalculator.Calculate(offer, 5000, 1000, 30, 2)
+		_offerCalculator.Calculate(offer, 1000, 12, 5000, 1000, 30, 2)
 			.Returns(conditions);
 
 		// Act
