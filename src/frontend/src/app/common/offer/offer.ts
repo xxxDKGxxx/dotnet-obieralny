@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { OfferDto } from '../../../services/offers/offer-model';
-import { ProviderTypePipe } from './provider-type-pipe';
+import { OfferDto } from '../../services/offers/offer-model';
+import { ProviderTypePipe } from '../provider-type-pipe';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -13,4 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 export class Offer {
   @Input({ required: true })
   offer!: OfferDto;
+  @Input()
+  detailsButton: boolean = true;
 }

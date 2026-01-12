@@ -1,5 +1,5 @@
 import { Pipe, type PipeTransform } from '@angular/core';
-import { ApplicationProviderType } from '../../../services/offers/offer-model';
+import { ApplicationProviderType } from '../services/offers/offer-model';
 
 @Pipe({
   name: 'appProviderType',
@@ -15,6 +15,7 @@ export class ProviderTypePipe implements PipeTransform {
         return this.map[mapped];
       }
     }
+
     return this.map[value as ApplicationProviderType];
   }
 }

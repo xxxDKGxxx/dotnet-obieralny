@@ -20,6 +20,8 @@ public sealed class GetCalculatedOfferByIdQueryHandler(
 
 		var offerConditions = offerCalculator.Calculate(
 			offer,
+			request.Amount,
+			request.Duration,
 			request.MonthlyIncome,
 			request.MonthlyCosts,
 			request.Age,

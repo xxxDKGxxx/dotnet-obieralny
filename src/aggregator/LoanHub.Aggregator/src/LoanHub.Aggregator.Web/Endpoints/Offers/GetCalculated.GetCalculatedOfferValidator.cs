@@ -1,6 +1,4 @@
-using System.Data;
-
-namespace LoanHub.Backend.Web.Endpoints.Offers.Get;
+namespace LoanHub.Aggregator.Web.Endpoints.Offers;
 
 public class GetCalculatedOfferValidator : Validator<GetCalculatedOfferRequest>
 {
@@ -20,5 +18,7 @@ public class GetCalculatedOfferValidator : Validator<GetCalculatedOfferRequest>
 			InclusiveBetween(1, 75);
 		RuleFor(o => o.Dependants)
 			.GreaterThanOrEqualTo(0);
+		RuleFor(o => o.ProviderType).
+			NotNull();
 	}
 }

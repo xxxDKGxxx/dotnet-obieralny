@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Offer } from './offer/offer';
+import { Offer } from '../../common/offer/offer';
 import { CalculatedOfferDto, OfferDto } from '../../services/offers/offer-model';
-import { CalculatedOffer } from './calculated-offer/calculated-offer';
+import { CalculatedOffer } from '../../common/calculated-offer/calculated-offer';
 
 @Component({
   selector: 'app-offers-list',
