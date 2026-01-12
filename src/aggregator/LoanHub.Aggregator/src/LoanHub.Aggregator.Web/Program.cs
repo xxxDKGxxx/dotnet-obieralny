@@ -31,7 +31,19 @@ public sealed class Program
 				o.ShortSchemaNames = true;
 			});
 
+		builder.Services.AddCors(options =>
+		{
+			options.AddPolicy("AllowAll", policyBuilder =>
+			{
+				policyBuilder.AllowAnyHeader();
+				policyBuilder.AllowAnyMethod();
+				policyBuilder.AllowAnyOrigin();
+			});
+		});
+
 		var app = builder.Build();
+
+		app.UseCors("AllowAll");
 
 		await app.UseAppMiddlewareAndSeedDatabase();
 		await app.RunAsync();

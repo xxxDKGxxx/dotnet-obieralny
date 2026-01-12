@@ -17,6 +17,8 @@ public sealed class ListCalculatedOffersQueryHandler(
 			{
 				return mapper.Map<CalculatedOfferDto>((o, offerCalculator.Calculate(
 					o,
+					request.Amount,
+					request.Duration,
 					request.MonthlyIncome,
 					request.MonthlyCosts,
 					request.Age,
@@ -24,7 +26,7 @@ public sealed class ListCalculatedOffersQueryHandler(
 			})
 			.Where(co =>
 			{
-				return co.Amount >= request.Amount && co.Duration >= request.Duration;
+				return co.Amount == request.Amount || co.Duration == request.Duration;
 			});
 
 		return Result.Success(calculatedOffers);

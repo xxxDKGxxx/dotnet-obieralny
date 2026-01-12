@@ -1,0 +1,9 @@
+@if (calculatedOffers && calculatedOffers.length > 0) {
+  @for (calculatedOffer of calculatedOffers; track calculatedOffer.id) {
+    <app-calculated-offer [calculatedOffer]="calculatedOffer" />
+  }
+} @else {
+  @for (offer of offers; track offer.id) {
+    <app-offer [offer]="offer" />
+  }
+}

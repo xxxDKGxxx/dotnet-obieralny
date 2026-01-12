@@ -1,0 +1,120 @@
+<mat-card class="my-5">
+  <mat-card-header> {{ calculatedOffer.title }} </mat-card-header>
+  <mat-card-content class="text-white">
+    <div class="flex items-start justify-between">
+      <p class="w-fit text-muted-foreground flex items-center gap-2 mt-2 left-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-building2 lucide-building-2 w-4 h-4"
+          aria-hidden="true"
+        >
+          <path d="M10 12h4"></path>
+          <path d="M10 8h4"></path>
+          <path d="M14 21v-3a2 2 0 0 0-4 0v3"></path>
+          <path
+            d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"
+          ></path>
+          <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path></svg
+        >{{ calculatedOffer.providerType | appProviderType }}
+      </p>
+      <div
+        class="w-fit text-right bg-linear-to-br from-[#26C6DA] to-[#00BCD4] text-black px-4 py-2 rounded-lg shadow-md"
+      >
+        <div class="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-trending-up w-5 h-5"
+            aria-hidden="true"
+          >
+            <path d="M16 7h6v6"></path>
+            <path d="m22 7-8.5 8.5-5-5L2 17"></path></svg
+          ><span>{{ calculatedOffer.interestRate }}%</span>
+        </div>
+        <span class="text-xs opacity-80">oprocentowanie</span>
+      </div>
+    </div>
+    <div>
+      {{ calculatedOffer.description }}
+    </div>
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 bg-gradient-to-br from-[#132F4C] to-[#1E3A5F] rounded-lg border border-border/30"
+    >
+      <div>
+        <div class="text-xs text-muted-foreground mb-1">Kwota</div>
+        <div class="flex items-center gap-1 text-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-euro w-4 h-4 text-[#26C6DA]"
+            aria-hidden="true"
+          >
+            <path d="M4 10h12"></path>
+            <path d="M4 14h9"></path>
+            <path
+              d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"
+            ></path></svg
+          ><span>{{ calculatedOffer.amount }} PLN</span>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs text-muted-foreground mb-1">Okres spłaty</div>
+        <div class="text-sm">{{ calculatedOffer.duration }} mies.</div>
+      </div>
+      <div>
+        <div class="text-xs text-muted-foreground mb-1">Ważna do</div>
+        <div class="flex items-center gap-1 text-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-calendar w-4 h-4 text-muted-foreground"
+            aria-hidden="true"
+          >
+            <path d="M8 2v4"></path>
+            <path d="M16 2v4"></path>
+            <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+            <path d="M3 10h18"></path>
+          </svg>
+          {{ calculatedOffer.validTo.toLocaleDateString() }}
+        </div>
+      </div>
+      <div class="flex items-end">
+        <button
+          matButton="elevated"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full shadow-lg text-white"
+        >
+          Szczegóły...
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
