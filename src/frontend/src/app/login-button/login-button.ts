@@ -1,14 +1,14 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
-  OnDestroy,
   PLATFORM_ID,
-  signal,
+  ChangeDetectorRef,
+  DestroyRef,
 } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { Observable, interval, takeWhile, take, of, Subject, takeUntil, map } from 'rxjs';
+import { Observable, interval, takeWhile, take, of, map } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -21,18 +21,18 @@ import { UserDto } from '../services/auth.model';
   selector: 'app-login-button',
   imports: [CommonModule, MatButtonModule, MatIconModule, MatMenuModule, MatDividerModule],
   templateUrl: './login-button.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginButton implements OnInit, OnDestroy {
+export class LoginButton implements OnInit {
   private static readonly GOOGLE_SCRIPT_TIMEOUT = 10000;
   private static readonly GOOGLE_SCRIPT_CHECK_INTERVAL = 100;
 
   protected readonly authService = inject(AuthService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly snackBar = inject(MatSnackBar);
-  private readonly destroy$ = new Subject<void>();
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly currentUser = signal<UserDto | null>(null);
+  protected currentUser: UserDto | null = null;
   protected readonly isAuthenticated = this.authService.isAuthenticated;
 
   ngOnInit(): void {
@@ -42,10 +42,11 @@ export class LoginButton implements OnInit, OnDestroy {
     if (this.isAuthenticated()) {
       this.authService
         .getUserProfile()
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (userInfo) => {
-            this.currentUser.set(userInfo);
+            this.currentUser = userInfo;
+            this.cdr.markForCheck();
           },
           error: (error) => {
             console.error('Failed to load user profile:', error);
@@ -57,14 +58,9 @@ export class LoginButton implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   private initializeGoogle(): void {
     this.waitForGoogleScript()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.authService.initializeGoogleSignIn((response) => {
           this.handleGoogleResponse(response);
@@ -78,7 +74,8 @@ export class LoginButton implements OnInit, OnDestroy {
 
   protected logout(): void {
     this.authService.logout();
-    this.currentUser.set(null);
+    this.currentUser = null;
+    this.cdr.markForCheck();
   }
 
   private waitForGoogleScript(): Observable<void> {
@@ -100,15 +97,16 @@ export class LoginButton implements OnInit, OnDestroy {
   private handleGoogleResponse(response: any): void {
     this.authService
       .loginWithGoogle(response.credential)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
           this.authService
             .getUserProfile()
-            .pipe(takeUntil(this.destroy$))
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
               next: (userInfo) => {
-                this.currentUser.set(userInfo);
+                this.currentUser = userInfo;
+                this.cdr.markForCheck();
               },
               error: (error) => {
                 console.error('Failed to load user profile after login:', error);
