@@ -7,6 +7,8 @@ public interface IOfferCalculator
 {
 	public OfferConditionsDto Calculate(
 		Offer offer,
+		decimal requestedAmount,
+		uint requestedDuration,
 		decimal monthlyIncome,
 		decimal monthlyCosts,
 		int age,
