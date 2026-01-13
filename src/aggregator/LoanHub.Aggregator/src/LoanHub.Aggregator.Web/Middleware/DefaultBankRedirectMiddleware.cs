@@ -37,6 +37,11 @@ public sealed class DefaultBankRedirectMiddleware(
 		if (context.Request.ContentLength > 0)
 		{
 			requestMessage.Content = new StreamContent(context.Request.Body);
+
+			if (context.Request.Headers.TryGetValue("Content-Type", out var contentType))
+			{
+				requestMessage.Content.Headers.TryAddWithoutValidation("Content-Type", [.. contentType]);
+			}
 		}
 
 		var responseMessage = await httpClient.SendAsync(
