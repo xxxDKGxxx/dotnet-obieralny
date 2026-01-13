@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApplicationProviderType, CalculatedOfferDto } from '../../services/offers/offer-model';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +8,6 @@ import { ProviderTypePipe } from '../provider-type-pipe';
   selector: 'app-calculated-offer',
   imports: [MatCardModule, MatButtonModule, ProviderTypePipe],
   templateUrl: './calculated-offer.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculatedOffer {
   @Input({ required: true })

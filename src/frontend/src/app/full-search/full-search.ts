@@ -16,6 +16,7 @@ import {
 } from '../services/offers/offer-model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ApplicationRoutes } from '../app.routes';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-full-search',
@@ -45,6 +46,7 @@ export class FullSearch implements OnInit {
   private readonly offersService = inject(OffersService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
 
   ngOnInit(): void {
     this.activatedRoute.queryParamMap
@@ -80,6 +82,35 @@ export class FullSearch implements OnInit {
         }
 
         this.fetchOffers();
+
+        if (this.auth.isAuthenticated()) {
+          this.autoFillUserFields();
+        }
+      });
+  }
+
+  protected autoFillUserFields() {
+    this.auth
+      .getUserProfile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (userInfo) => {
+          if (!this.age && userInfo.age) {
+            this.age = userInfo.age;
+          }
+
+          if (!this.dependants && userInfo.dependents) {
+            this.dependants = userInfo.dependents;
+          }
+
+          if (!this.monthlyIncome && userInfo.income) {
+            this.monthlyIncome = userInfo.income;
+          }
+
+          if (!this.monthlyCosts && userInfo.costs) {
+            this.monthlyCosts = userInfo.costs;
+          }
+        },
       });
   }
 
