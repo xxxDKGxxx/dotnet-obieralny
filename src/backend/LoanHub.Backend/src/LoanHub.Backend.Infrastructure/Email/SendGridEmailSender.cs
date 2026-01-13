@@ -22,7 +22,7 @@ public sealed class SendGridEmailSender(IConfiguration configuration, ILogger<Se
 		else
 		{
 			logger.LogError("Email sent failed to {ToEmail}, Status Code: {StatusCode}"
-			                + "Body {Body}", toEmail, response.StatusCode, response.Body.ReadAsStringAsync().Result);
+							+ "Body {Body}", toEmail, response.StatusCode, response.Body.ReadAsStringAsync().Result);
 		}
 	}
 }
