@@ -20,56 +20,81 @@ public sealed class User(
 	public int? Age { get; private set; }
 	public int? Dependents { get; private set; }
 
-	private void SetIncome(decimal? income)
+	public void UpdateFirstName(string? firstName)
+	{
+		if (!string.IsNullOrWhiteSpace(firstName))
+		{
+			FirstName = firstName;
+		}
+	}
+
+	public void UpdateLastName(string? lastName)
+	{
+		if (!string.IsNullOrWhiteSpace(lastName))
+		{
+			LastName = lastName;
+		}
+	}
+
+	public void UpdateAddress(string? address)
+	{
+		Address = address;
+	}
+
+	public void UpdatePhone(string? phone)
+	{
+		Phone = phone;
+	}
+
+	public void UpdateJob(string? job)
+	{
+		Job = job;
+	}
+
+	public void UpdateIncome(decimal? income)
 	{
 		if (income is not null and < 0)
 		{
-			throw new ArgumentOutOfRangeException(nameof(income),
-					$"Income cannot be negative. Value: {income}");
+			throw new ArgumentOutOfRangeException(nameof(income), $"Income cannot be negative. Value: {income}");
 		}
-		Income = income;
 
+		Income = income;
 	}
 
-	private void SetCosts(decimal? costs)
+	public void UpdateCosts(decimal? costs)
 	{
 		if (costs is not null and < 0)
 		{
-			throw new ArgumentOutOfRangeException(nameof(costs),
-				$"Costs cannot be negative. Value: {costs}");
+			throw new ArgumentOutOfRangeException(nameof(costs), $"Costs cannot be negative. Value: {costs}");
 		}
 
 		Costs = costs;
 	}
 
-	private void SetAge(int? age)
+	public void UpdateAge(int? age)
 	{
 		if (age is not null and (< UserConstants.MinAge or > UserConstants.MaxAge))
 		{
-			throw new ArgumentOutOfRangeException(nameof(age),
-				$"Age must be between {UserConstants.MinAge} and {UserConstants.MaxAge}. Value: {age}");
+			throw new ArgumentOutOfRangeException(nameof(age), $"Age must be between {UserConstants.MinAge} and {UserConstants.MaxAge}. Value: {age}");
 		}
 
 		Age = age;
 	}
 
-	private void SetDependents(int? dependents)
+	public void UpdateDependents(int? dependents)
 	{
 		if (dependents is not null)
 		{
 			if (dependents < 0)
 			{
-				throw new ArgumentOutOfRangeException(nameof(dependents),
-					$"Dependents cannot be negative. Value: {dependents}");
+				throw new ArgumentOutOfRangeException(nameof(dependents), $"Dependents cannot be negative. Value: {dependents}");
 			}
 
 			if (dependents > UserConstants.MaxDependents)
 			{
-				throw new ArgumentOutOfRangeException(nameof(dependents),
-					$"Dependents cannot exceed {UserConstants.MaxDependents}. Value: {dependents}");
+				throw new ArgumentOutOfRangeException(nameof(dependents), $"Dependents cannot exceed {UserConstants.MaxDependents}. Value: {dependents}");
 			}
 		}
-
 		Dependents = dependents;
 	}
 }
