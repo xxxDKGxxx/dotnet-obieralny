@@ -8,13 +8,6 @@ public sealed class ApplicationConfiguration : LoanHubBaseEntityConfiguration<Ap
 
 		builder.ToTable($"{nameof(Application)}s");
 
-		builder.Property(a => a.Description)
-			.IsRequired();
-
-		builder.Property(a => a.Title).
-			HasMaxLength(DataSchemaConstants.TitleMaxLength).
-			IsRequired();
-
 		builder.Property(a => a.Status)
 			.HasConversion(s => s.Value, s => ApplicationStatus.FromValue(s))
 			.IsRequired();
@@ -61,24 +54,20 @@ public sealed class ApplicationConfiguration : LoanHubBaseEntityConfiguration<Ap
 		builder.Property(a => a.Dependents)
 			.IsRequired();
 
-		builder.HasOne<Offer>()
+		builder.HasOne<Offer>(a => a.Offer)
 			.WithMany()
 			.HasForeignKey(a => a.OfferId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired();
 
-		builder.HasOne<User>()
+		builder.HasOne<User>(a => a.User)
 			.WithMany()
 			.HasForeignKey(a => a.UserId)
 			.OnDelete(DeleteBehavior.Restrict);
 
-		builder.HasOne<User>()
-			   .WithMany()
-			   .HasForeignKey(a => a.BankEmployeeId)
-			   .OnDelete(DeleteBehavior.SetNull);
+		builder.Navigation(a => a.User).IsRequired(false);
 
 		builder.HasIndex(a => a.UserId);
 		builder.HasIndex(a => a.OfferId);
-		builder.HasIndex(a => a.BankEmployeeId);
 	}
 }

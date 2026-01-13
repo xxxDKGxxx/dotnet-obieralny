@@ -1,5 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.1.3" />
+  <ItemGroup>
+    <Compile Remove="EntityAggregates\ApplicationAggregate\Specifications\**" />
+    <EmbeddedResource Remove="EntityAggregates\ApplicationAggregate\Specifications\**" />
+    <None Remove="EntityAggregates\ApplicationAggregate\Specifications\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" />
@@ -10,10 +15,6 @@
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="MediatR" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EntityAggregates\ApplicationAggregate\Specifications\" />
   </ItemGroup>
 
 </Project>
