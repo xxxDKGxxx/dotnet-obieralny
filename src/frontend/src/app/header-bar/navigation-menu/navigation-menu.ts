@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ApplicationRoutes } from '../../app.routes';
 
@@ -7,7 +7,6 @@ import { ApplicationRoutes } from '../../app.routes';
   imports: [RouterLink],
   templateUrl: './navigation-menu.html',
   styleUrl: './navigation-menu.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationMenu {
   protected readonly searchPath = ApplicationRoutes.search;
