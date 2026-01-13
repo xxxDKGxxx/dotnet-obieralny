@@ -1,11 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { combineLatest } from 'rxjs';
+import { OffersService } from '../services/offers/offers-service';
+import { CalculatedOfferDto, OfferDto } from '../services/offers/offer-model';
+import { CalculatedOffer } from '../common/calculated-offer/calculated-offer';
+import { Offer } from '../common/offer/offer';
+import { ApplicationForm, OfferConditions } from './application-form/application-form';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-offer-details',
-  imports: [],
+  imports: [CalculatedOffer, Offer, ApplicationForm],
   templateUrl: './offer-details.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OfferDetails implements OnInit {
   protected offerId!: number;
@@ -16,38 +23,91 @@ export class OfferDetails implements OnInit {
   protected age!: number | null;
   protected dependants!: number | null;
   protected providerType!: string | null;
+  protected offerDto!: OfferDto | null;
+  protected calculatedOfferDto!: CalculatedOfferDto | null;
 
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly offersService = inject(OffersService);
+  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      const offerId = params.get('offerId');
+    combineLatest([this.activatedRoute.paramMap, this.activatedRoute.queryParamMap])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([params, queryParams]) => {
+        const offerIdStr = params.get('offerId');
 
-      if (!offerId) {
-        return;
-      }
+        if (!offerIdStr) {
+          return;
+        }
 
-      this.offerId = Number.parseInt(offerId);
+        this.offerId = Number.parseInt(offerIdStr, 10);
+        this.amount = Number.parseInt(queryParams.get('amount') ?? '0', 10);
+        this.duration = Number.parseInt(queryParams.get('duration') ?? '0', 10);
+        this.monthlyIncome = Number.parseInt(queryParams.get('monthlyIncome') ?? '0', 10);
+        this.monthlyCosts = Number.parseInt(queryParams.get('monthlyCosts') ?? '0', 10);
+        this.age = Number.parseInt(queryParams.get('age') ?? '0', 10);
+        this.dependants = Number.parseInt(queryParams.get('dependants') ?? '0', 10);
+        this.providerType = queryParams.get('providerType');
 
-      this.activatedRoute.queryParamMap.subscribe((params) => {
-        this.amount = Number.parseInt(params.get('amount') ?? '');
-        this.duration = Number.parseInt(params.get('duration') ?? '');
-        this.monthlyIncome = Number.parseInt(params.get('monthlyIncome') ?? '');
-        this.monthlyCosts = Number.parseInt(params.get('monthlyCosts') ?? '');
-        this.age = Number.parseInt(params.get('age') ?? '');
-        this.dependants = Number.parseInt(params.get('dependants') ?? '');
-        this.providerType = params.get('providerType');
+        this.fetchOffer();
       });
-    });
+  }
+
+  protected updateOfferBasedOnNewConditions($event: OfferConditions) {
+    this.amount = $event.amount;
+    this.duration = $event.duration;
+    this.monthlyIncome = $event.monthlyIncome;
+    this.monthlyCosts = $event.monthlyCosts;
+    this.age = $event.age;
+    this.dependants = $event.dependants;
+
+    this.fetchOffer();
   }
 
   protected additionalInfoProvided(): boolean {
-    return !!this.monthlyIncome && !!this.monthlyCosts && !!this.age && !!this.dependants;
+    return (
+      !!this.amount &&
+      !!this.duration &&
+      !!this.monthlyIncome &&
+      !!this.monthlyCosts &&
+      !!this.age &&
+      !!this.dependants
+    );
   }
 
   protected fetchOffer() {
-    if (!!this.amount || !this.duration) {
+    if (!this.offerId || !this.providerType) {
       return;
+    }
+
+    if (this.additionalInfoProvided()) {
+      this.offersService
+        .getCalculatedById(
+          this.offerId,
+          this.amount!,
+          this.duration!,
+          this.monthlyIncome!,
+          this.monthlyCosts!,
+          this.age!,
+          this.dependants!,
+          this.providerType!,
+        )
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (offer) => {
+            this.calculatedOfferDto = offer;
+          },
+        });
+    } else {
+      this.offersService
+        .getById(this.offerId, this.providerType)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (offer) => {
+            this.calculatedOfferDto = null;
+            this.offerDto = offer;
+          },
+        });
     }
   }
 }

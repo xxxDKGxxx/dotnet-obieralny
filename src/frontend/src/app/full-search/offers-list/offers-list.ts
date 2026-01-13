@@ -1,6 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Offer } from '../../common/offer/offer';
-import { CalculatedOfferDto, OfferDto } from '../../services/offers/offer-model';
+import {
+  ApplicationProviderType,
+  CalculatedOfferDto,
+  OfferDto,
+} from '../../services/offers/offer-model';
 import { CalculatedOffer } from '../../common/calculated-offer/calculated-offer';
 
 @Component({
@@ -14,4 +18,11 @@ export class OffersList {
   offers!: OfferDto[];
   @Input()
   calculatedOffers!: CalculatedOfferDto[];
+
+  @Output()
+  detailsClicked = new EventEmitter<{ id: number; providerType: ApplicationProviderType }>();
+
+  emitDetailsClicked(data: { id: number; providerType: ApplicationProviderType }) {
+    this.detailsClicked.emit(data);
+  }
 }
