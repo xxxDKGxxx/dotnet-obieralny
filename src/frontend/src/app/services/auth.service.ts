@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { UserDto, GoogleAuthResponse, GoogleCredentialResponse } from './auth.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ import { UserDto, GoogleAuthResponse, GoogleCredentialResponse } from './auth.mo
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
   private readonly tokenKey = 'auth_token';
 
   public readonly isAuthenticated = signal<boolean>(false);
@@ -89,6 +91,7 @@ export class AuthService {
       globalThis.localStorage?.removeItem(this.tokenKey);
     }
     this.isAuthenticated.set(false);
+    this.router.navigate(['/']);
   }
 
   getToken(): string | null {

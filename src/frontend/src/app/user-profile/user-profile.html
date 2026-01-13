@@ -1,0 +1,145 @@
+<div class="min-h-screen bg-[#0A1929] py-8">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-white mb-2">Moje konto</h1>
+      <p class="text-white/80">Zarządzaj swoimi danymi osobowymi</p>
+    </div>
+
+    <mat-card class="mb-6">
+      <mat-card-content class="flex items-center gap-4 py-4">
+        <div>
+          <div class="text-white text-xl font-semibold">
+            {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+          </div>
+          <div class="text-white/80">{{ currentUser?.email }}</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header class="text-white">Dane osobowe</mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-col py-3">
+          <div class="grid grid-cols-2 gap-8 mb-4">
+            <mat-form-field>
+              <mat-label class="text-white">Imię</mat-label>
+              <input matInput formControlName="firstName" class="text-white" />
+              @if (userForm.get('firstName')?.hasError('maxlength')) {
+                <mat-error>Maksymalnie 50 znaków</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label class="text-white">Nazwisko</mat-label>
+              <input matInput formControlName="lastName" class="text-white" />
+              @if (userForm.get('lastName')?.hasError('maxlength')) {
+                <mat-error>Maksymalnie 50 znaków</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <mat-form-field class="mb-4">
+            <mat-label class="text-white">Adres zamieszkania</mat-label>
+            <input matInput formControlName="address" class="text-white" />
+            @if (userForm.get('address')?.hasError('maxlength')) {
+              <mat-error>Maksymalnie 200 znaków</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="grid grid-cols-2 gap-8 mb-4">
+            <mat-form-field>
+              <mat-label class="text-white">Numer telefonu</mat-label>
+              <input matInput formControlName="phone" class="text-white" />
+              @if (userForm.get('phone')?.hasError('pattern')) {
+                <mat-error>Wprowadź 9 cyfr (bez spacji)</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label class="text-white">Zawód</mat-label>
+              <input matInput formControlName="job" class="text-white" />
+              @if (userForm.get('job')?.hasError('maxlength')) {
+                <mat-error>Maksymalnie 100 znaków</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="grid grid-cols-2 gap-8">
+            <mat-form-field>
+              <mat-label class="text-white">Miesięczny dochód (PLN)</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="income"
+                min="0"
+                step="100"
+                class="text-white"
+              />
+              @if (userForm.get('income')?.hasError('min')) {
+                <mat-error>Wartość nie może być ujemna</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label class="text-white">Miesięczne koszty (PLN)</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="costs"
+                min="0"
+                step="100"
+                class="text-white"
+              />
+              @if (userForm.get('costs')?.hasError('min')) {
+                <mat-error>Wartość nie może być ujemna</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label class="text-white">Wiek</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="age"
+                min="18"
+                max="120"
+                class="text-white"
+              />
+              @if (userForm.get('age')?.hasError('min')) {
+                <mat-error>Minimalna wartość to 18</mat-error>
+              }
+              @if (userForm.get('age')?.hasError('max')) {
+                <mat-error>Maksymalna wartość to 120</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label class="text-white">Osoby na utrzymaniu</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="dependents"
+                min="0"
+                class="text-white"
+              />
+              @if (userForm.get('dependents')?.hasError('min')) {
+                <mat-error>Wartość nie może być ujemna</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="!userForm.valid"
+            class="mt-4"
+          >
+            <mat-icon class="mr-2">save</mat-icon>
+            Zapisz zmiany
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
