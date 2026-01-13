@@ -53,7 +53,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"List Calculated Offers ArdalisBank Error: "
-			                    + $"Status Code: {responseMessage.StatusCode}"
+								+ $"Status Code: {responseMessage.StatusCode}"
 								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
 		}
 
@@ -69,8 +69,8 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"Get offer by id ArdalisBank Error: "
-			                    + $"StatusCode: {responseMessage.StatusCode} "
-			                    + $"{await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"StatusCode: {responseMessage.StatusCode} "
+								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
 		}
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
@@ -88,17 +88,17 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		int dependants)
 	{
 		var responseMessage = await httpClient.GetAsync($"{_apiUrl}/calculated-offers/{offerId}?Amount={amount}"
-		                                                + $"&Duration={duration}"
-		                                                + $"&MonthlyIncome={monthlyIncome}"
-		                                                + $"&MonthlyCosts={monthlyCosts}"
-		                                                + $"&Age={age}"
-		                                                + $"&Dependants={dependants}");
+														+ $"&Duration={duration}"
+														+ $"&MonthlyIncome={monthlyIncome}"
+														+ $"&MonthlyCosts={monthlyCosts}"
+														+ $"&Age={age}"
+														+ $"&Dependants={dependants}");
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"Get Calculated Offers by id ArdalisBank Error: "
-			                    + $"Status Code: {responseMessage.StatusCode}"
-			                    + $"{await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"Status Code: {responseMessage.StatusCode}"
+								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
 		}
 
 		var content = await responseMessage.Content.ReadAsStringAsync();

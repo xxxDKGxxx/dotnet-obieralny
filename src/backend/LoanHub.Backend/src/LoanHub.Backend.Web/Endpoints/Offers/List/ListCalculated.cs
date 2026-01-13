@@ -1,6 +1,4 @@
-using LoanHub.Backend.Web.Extensions;
-
-namespace LoanHub.Backend.Web.Endpoints.Offers;
+namespace LoanHub.Backend.Web.Endpoints.Offers.List;
 
 public class ListCalculated(IMediator mediator) : Endpoint<ListCalculatedOffersRequest, IEnumerable<CalculatedOfferDto>>
 {

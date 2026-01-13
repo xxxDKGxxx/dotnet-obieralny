@@ -1,9 +1,9 @@
 namespace LoanHub.Backend.UseCases.Features.Offer.Get;
 
 public sealed class GetCalculatedOfferByIdQueryHandler(
-	IReadRepository<OfferEntity>  offerRepository,
+	IReadRepository<OfferEntity> offerRepository,
 	IOfferCalculator offerCalculator,
-	IMapper mapper)  :
+	IMapper mapper) :
 	IQueryHandler<GetCalculatedOfferByIdQuery, Result<CalculatedOfferDto>>
 {
 	public async Task<Result<CalculatedOfferDto>> Handle(

@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Web.Endpoints.Offers;
+namespace LoanHub.Backend.Web.Endpoints.Offers.List;
 
 public sealed class ListOffersValidator : Validator<ListOffersRequest>
 {

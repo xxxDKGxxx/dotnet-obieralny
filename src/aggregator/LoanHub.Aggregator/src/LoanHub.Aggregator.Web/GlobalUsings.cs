@@ -1,6 +1,8 @@
 global using Ardalis.ListStartupServices;
 global using FastEndpoints;
 global using FastEndpoints.Swagger;
+global using FluentValidation;
+global using LoanHub.Aggregator.Core.ApplicationAggregate;
 global using LoanHub.Aggregator.Infrastructure.Configs;
 global using LoanHub.Aggregator.Infrastructure.Data;
 global using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
@@ -8,5 +10,3 @@ global using Microsoft.AspNetCore.Http.Extensions;
 global using Microsoft.EntityFrameworkCore;
 global using Serilog;
 global using Serilog.Extensions.Logging;
-global using LoanHub.Aggregator.Core.ApplicationAggregate;
-global using FluentValidation;
