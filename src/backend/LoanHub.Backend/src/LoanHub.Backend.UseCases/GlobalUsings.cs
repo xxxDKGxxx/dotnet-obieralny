@@ -7,6 +7,7 @@ global using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Dto;
 global using LoanHub.Backend.Core.Interfaces;
 global using LoanHub.Backend.UseCases.Features.CurrentUser.GetCurrentUser;
+global using LoanHub.Backend.UseCases.Features.CurrentUser.UpdateUser;
 global using LoanHub.Backend.UseCases.Features.Offer;
 global using MediatR;
 global using Microsoft.Extensions.Logging;
