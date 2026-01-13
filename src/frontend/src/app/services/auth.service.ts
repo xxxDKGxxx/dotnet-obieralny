@@ -15,12 +15,10 @@ export class AuthService {
   private readonly tokenKey = 'auth_token';
 
   public readonly isAuthenticated = signal<boolean>(false);
-  public readonly currentUser = signal<UserDto | null>(null);
 
   constructor() {
     if (this.hasToken()) {
       this.isAuthenticated.set(true);
-      globalThis.setTimeout(() => this.loadUserProfile(), 0);
     }
   }
 
@@ -91,7 +89,6 @@ export class AuthService {
       globalThis.localStorage?.removeItem(this.tokenKey);
     }
     this.isAuthenticated.set(false);
-    this.currentUser.set(null);
   }
 
   getToken(): string | null {
@@ -110,7 +107,6 @@ export class AuthService {
       globalThis.localStorage?.setItem(this.tokenKey, token);
     }
     this.isAuthenticated.set(true);
-    this.loadUserProfile();
   }
 
   private hasToken(): boolean {
@@ -118,20 +114,5 @@ export class AuthService {
       return !!globalThis.localStorage?.getItem(this.tokenKey);
     }
     return false;
-  }
-
-  private loadUserProfile(): void {
-    this.getUserProfile().subscribe({
-      next: (userInfo) => {
-        this.currentUser.set(userInfo);
-        this.isAuthenticated.set(true);
-      },
-      error: (error) => {
-        console.error('Failed to load user profile:', error);
-        if (error.status === 401) {
-          this.logout();
-        }
-      },
-    });
   }
 }

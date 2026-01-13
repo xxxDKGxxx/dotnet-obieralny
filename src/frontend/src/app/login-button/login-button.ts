@@ -5,6 +5,7 @@ import {
   OnInit,
   OnDestroy,
   PLATFORM_ID,
+  signal,
 } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { Observable, interval, takeWhile, take, of, Subject, takeUntil, map } from 'rxjs';
@@ -14,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../services/auth.service';
+import { UserDto } from '../services/auth.model';
 
 @Component({
   selector: 'app-login-button',
@@ -30,12 +32,28 @@ export class LoginButton implements OnInit, OnDestroy {
   private readonly snackBar = inject(MatSnackBar);
   private readonly destroy$ = new Subject<void>();
 
-  protected readonly currentUser = this.authService.currentUser;
+  protected readonly currentUser = signal<UserDto | null>(null);
   protected readonly isAuthenticated = this.authService.isAuthenticated;
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.initializeGoogle();
+    }
+    if (this.isAuthenticated()) {
+      this.authService
+        .getUserProfile()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (userInfo) => {
+            this.currentUser.set(userInfo);
+          },
+          error: (error) => {
+            console.error('Failed to load user profile:', error);
+            if (error.status === 401) {
+              this.authService.logout();
+            }
+          },
+        });
     }
   }
 
@@ -60,6 +78,7 @@ export class LoginButton implements OnInit, OnDestroy {
 
   protected logout(): void {
     this.authService.logout();
+    this.currentUser.set(null);
   }
 
   private waitForGoogleScript(): Observable<void> {
@@ -83,6 +102,19 @@ export class LoginButton implements OnInit, OnDestroy {
       .loginWithGoogle(response.credential)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
+        next: () => {
+          this.authService
+            .getUserProfile()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (userInfo) => {
+                this.currentUser.set(userInfo);
+              },
+              error: (error) => {
+                console.error('Failed to load user profile after login:', error);
+              },
+            });
+        },
         error: (error) => {
           console.error('Login failed:', error);
           this.authService.logout();
