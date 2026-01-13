@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { debounceTime, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 export interface OfferConditions {
   amount: number | null;
@@ -37,7 +29,6 @@ export interface OfferConditions {
     MatInputModule,
   ],
   templateUrl: './application-form.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationForm implements OnInit {
   @Input()
@@ -64,6 +55,7 @@ export class ApplicationForm implements OnInit {
   protected job!: string;
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly auth = inject(AuthService);
 
   private inputChangeSubject = new Subject<OfferConditions>();
 
@@ -73,6 +65,59 @@ export class ApplicationForm implements OnInit {
         this.conditionsChange.emit(conditions);
       },
     });
+
+    if (this.auth.isAuthenticated()) {
+      this.autoFillUserFields();
+    }
+  }
+
+  protected autoFillUserFields() {
+    this.auth
+      .getUserProfile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (userInfo) => {
+          if (!this.age && userInfo.age) {
+            this.age = userInfo.age;
+          }
+
+          if (!this.dependants && userInfo.dependents) {
+            this.dependants = userInfo.dependents;
+          }
+
+          if (!this.monthlyIncome && userInfo.income) {
+            this.monthlyIncome = userInfo.income;
+          }
+
+          if (!this.monthlyCosts && userInfo.costs) {
+            this.monthlyCosts = userInfo.costs;
+          }
+
+          if (!this.address && userInfo.address) {
+            this.address = userInfo.address;
+          }
+
+          if (!this.name && userInfo.firstName) {
+            this.name = userInfo.firstName;
+          }
+
+          if (!this.surname && userInfo.lastName) {
+            this.surname = userInfo.lastName;
+          }
+
+          if (!this.email && userInfo.email) {
+            this.email = userInfo.email;
+          }
+
+          if (!this.job && userInfo.job) {
+            this.job = userInfo.job;
+          }
+
+          if (!this.phoneNumber && userInfo.phone) {
+            this.phoneNumber = userInfo.phone;
+          }
+        },
+      });
   }
 
   protected outputChangedOfferConditions() {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { OffersService } from '../services/offers/offers-service';
@@ -12,7 +12,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-offer-details',
   imports: [CalculatedOffer, Offer, ApplicationForm],
   templateUrl: './offer-details.html',
-  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OfferDetails implements OnInit {
   protected offerId!: number;
