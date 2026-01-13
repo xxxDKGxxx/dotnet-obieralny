@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { UserInfo, GoogleAuthResponse, GoogleCredentialResponse, JwtPayload } from './auth.model';
+import { UserDto, GoogleAuthResponse, GoogleCredentialResponse } from './auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +14,12 @@ export class AuthService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly tokenKey = 'auth_token';
 
-  public readonly isAuthenticated = signal<boolean>(this.hasToken());
-  public readonly currentUser = signal<UserInfo | null>(null);
+  public readonly isAuthenticated = signal<boolean>(false);
 
   constructor() {
-    this.restoreUserFromToken();
+    if (this.hasToken()) {
+      this.isAuthenticated.set(true);
+    }
   }
 
   private googleCallback: ((response: GoogleCredentialResponse) => void) | null = null;
@@ -73,7 +74,7 @@ export class AuthService {
 
   loginWithGoogle(googleToken: string): Observable<GoogleAuthResponse> {
     return this.http
-      .post<GoogleAuthResponse>(`${environment.apiBaseUrl}/api/v1/auth/google-login`, {
+      .post<GoogleAuthResponse>(`${environment.apiBaseUrl}/auth/google-login`, {
         token: googleToken,
       })
       .pipe(
@@ -86,13 +87,8 @@ export class AuthService {
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       globalThis.localStorage?.removeItem(this.tokenKey);
-      const googleApi = (globalThis as any).google;
-      if (googleApi?.accounts?.id && this.currentUser()?.email) {
-        googleApi.accounts.id.revoke(this.currentUser()!.email, () => {});
-      }
     }
     this.isAuthenticated.set(false);
-    this.currentUser.set(null);
   }
 
   getToken(): string | null {
@@ -102,17 +98,8 @@ export class AuthService {
     return null;
   }
 
-  // TODO: Remove this method when /users/me endpoint is available
-  // Currently using data from Google token - should fetch from backend database instead
-  setUserFromToken(credential: GoogleCredentialResponse): void {
-    const payload = this.parseJwt(credential.credential);
-    if (payload) {
-      this.currentUser.set({
-        email: payload.email ?? '',
-        firstName: payload.given_name ?? '',
-        lastName: payload.family_name ?? '',
-      });
-    }
+  getUserProfile(): Observable<UserDto> {
+    return this.http.get<UserDto>(`${environment.apiBaseUrl}/users/me`);
   }
 
   private saveToken(token: string): void {
@@ -120,7 +107,6 @@ export class AuthService {
       globalThis.localStorage?.setItem(this.tokenKey, token);
     }
     this.isAuthenticated.set(true);
-    this.restoreUserFromToken();
   }
 
   private hasToken(): boolean {
@@ -128,40 +114,5 @@ export class AuthService {
       return !!globalThis.localStorage?.getItem(this.tokenKey);
     }
     return false;
-  }
-
-  // TODO: Replace with call to /users/me endpoint when available
-  // Currently parsing JWT on frontend - user data should come from backend database
-  private restoreUserFromToken(): void {
-    const token = this.getToken();
-    if (token) {
-      const payload = this.parseJwt(token);
-      if (payload) {
-        this.currentUser.set({
-          email: payload.email ?? '',
-          firstName: payload.given_name ?? '',
-          lastName: payload.family_name ?? '',
-        });
-      }
-    }
-  }
-
-  // TODO: Remove this method when /users/me endpoint is available
-  private parseJwt(token: string): JwtPayload | null {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        globalThis
-          .atob(base64)
-          .split('')
-          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join(''),
-      );
-      return JSON.parse(jsonPayload) as JwtPayload;
-    } catch (error) {
-      console.error('Failed to parse JWT token:', error);
-      return null;
-    }
   }
 }

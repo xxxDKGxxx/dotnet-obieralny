@@ -1,15 +1,15 @@
 @if (isAuthenticated()) {
   <button mat-raised-button [matMenuTriggerFor]="userMenu">
     <mat-icon class="mr-2">person</mat-icon>
-    {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
+    {{ currentUser?.firstName }} {{ currentUser?.lastName }}
   </button>
 
   <mat-menu #userMenu="matMenu" class="user-dropdown-menu">
     <div class="px-4 py-3 bg-[#1E3A5F] border-b border-gray-600">
       <div class="font-semibold text-white">
-        {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
+        {{ currentUser?.firstName }} {{ currentUser?.lastName }}
       </div>
-      <div class="text-sm text-gray-300">{{ currentUser()?.email }}</div>
+      <div class="text-sm text-gray-300">{{ currentUser?.email }}</div>
     </div>
     <button
       mat-menu-item

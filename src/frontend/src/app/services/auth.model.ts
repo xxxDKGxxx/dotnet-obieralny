@@ -1,7 +1,16 @@
-export interface UserInfo {
+export interface UserDto {
+  id: number;
   email: string;
   firstName: string;
   lastName: string;
+  role: string;
+  address?: string;
+  phone?: string;
+  job?: string;
+  income?: number;
+  costs?: number;
+  age?: number;
+  dependents?: number;
 }
 
 export interface GoogleAuthResponse {
@@ -10,12 +19,4 @@ export interface GoogleAuthResponse {
 
 export interface GoogleCredentialResponse {
   credential: string;
-}
-
-export interface JwtPayload {
-  email?: string;
-  given_name?: string;
-  family_name?: string;
-  exp?: number;
-  iat?: number;
 }
