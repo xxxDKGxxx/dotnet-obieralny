@@ -4,7 +4,7 @@ public sealed class UpdateUser(IMediator mediator) : Endpoint<UpdateUserRequest,
 {
 	public override void Configure()
 	{
-		Put("/users/{userId:int}");
+		Put("/users/{UserId:int}");
 		Version(1);
 		Summary(s =>
 		{
@@ -16,20 +16,32 @@ public sealed class UpdateUser(IMediator mediator) : Endpoint<UpdateUserRequest,
 	public override async Task HandleAsync(UpdateUserRequest req, CancellationToken ct)
 	{
 		var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
 		if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userIdFromToken))
 		{
 			await SendUnauthorizedAsync(ct);
 			return;
 		}
 
-		if (Route<int>("userId") != userIdFromToken)
+		if (req.UserId != userIdFromToken)
 		{
 			await SendForbiddenAsync(ct);
 			return;
 		}
 
-		var command = new UpdateUserCommand(userIdFromToken, req);
+		var command = new UpdateUserCommand(
+			req.UserId,
+			req.FirstName,
+			req.LastName,
+			req.Address,
+			req.Phone,
+			req.Job,
+			req.Income,
+			req.Costs,
+			req.Age,
+			req.Dependents);
 		var result = await mediator.Send(command, ct);
+
 		await result.SendResult(this, ct);
 	}
 }

@@ -1,8 +1,6 @@
-using FluentValidation;
+namespace LoanHub.Backend.Web.Endpoints.User;
 
-namespace LoanHub.Backend.UseCases.Features.CurrentUser.UpdateUser;
-
-public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
+public class UpdateUserRequestValidator : Validator<UpdateUserRequest>
 {
 	public UpdateUserRequestValidator()
 	{
