@@ -1,5 +1,3 @@
-using LoanHub.Aggregator.Core.ApplicationAggregate;
-using LoanHub.Aggregator.Infrastructure.Configs;
 using LoanHub.Aggregator.Web.Configurations;
 using LoanHub.Aggregator.Web.Middleware;
 
@@ -23,10 +21,29 @@ public sealed class Program
 		var appLogger = new SerilogLoggerFactory(logger)
 			.CreateLogger<Program>();
 
-		builder.Services.AddInfrastructureServices(builder.Configuration, appLogger);
+		builder.Services.AddServiceConfigs(appLogger, builder);
+
 		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient");
 
+		builder.Services.AddFastEndpoints()
+			.SwaggerDocument(o =>
+			{
+				o.ShortSchemaNames = true;
+			});
+
+		builder.Services.AddCors(options =>
+		{
+			options.AddPolicy("AllowAll", policyBuilder =>
+			{
+				policyBuilder.AllowAnyHeader();
+				policyBuilder.AllowAnyMethod();
+				policyBuilder.AllowAnyOrigin();
+			});
+		});
+
 		var app = builder.Build();
+
+		app.UseCors("AllowAll");
 
 		await app.UseAppMiddlewareAndSeedDatabase();
 		await app.RunAsync();

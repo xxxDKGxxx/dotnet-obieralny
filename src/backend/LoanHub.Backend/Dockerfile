@@ -4,12 +4,13 @@ WORKDIR /backend
 COPY *.sln .
 COPY Directory.Build.props ./
 COPY Directory.Packages.props ./
+COPY src/LoanHub.Backend.Web/*.csproj src/LoanHub.Backend.Web/
+RUN dotnet restore src/LoanHub.Backend.Web/LoanHub.Backend.Web.csproj
 
 COPY src/ src/
 
 WORKDIR /backend/src/LoanHub.Backend.Web
 
-RUN dotnet restore LoanHub.Backend.Web.csproj
 
 RUN dotnet publish LoanHub.Backend.Web.csproj -c Release -o /app/publish /p:UseAppHost=false
 

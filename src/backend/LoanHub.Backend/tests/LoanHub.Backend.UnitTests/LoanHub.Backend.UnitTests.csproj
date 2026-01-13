@@ -30,22 +30,23 @@
     </PackageReference>
     <PackageReference Include="ReportGenerator" />
     <PackageReference Include="xunit" />
+    <PackageReference Include="AutoMapper" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="xunit.runner.json">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Services\" />
     <Folder Include="UseCases\MyEntity\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\LoanHub.Backend.Core\LoanHub.Backend.Core.csproj" />
     <ProjectReference Include="..\..\src\LoanHub.Backend.UseCases\LoanHub.Backend.UseCases.csproj" />
+    <ProjectReference Include="..\..\src\LoanHub.Backend.Web\LoanHub.Backend.Web.csproj" />
   </ItemGroup>
 
 </Project>

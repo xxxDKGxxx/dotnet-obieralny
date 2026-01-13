@@ -1,4 +1,86 @@
-<p>full-search works!</p>
-@if (this.amount && this.duration) {
-  <p>Amount : {{ amount }}, Duration : {{ duration }}</p>
+<mat-card>
+  <mat-card-header>Parametry wyszukiwania</mat-card-header>
+  <mat-card-content>
+    <form #quickSearchForm="ngForm" class="flex flex-col py-3" (ngSubmit)="fetchOffers()">
+      <div class="grid grid-cols-2 grid-rows-1 gap-8 my-4">
+        <mat-form-field>
+          <mat-label> Kwota (PLN) </mat-label>
+          <input
+            name="amount"
+            [(ngModel)]="amount"
+            type="number"
+            matInput
+            required
+            min="0"
+            step="1000"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Okres spłaty (Miesiące) </mat-label>
+          <input name="duration" [(ngModel)]="duration" type="number" matInput required min="0" />
+        </mat-form-field>
+      </div>
+      <mat-divider class="bg-[#1e3a5f]!" />
+      <div class="text-white font-bold mb-4">Dane dodatkowe (dla lepszych wyników):</div>
+      <div class="grid-cols-2 grid gap-x-8">
+        <mat-form-field>
+          <mat-label> Miesięczny dochód (PLN) </mat-label>
+          <input
+            name="monthly-income"
+            [(ngModel)]="monthlyIncome"
+            type="number"
+            matInput
+            min="0"
+            step="100"
+            [required]="additionalDataProvided()"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Miesięczne koszty (PLN) </mat-label>
+          <input
+            name="monthly-costs"
+            [(ngModel)]="monthlyCosts"
+            type="number"
+            matInput
+            min="0"
+            [max]="monthlyIncome"
+            step="100"
+            [required]="additionalDataProvided()"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Wiek </mat-label>
+          <input
+            name="age"
+            [(ngModel)]="age"
+            type="number"
+            matInput
+            min="0"
+            max="150"
+            [required]="additionalDataProvided()"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Osoby na utrzymaniu </mat-label>
+          <input
+            name="dependants"
+            [(ngModel)]="dependants"
+            type="number"
+            matInput
+            min="0"
+            [required]="additionalDataProvided()"
+          />
+        </mat-form-field>
+      </div>
+      <button type="submit" matButton="elevated" [disabled]="!quickSearchForm.valid">
+        Szukaj ofert
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+@if (this.offers.length === 0 && this.calculatedOffers.length === 0) {
+  <div class="my-4 text-white text-center">Nie znaleziono żadnych ofert</div>
+} @else {
+  <app-offers-list [offers]="this.offers" [calculatedOffers]="this.calculatedOffers" />
 }

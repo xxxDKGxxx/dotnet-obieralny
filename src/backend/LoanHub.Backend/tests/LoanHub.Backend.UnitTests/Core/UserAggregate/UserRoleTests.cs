@@ -1,5 +1,3 @@
-using LoanHub.Backend.Core.UserAggregate;
-
 namespace LoanHub.Backend.UnitTests.Core.UserAggregate;
 
 public sealed class UserRoleTests

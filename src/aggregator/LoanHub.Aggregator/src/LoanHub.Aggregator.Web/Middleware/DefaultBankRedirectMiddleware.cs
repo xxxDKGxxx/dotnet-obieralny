@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http.Extensions;
-
 namespace LoanHub.Aggregator.Web.Middleware;
 
 public sealed class DefaultBankRedirectMiddleware(
@@ -12,6 +10,12 @@ public sealed class DefaultBankRedirectMiddleware(
 
 	public async Task InvokeAsync(HttpContext context, RequestDelegate next)
 	{
+		if (context.GetEndpoint() is not null)
+		{
+			await next(context);
+			return;
+		}
+
 		var targetUrl = _defaultBankUrl + context.Request.Path + context.Request.QueryString;
 
 		logger.LogInformation(
@@ -33,6 +37,11 @@ public sealed class DefaultBankRedirectMiddleware(
 		if (context.Request.ContentLength > 0)
 		{
 			requestMessage.Content = new StreamContent(context.Request.Body);
+
+			if (context.Request.Headers.TryGetValue("Content-Type", out var contentType))
+			{
+				requestMessage.Content.Headers.TryAddWithoutValidation("Content-Type", [.. contentType]);
+			}
 		}
 
 		var responseMessage = await httpClient.SendAsync(

@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
+
 namespace LoanHub.Backend.Infrastructure.Authentication;
 
 public sealed class JwtTokenProvider(

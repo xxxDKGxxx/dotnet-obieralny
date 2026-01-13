@@ -19,7 +19,13 @@ public static class MiddlewareConfig
 			app.UseHsts();
 		}
 
-		app.UseFastEndpoints()
+		app.UseFastEndpoints(
+				c =>
+				{
+					c.Endpoints.RoutePrefix = "api";
+					c.Versioning.Prefix = "v";
+					c.Versioning.PrependToRoute = true;
+				})
 			.UseSwaggerGen(); // Includes AddFileServer and static files middleware
 
 		await SeedDatabase(app);

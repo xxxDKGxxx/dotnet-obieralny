@@ -1,13 +1,15 @@
-namespace LoanHub.Backend.UseCases.Mapping;
+namespace LoanHub.Backend.Infrastructure.Configs;
 
 public static class AutoMapperConfig
 {
 	public static IServiceCollection AddAutoMapperConfigs(this IServiceCollection services)
 	{
-		services.AddAutoMapper(cfg =>
+		services.AddAutoMapper(
+			_ =>
 			{
-				Assembly.GetExecutingAssembly();
-			});
+
+			},
+			typeof(OfferProfile).Assembly);
 
 		return services;
 	}

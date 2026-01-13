@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Core.UserAggregate.Specifications;
+namespace LoanHub.Backend.Core.EntityAggregates.UserAggregate.Specifications;
 
 public sealed class UserByEmailSpec : Specification<User>
 {
