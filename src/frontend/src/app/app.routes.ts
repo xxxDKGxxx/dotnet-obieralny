@@ -5,10 +5,11 @@ import { UserProfileComponent } from './user-profile/user-profile';
 
 export const ApplicationRoutes = {
   search: 'search',
+  userProfile: 'user-profile',
 };
 
 export const routes: Routes = [
   { path: ApplicationRoutes.search, component: FullSearch },
   { path: '', component: HomePage, pathMatch: 'full' },
-  { path: 'user-profile', component: UserProfileComponent },
+  { path: ApplicationRoutes.userProfile, component: UserProfileComponent },
 ];

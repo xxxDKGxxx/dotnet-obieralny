@@ -36,10 +36,12 @@ export class UserProfileComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected userForm: FormGroup;
+  protected userForm!: FormGroup;
   protected currentUser: UserDto | null = null;
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit(): void {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.maxLength(50)]],
       lastName: ['', [Validators.maxLength(50)]],
@@ -51,9 +53,6 @@ export class UserProfileComponent implements OnInit {
       age: [null, [Validators.min(18), Validators.max(120)]],
       dependents: [null, [Validators.min(0)]],
     });
-  }
-
-  ngOnInit(): void {
     this.authService
       .getUserProfile()
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -80,12 +79,14 @@ export class UserProfileComponent implements OnInit {
       });
   }
 
-  protected onSubmit(): void {
+  protected updateUserAccountData(): void {
     if (this.userForm.invalid || !this.currentUser) {
       return;
     }
 
     const updates = {
+      firstName: this.userForm.value.firstName,
+      lastName: this.userForm.value.lastName,
       address: this.userForm.value.address,
       phone: this.userForm.value.phone,
       job: this.userForm.value.job,

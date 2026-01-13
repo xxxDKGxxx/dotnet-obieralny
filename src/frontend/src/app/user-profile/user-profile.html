@@ -19,7 +19,11 @@
     <mat-card>
       <mat-card-header class="text-white">Dane osobowe</mat-card-header>
       <mat-card-content>
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-col py-3">
+        <form
+          [formGroup]="userForm"
+          (ngSubmit)="updateUserAccountData()"
+          class="flex flex-col py-3"
+        >
           <div class="grid grid-cols-2 gap-8 mb-4">
             <mat-form-field>
               <mat-label class="text-white">Imię</mat-label>
