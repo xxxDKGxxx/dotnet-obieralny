@@ -11,7 +11,7 @@ public sealed class ApplicationConfiguration : IEntityTypeConfiguration<Applicat
 		builder.HasQueryFilter(a => !a.IsDeleted);
 
 		builder.Property(a => a.UserId)
-			.IsRequired();
+			.IsRequired(false);
 
 		builder.Property(a => a.ProviderApplicationId)
 			.HasMaxLength(DataSchemaConstants.ProviderApplicationIdMaxLength)
