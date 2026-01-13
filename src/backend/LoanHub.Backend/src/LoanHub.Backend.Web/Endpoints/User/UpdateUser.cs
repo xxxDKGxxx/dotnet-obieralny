@@ -1,3 +1,5 @@
+using LoanHub.Backend.UseCases.Features.User.Update;
+
 namespace LoanHub.Backend.Web.Endpoints.User;
 
 public sealed class UpdateUser(IMediator mediator) : Endpoint<UpdateUserRequest, UserProfileDto>

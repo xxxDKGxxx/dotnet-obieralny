@@ -1,3 +1,4 @@
+using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
 using LoanHub.Backend.Web.Extensions;
 
 namespace LoanHub.Backend.Web.Endpoints.Offers;

@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.UseCases.Features.CurrentUser.UpdateUser;
+namespace LoanHub.Backend.UseCases.Features.User.Update;
 
 public sealed record UpdateUserCommand(
 	int UserId,
@@ -11,4 +11,4 @@ public sealed record UpdateUserCommand(
 	decimal? Costs,
 	int? Age,
 	int? Dependents
-	) : ICommand<Result<UserProfileDto>>;
+) : ICommand<Result<UserProfileDto>>;
