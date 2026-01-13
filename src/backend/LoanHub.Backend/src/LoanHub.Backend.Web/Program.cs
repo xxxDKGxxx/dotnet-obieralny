@@ -47,7 +47,7 @@ public sealed class Program
 			{
 				options.AddPolicy("AllowFrontend", policy =>
 				{
-					policy.WithOrigins(frontendOrigin).
+					policy.WithOrigins(frontendOrigin, "http://localhost:5000").
 						AllowAnyHeader().
 						AllowAnyMethod().
 						AllowCredentials();
