@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.UseCases.Features.Offer;
+namespace LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
 
 public sealed record CalculatedOfferDto(
 	int Id,
