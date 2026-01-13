@@ -1,7 +1,7 @@
-namespace LoanHub.Backend.UseCases.Features.CurrentUser.GetCurrentUser;
+namespace LoanHub.Backend.UseCases.Features.User.Get;
 
 public sealed class GetCurrentUserHandler(
-	IRepository<Core.EntityAggregates.UserAggregate.User> userRepository,
+	IRepository<UserEntity> userRepository,
 	IMapper mapper,
 	ILogger<GetCurrentUserHandler> logger) : IRequestHandler<GetCurrentUserQuery, Result<UserProfileDto>>
 {
