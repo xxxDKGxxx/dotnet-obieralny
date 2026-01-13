@@ -14,15 +14,35 @@ public class ApplicationTests
 		var amount = 150000;
 		var duration = 48u;
 		var interestRate = 5.2M;
+		var email = "abc@xyz.com";
+		var firstName = "John";
+		var lastName = "Wilk";
+		var address = "Warszawa Riviera";
+		var job = "Cocaine dealer";
+		var phone = "694209696";
+		var costs = 4000.0M;
+		var income = 6000.0M;
+		var age = 30;
+		var dependents = 5;
 
 		var application = new Application(
 			title,
 			description,
 			offerId,
-			userId,
 			amount,
 			duration,
-			interestRate
+			interestRate,
+			email,
+			firstName,
+			lastName,
+			address,
+			job,
+			phone,
+			costs,
+			income,
+			age,
+			dependents,
+			userId
 		);
 
 		application.ShouldSatisfyAllConditions(
@@ -38,7 +58,7 @@ public class ApplicationTests
 			{
 				application.OfferId.ShouldBe(offerId);
 			},
-		() =>
+			() =>
 			{
 				application.UserId.ShouldBe(userId);
 			},
@@ -69,6 +89,46 @@ public class ApplicationTests
 			() =>
 			{
 				application.InterestRate.ShouldBe(interestRate);
+			},
+			() =>
+			{
+				application.Email.ShouldBe(email);
+			},
+			() =>
+			{
+				application.FirstName.ShouldBe(firstName);
+			},
+			() =>
+			{
+				application.LastName.ShouldBe(lastName);
+			},
+			() =>
+			{
+				application.Address.ShouldBe(address);
+			},
+			() =>
+			{
+				application.Phone.ShouldBe(phone);
+			},
+			() =>
+			{
+				application.Job.ShouldBe(job);
+			},
+			() =>
+			{
+				application.Income.ShouldBe(income);
+			},
+			() =>
+			{
+				application.Costs.ShouldBe(costs);
+			},
+			() =>
+			{
+				application.Age.ShouldBe(age);
+			},
+			() =>
+			{
+				application.Dependents.ShouldBe(dependents);
 			});
 	}
 }
