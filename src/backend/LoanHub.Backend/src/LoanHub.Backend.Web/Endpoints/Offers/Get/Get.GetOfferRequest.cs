@@ -1,3 +1,3 @@
-namespace LoanHub.Backend.Web.Endpoints.Offers.Get;
+namespace LoanHub.Backend.Web.Endpoints.Applications;
 
-public sealed record GetOfferRequest(int OfferId);
+public sealed record GetApplicationByIdRequest(int ApplicationId);

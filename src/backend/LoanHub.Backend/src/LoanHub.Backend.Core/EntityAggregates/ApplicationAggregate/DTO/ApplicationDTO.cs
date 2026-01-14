@@ -1,0 +1,19 @@
+namespace LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.DTO;
+public sealed record ApplicationDTO(
+	int OfferId,
+	int? UserId,
+	string Status,
+	string FirstName,
+	string LastName,
+	int Age,
+	string Email,
+	string PhoneNumber,
+	string Address,
+	decimal Income,
+	decimal Costs,
+	int Dependents,
+	string Job,
+	decimal Amount,
+	decimal InterestRate,
+	uint Duration,
+	string? DocumentId);
