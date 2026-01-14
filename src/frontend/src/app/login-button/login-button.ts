@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../services/auth.service';
 import { UserDto } from '../services/auth.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-button',
@@ -31,6 +32,7 @@ export class LoginButton implements OnInit {
   private readonly snackBar = inject(MatSnackBar);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   protected currentUser: UserDto | null = null;
   protected readonly isAuthenticated = this.authService.isAuthenticated;
@@ -76,6 +78,10 @@ export class LoginButton implements OnInit {
     this.authService.logout();
     this.currentUser = null;
     this.cdr.markForCheck();
+  }
+
+  goToAccount() {
+    this.router.navigate(['/user-profile']);
   }
 
   private waitForGoogleScript(): Observable<void> {
