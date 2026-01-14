@@ -8,64 +8,69 @@ public sealed class ApplicationConfiguration : LoanHubBaseEntityConfiguration<Ap
 
 		builder.ToTable($"{nameof(Application)}s");
 
-		builder.Property(a => a.Status)
-			.HasConversion(s => s.Value, s => ApplicationStatus.FromValue(s))
-			.IsRequired();
-
-		builder.Property(a => a.Duration).IsRequired();
-		builder.Property(a => a.InterestRate).IsRequired();
-		builder.Property(a => a.Amount).IsRequired();
-
-		builder.Property(a => a.Email)
-			.HasMaxLength(DataSchemaConstants.EmailMaxLength)
-			.IsRequired();
-
-		builder.Property(a => a.FirstName)
-			.HasMaxLength(DataSchemaConstants.FirstNameMaxLength)
-			.IsRequired();
-
-		builder.Property(a => a.LastName)
-			.HasMaxLength(DataSchemaConstants.LastNameMaxLength)
-			.IsRequired();
-
-		builder.Property(a => a.Address)
-			.HasMaxLength(DataSchemaConstants.AddressMaxLength)
-			.IsRequired();
-
-		builder.Property(a => a.Phone)
-			.HasMaxLength(DataSchemaConstants.PhoneMaxLength)
-			.IsRequired();
-
-		builder.Property(a => a.Job)
-			.HasMaxLength(DataSchemaConstants.JobMaxLength)
-			.IsRequired();
-
-		builder.Property(a => a.Income)
-			.HasColumnType(DataSchemaConstants.MoneyColumnType)
-			.IsRequired();
-
-		builder.Property(a => a.Costs)
-			.HasColumnType(DataSchemaConstants.MoneyColumnType)
-			.IsRequired();
-
-		builder.Property(a => a.Age)
-			.IsRequired();
-
-		builder.Property(a => a.Dependents)
-			.IsRequired();
-
-		builder.HasOne<Offer>(a => a.Offer)
+		builder.HasOne<Offer>()
 			.WithMany()
 			.HasForeignKey(a => a.OfferId)
 			.OnDelete(DeleteBehavior.Restrict)
 			.IsRequired();
 
-		builder.HasOne<User>(a => a.User)
+		builder.HasOne<User>()
 			.WithMany()
 			.HasForeignKey(a => a.UserId)
-			.OnDelete(DeleteBehavior.Restrict);
+			.OnDelete(DeleteBehavior.Restrict)
+			.IsRequired(false);
 
-		builder.Navigation(a => a.User).IsRequired(false);
+		builder.HasQueryFilter(a => a.CreatedAt >= DateTime.UtcNow.AddDays(-10));
+
+		builder.Property(a => a.Status)
+			.HasConversion(s => s.Value, s => ApplicationStatus.FromValue(s))
+			.IsRequired();
+
+		var contactInfo = builder.OwnsOne(a => a.ContactInfo);
+
+		contactInfo.Property(ci => ci.Email)
+			.HasMaxLength(DataSchemaConstants.EmailMaxLength)
+			.IsRequired();
+		contactInfo.Property(ci => ci.Address)
+			.HasMaxLength(DataSchemaConstants.AddressMaxLength)
+			.IsRequired();
+		contactInfo.Property(ci => ci.PhoneNumber)
+			.HasMaxLength(DataSchemaConstants.PhoneMaxLength)
+			.IsRequired();
+
+		var personalData = builder.OwnsOne(a => a.PersonalData);
+
+		personalData.Property(pd => pd.FirstName)
+			.HasMaxLength(DataSchemaConstants.FirstNameMaxLength)
+			.IsRequired();
+		personalData.Property(pd => pd.LastName)
+			.HasMaxLength(DataSchemaConstants.LastNameMaxLength)
+			.IsRequired();
+		personalData.Property(pd => pd.Age)
+			.IsRequired();
+
+		var financials = builder.OwnsOne(a => a.ApplicantFinancials);
+
+		financials.Property(f => f.Income)
+			.HasColumnType(DataSchemaConstants.MoneyColumnType)
+			.IsRequired();
+		financials.Property(f => f.Job)
+			.HasMaxLength(DataSchemaConstants.JobMaxLength)
+			.IsRequired();
+		financials.Property(f => f.Costs)
+			.HasColumnType(DataSchemaConstants.MoneyColumnType)
+			.IsRequired();
+		financials.Property(f => f.Dependents)
+			.IsRequired();
+
+		var conditions = builder.OwnsOne(a => a.OfferConditions);
+
+		conditions.Property(c => c.Amount).IsRequired();
+		conditions.Property(c => c.InterestRate).IsRequired();
+		conditions.Property(c => c.Duration).IsRequired();
+
+		builder.Property(a => a.DocumentId)
+			.IsRequired(false);
 
 		builder.HasIndex(a => a.UserId);
 		builder.HasIndex(a => a.OfferId);
