@@ -1,6 +1,3 @@
-using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
-using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
-
 namespace LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 
 public sealed class Application :

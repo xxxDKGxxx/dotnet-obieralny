@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanHub.Backend.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260114123552_ApplicationAggregate")]
+    [Migration("20260114165323_ApplicationAggregate")]
     partial class ApplicationAggregate
     {
         /// <inheritdoc />
