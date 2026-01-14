@@ -6,9 +6,14 @@ public sealed class FakeEmailSender(ILogger<FakeEmailSender> logger) : IEmailSen
 {
 	private readonly ILogger<FakeEmailSender> _logger = logger;
 
-	public Task SendEmailAsync(string to, string from, string subject, string body)
+	public Task SendEmailAsync(string toEmail, string subject, string message)
 	{
-		_logger.LogInformation("Not actually sending an email to {to} from {from} with subject {subject}", to, from, subject);
+		_logger.LogInformation(
+			"Not actually sending an email to {to} from {from} with subject {subject}",
+			toEmail,
+			"ArdalisBank",
+			subject);
+
 		return Task.CompletedTask;
 	}
 }

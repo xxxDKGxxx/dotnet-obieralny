@@ -13,4 +13,17 @@ export const apiEndpoints = {
   ) =>
     `${environment.apiBaseUrl}/calculated-offers?amount=${amount}&duration=${duration}&monthlyIncome=${monthlyIncome}&monthlyCosts=${monthlyCosts}&age=${age}&dependants=${dependants}`,
   userProfile: (userId: number) => `${environment.apiBaseUrl}/users/${userId}`,
+  getOfferById: (id: number, providerType: string) =>
+    `${environment.apiBaseUrl}/offers/${id}?providerType=${providerType}`,
+  getCalculatedOfferById: (
+    id: number,
+    amount: number,
+    duration: number,
+    monthlyIncome: number,
+    monthlyCosts: number,
+    age: number,
+    dependants: number,
+    providerType: string,
+  ) =>
+    `${environment.apiBaseUrl}/calculated-offers/${id}?amount=${amount}&duration=${duration}&monthlyIncome=${monthlyIncome}&monthlyCosts=${monthlyCosts}&age=${age}&dependants=${dependants}&providerType=${providerType}`,
 };
