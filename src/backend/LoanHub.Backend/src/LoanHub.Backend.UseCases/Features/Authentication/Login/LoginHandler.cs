@@ -1,5 +1,3 @@
-using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
-using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Specifications;
 using LoanHub.Backend.UseCases.Interfaces;
 
 namespace LoanHub.Backend.UseCases.Features.Authentication.Login;
@@ -7,7 +5,7 @@ namespace LoanHub.Backend.UseCases.Features.Authentication.Login;
 public sealed class LoginHandler(
 	IEnumerable<ILoginProvider> loginProviders,
 	ITokenProvider tokenProvider,
-	IRepository<User> userRepository,
+	IRepository<UserEntity> userRepository,
 	ILogger<LoginHandler> logger) : IRequestHandler<LoginCommand, Result<TokenDto>>
 {
 	public async Task<Result<TokenDto>> Handle(
@@ -35,7 +33,7 @@ public sealed class LoginHandler(
 
 			if (existingUser is null)
 			{
-				var newUser = new User(
+				var newUser = new UserEntity(
 					externalUserDto.Email,
 					externalUserDto.FirstName,
 					externalUserDto.LastName,

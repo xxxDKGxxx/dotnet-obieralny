@@ -1,10 +1,14 @@
+global using System.Security.Claims;
 global using Ardalis.Result;
-global using Ardalis.Specification;
 global using FastEndpoints;
 global using FastEndpoints.Swagger;
+global using FluentValidation;
+global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
+global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Dto;
 global using LoanHub.Backend.Infrastructure.Configs;
 global using LoanHub.Backend.UseCases.Features.Authentication.Login;
-global using LoanHub.Backend.UseCases.Mapping;
+global using LoanHub.Backend.UseCases.Features.Offer.List;
+global using LoanHub.Backend.Web.Extensions;
 global using MediatR;
 global using Serilog;
 global using Serilog.Extensions.Logging;

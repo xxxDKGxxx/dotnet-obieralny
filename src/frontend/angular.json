@@ -102,7 +102,6 @@
   "schematics": {
     "@schematics/angular:component": {
       "style": "none",
-      "changeDetection": "OnPush",
       "standalone": true,
       "skipTests": true
     },

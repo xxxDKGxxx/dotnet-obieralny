@@ -1,11 +1,7 @@
-@if (this.amount && this.duration) {
-  <p>Amount : {{ amount }}, Duration : {{ duration }}</p>
-}
-
 <mat-card>
   <mat-card-header>Parametry wyszukiwania</mat-card-header>
   <mat-card-content>
-    <form #quickSearchForm="ngForm" class="flex flex-col py-3" (ngSubmit)="fetchCalculatedOffers()">
+    <form #quickSearchForm="ngForm" class="flex flex-col py-3" (ngSubmit)="fetchOffers()">
       <div class="grid grid-cols-2 grid-rows-1 gap-8 my-4">
         <mat-form-field>
           <mat-label> Kwota (PLN) </mat-label>
@@ -17,6 +13,7 @@
             required
             min="0"
             step="1000"
+            (change)="updateUrl()"
           />
         </mat-form-field>
         <mat-form-field>
@@ -37,6 +34,7 @@
             min="0"
             step="100"
             [required]="additionalDataProvided()"
+            (change)="updateUrl()"
           />
         </mat-form-field>
         <mat-form-field>
@@ -47,8 +45,10 @@
             type="number"
             matInput
             min="0"
+            [max]="monthlyIncome"
             step="100"
             [required]="additionalDataProvided()"
+            (change)="updateUrl()"
           />
         </mat-form-field>
         <mat-form-field>
@@ -61,6 +61,7 @@
             min="0"
             max="150"
             [required]="additionalDataProvided()"
+            (change)="updateUrl()"
           />
         </mat-form-field>
         <mat-form-field>
@@ -72,6 +73,7 @@
             matInput
             min="0"
             [required]="additionalDataProvided()"
+            (change)="updateUrl()"
           />
         </mat-form-field>
       </div>
@@ -81,3 +83,18 @@
     </form>
   </mat-card-content>
 </mat-card>
+
+@if (
+  this.offers &&
+  this.offers.length === 0 &&
+  this.calculatedOffers &&
+  this.calculatedOffers.length === 0
+) {
+  <div class="my-4 text-white text-center">Nie znaleziono żadnych ofert</div>
+} @else {
+  <app-offers-list
+    [offers]="this.offers"
+    [calculatedOffers]="this.calculatedOffers"
+    (detailsClicked)="redirectToOfferDetails($event)"
+  />
+}

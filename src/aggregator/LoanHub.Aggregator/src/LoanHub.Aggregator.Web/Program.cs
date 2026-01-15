@@ -21,7 +21,8 @@ public sealed class Program
 		var appLogger = new SerilogLoggerFactory(logger)
 			.CreateLogger<Program>();
 
-		builder.Services.AddInfrastructureServices(builder.Configuration, appLogger);
+		builder.Services.AddServiceConfigs(appLogger, builder);
+
 		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient");
 
 		builder.Services.AddFastEndpoints()
@@ -30,7 +31,19 @@ public sealed class Program
 				o.ShortSchemaNames = true;
 			});
 
+		builder.Services.AddCors(options =>
+		{
+			options.AddPolicy("AllowAll", policyBuilder =>
+			{
+				policyBuilder.AllowAnyHeader();
+				policyBuilder.AllowAnyMethod();
+				policyBuilder.AllowAnyOrigin();
+			});
+		});
+
 		var app = builder.Build();
+
+		app.UseCors("AllowAll");
 
 		await app.UseAppMiddlewareAndSeedDatabase();
 		await app.RunAsync();

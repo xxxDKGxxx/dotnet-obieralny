@@ -62,6 +62,7 @@ public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactor
 				var variables = new Dictionary<string, string>
 				{
 					{ "DefaultBankUrl", "https://default-bank-api-url.com" },
+					{ "ArdalisBankUrl", "https://ardalis-bank-api-url.com" },
 				};
 
 				config.AddInMemoryCollection(variables!);

@@ -22,7 +22,9 @@ services:
       - ASPNETCORE_URLS=http://+:90
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LoanHubBackend;User Id=sa;Password=Password1!;TrustServerCertificate=True;
       - Authentication__Jwt__SecretKey=YourSuperSecretJwtKeyThatShouldBeAtLeast32CharactersLong123456
+      - Authentication__Google__ClientId=791367453262-9f4jj6qq2388m974o4dr7n4gp6vmiegc.apps.googleusercontent.com
       - FrontendOrigin=http://localhost:8080
+      - SendGrid__ApiKey=ApiKey
     ports:
       - "5000:90"
     networks:
@@ -39,7 +41,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:100
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LoanHubAggregator;User Id=sa;Password=Password1!;TrustServerCertificate=True;
-      - DefaultBankUrl=http://backend:90
+      - DefaultBankUrl=http://backend:90/api/v1
+      - ArdalisBankUrl=http://backend:90/api/v1
     ports:
       - "5001:100"
     networks:
@@ -54,6 +57,7 @@ services:
       dockerfile: Dockerfile
       args:
         ENVIRONMENT: development
+        GOOGLE_CLIENT_ID: 791367453262-9f4jj6qq2388m974o4dr7n4gp6vmiegc.apps.googleusercontent.com
     container_name: loanhub-frontend
     ports:
       - "8080:80"
