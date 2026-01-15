@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { CounterService } from '../services/counter.service';
@@ -10,11 +10,11 @@ import { CounterService } from '../services/counter.service';
   templateUrl: './counter.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Counter {
-  private counterService = inject(CounterService);
-  protected counterCount: number | null = null;
+export class Counter implements OnInit {
+  private readonly counterService = inject(CounterService);
+  protected counterCount!: number;
 
-  constructor() {
+  ngOnInit(): void {
     this.counterService.getCounterData().subscribe((data) => {
       this.counterCount = data.count;
     });
