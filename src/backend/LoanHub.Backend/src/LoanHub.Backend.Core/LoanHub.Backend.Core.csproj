@@ -12,4 +12,8 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EntityAggregates\ApplicationAggregate\Specifications\" />
+  </ItemGroup>
+
 </Project>

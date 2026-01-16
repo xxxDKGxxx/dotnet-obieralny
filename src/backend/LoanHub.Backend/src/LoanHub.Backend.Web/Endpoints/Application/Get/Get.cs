@@ -33,20 +33,8 @@ public class Get(IMediator mediator) : Endpoint<GetApplicationByIdRequest, Appli
 			return;
 		}
 
-		var request_application = new GetApplicationByIdQuery(req.ApplicationId);
+		var request_application = new GetApplicationByIdQuery(req.ApplicationId, userId);
 		var application = await mediator.Send(request_application, ct);
-
-		var request_user = new GetCurrentUserQuery(userId);
-		var user = await mediator.Send(request_user, ct);
-
-		if (application.Value.UserId is null || application.Value.UserId != user.Value.Id)
-		{
-			if (user.Value.Role != UserRole.Employee.Value && user.Value.Role != UserRole.Admin.Value)
-			{
-				await SendForbiddenAsync(ct);
-				return;
-			}
-		}
 
 		await application.SendResult(this, ct: ct);
 	}
