@@ -17,5 +17,13 @@ public interface IOfferProvider
 		decimal monthlyCosts,
 		int age,
 		int dependants);
-	public Task<ApplicationDTO> GetApplicationByIdAsync(int applicationId);
+	public Task<OfferDto> GetOfferByIdAsync(int offerId);
+	public Task<CalculatedOfferDto> GetCalculatedOfferByIdAsync(
+		int offerId,
+		decimal amount,
+		uint duration,
+		decimal monthlyIncome,
+		decimal monthlyCosts,
+		int age,
+		int dependants);
 }

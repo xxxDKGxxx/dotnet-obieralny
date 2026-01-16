@@ -1,0 +1,27 @@
+@if (
+  !!calculatedOfferDto &&
+  !!amount &&
+  !!duration &&
+  !!monthlyIncome &&
+  !!monthlyCosts &&
+  !!age &&
+  !!dependants
+) {
+  <app-calculated-offer [calculatedOffer]="calculatedOfferDto" [detailsButton]="false" />
+  <app-application-form
+    [amount]="amount"
+    [duration]="duration"
+    [monthlyIncome]="monthlyIncome"
+    [monthlyCosts]="monthlyCosts"
+    [age]="age"
+    [dependants]="dependants"
+    (conditionsChange)="updateOfferBasedOnNewConditions($event)"
+  />
+} @else if (!!offerDto && !!amount && !!duration) {
+  <app-offer [offer]="offerDto" [detailsButton]="false" />
+  <app-application-form
+    [amount]="amount"
+    [duration]="duration"
+    (conditionsChange)="updateOfferBasedOnNewConditions($event)"
+  />
+}

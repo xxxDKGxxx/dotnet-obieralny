@@ -10,6 +10,48 @@ import { apiEndpoints } from '../../api-endpoints';
 export class OffersService {
   private readonly http = inject(HttpClient);
 
+  public getById(id: number, providerType: string): Observable<OfferDto> {
+    return this.http.get<OfferDto>(apiEndpoints.getOfferById(id, providerType)).pipe(
+      map((o) => ({
+        ...o,
+        validFrom: new Date(o.validFrom),
+        validTo: new Date(o.validTo),
+      })),
+    );
+  }
+
+  public getCalculatedById(
+    id: number,
+    amount: number,
+    duration: number,
+    monthlyIncome: number,
+    monthlyCosts: number,
+    age: number,
+    dependants: number,
+    providerType: string,
+  ) {
+    return this.http
+      .get<CalculatedOfferDto>(
+        apiEndpoints.getCalculatedOfferById(
+          id,
+          amount,
+          duration,
+          monthlyIncome,
+          monthlyCosts,
+          age,
+          dependants,
+          providerType,
+        ),
+      )
+      .pipe(
+        map((o) => ({
+          ...o,
+          validFrom: new Date(o.validFrom),
+          validTo: new Date(o.validTo),
+        })),
+      );
+  }
+
   public listOffers(amount: number, duration: number): Observable<OfferDto[]> {
     return this.http.get<OfferDto[]>(apiEndpoints.listOffers(amount, duration)).pipe(
       map((o) =>
@@ -20,23 +62,6 @@ export class OffersService {
         })),
       ),
     );
-
-    // return of([
-    //   {
-    //     id: 0,
-    //     title: 'Testowy Title',
-    //     description: 'Testowy desciption',
-    //     minAmount: 1,
-    //     maxAmount: 2,
-    //     minDuration: 1,
-    //     maxDuration: 2,
-    //     minInterestRate: 0.0,
-    //     maxInterestRate: 1.0,
-    //     validFrom: new Date(Date.now()),
-    //     validTo: new Date(Date.now()),
-    //     providerType: ApplicationProviderType.ArdalisBank,
-    //   },
-    // ]);
   }
 
   public listCalculatedOffers(
@@ -60,18 +85,5 @@ export class OffersService {
           })),
         ),
       );
-    // return of([
-    //   {
-    //     id: 0,
-    //     title: 'Testowy Title',
-    //     description: 'Testowy Description',
-    //     amount: 12000,
-    //     duration: 12,
-    //     interestRate: 4.5,
-    //     validFrom: new Date(Date.now()),
-    //     validTo: new Date(Date.now()),
-    //     providerType: ApplicationProviderType.ArdalisBank,
-    //   },
-    // ]);
   }
 }

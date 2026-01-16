@@ -4,7 +4,7 @@ public class UserProfile : Profile
 {
 	public UserProfile()
 	{
-		CreateMap<User, UserProfileDto>()
+		CreateMap<UserEntity, UserProfileDto>()
 			.ForMember(dest => dest.Role, opt =>
 			{
 				opt.MapFrom(src => src.Role.Value);

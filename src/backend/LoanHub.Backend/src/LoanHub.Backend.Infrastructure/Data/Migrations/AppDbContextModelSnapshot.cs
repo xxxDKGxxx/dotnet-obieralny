@@ -22,6 +22,47 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Application", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DocumentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Applications", (string)null);
+                });
+
             modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer", b =>
                 {
                     b.Property<int>("Id")
@@ -55,7 +96,7 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                     b.ToTable("Offers", (string)null);
                 });
 
-            modelBuilder.Entity("LoanHub.Backend.Core.UserAggregate.User", b =>
+            modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.UserAggregate.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,6 +164,135 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Application", b =>
+                {
+                    b.HasOne("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer", null)
+                        .WithMany()
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LoanHub.Backend.Core.EntityAggregates.UserAggregate.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.ApplicantContactInfo", "ContactInfo", b1 =>
+                        {
+                            b1.Property<int>("ApplicationId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Address")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("nvarchar(200)");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasMaxLength(254)
+                                .HasColumnType("nvarchar(254)");
+
+                            b1.Property<string>("PhoneNumber")
+                                .IsRequired()
+                                .HasMaxLength(9)
+                                .HasColumnType("nvarchar(9)");
+
+                            b1.HasKey("ApplicationId");
+
+                            b1.ToTable("Applications");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApplicationId");
+                        });
+
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.ApplicantFinancialInfo", "ApplicantFinancials", b1 =>
+                        {
+                            b1.Property<int>("ApplicationId")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Costs")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<int>("Dependents")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Income")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<string>("Job")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.HasKey("ApplicationId");
+
+                            b1.ToTable("Applications");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApplicationId");
+                        });
+
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.ApplicantPersonalInfo", "PersonalData", b1 =>
+                        {
+                            b1.Property<int>("ApplicationId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Age")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)");
+
+                            b1.HasKey("ApplicationId");
+
+                            b1.ToTable("Applications");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApplicationId");
+                        });
+
+                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.OfferConditions", "OfferConditions", b1 =>
+                        {
+                            b1.Property<int>("ApplicationId")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<long>("Duration")
+                                .HasColumnType("bigint");
+
+                            b1.Property<decimal>("InterestRate")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.HasKey("ApplicationId");
+
+                            b1.ToTable("Applications");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApplicationId");
+                        });
+
+                    b.Navigation("ApplicantFinancials")
+                        .IsRequired();
+
+                    b.Navigation("ContactInfo")
+                        .IsRequired();
+
+                    b.Navigation("OfferConditions")
+                        .IsRequired();
+
+                    b.Navigation("PersonalData")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer", b =>

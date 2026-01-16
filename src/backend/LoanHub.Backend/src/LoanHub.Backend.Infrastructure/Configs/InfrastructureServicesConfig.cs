@@ -1,4 +1,5 @@
 using LoanHub.Backend.Infrastructure.Data;
+using LoanHub.Backend.Infrastructure.Email;
 
 namespace LoanHub.Backend.Infrastructure.Configs;
 
@@ -28,6 +29,8 @@ public static class InfrastructureServicesConfig
 				.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
 		services.AddScoped<IOfferCalculator, OfferCalculatorService>();
+		services.AddScoped<INotificationService, NotificationService>();
+		services.AddScoped<IEmailSender, SendGridEmailSender>();
 
 		services.AddAuthenticationServices(config, logger);
 
