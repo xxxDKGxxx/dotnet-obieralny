@@ -28,8 +28,4 @@
     <ProjectReference Include="..\LoanHub.Backend.UseCases\LoanHub.Backend.UseCases.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Endpoints\Applications\" />
-  </ItemGroup>
-
 </Project>

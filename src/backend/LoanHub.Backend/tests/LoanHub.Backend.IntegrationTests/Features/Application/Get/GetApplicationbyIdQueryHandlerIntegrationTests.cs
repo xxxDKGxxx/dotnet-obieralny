@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LoanHub.Backend.IntegrationTests.Data;
 using LoanHub.Backend.UseCases.Features.Application.Get;
-using Microsoft.EntityFrameworkCore;
 
 namespace LoanHub.Backend.IntegrationTests.Features.Application.Get;
 public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixture
@@ -47,17 +41,16 @@ public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixt
 		result.Value.OfferId.ShouldBe(app2.OfferId);
 		result.Value.UserId.ShouldBe(app2.UserId);
 		result.Value.Status.ShouldBe(ApplicationStatus.Created.Name);
-		result.Value.FirstName.ShouldBe(app2.PersonalData.FirstName);
-		result.Value.LastName.ShouldBe(app2.PersonalData.LastName);
-		result.Value.Email.ShouldBe(app2.ContactInfo.Email);
-		result.Value.Amount.ShouldBe(app2.OfferConditions.Amount);
+		result.Value.PersonalData.FirstName.ShouldBe(app2.PersonalData.FirstName);
+		result.Value.PersonalData.LastName.ShouldBe(app2.PersonalData.LastName);
+		result.Value.ContactInfo.Email.ShouldBe(app2.ContactInfo.Email);
+		result.Value.OfferConditions.Amount.ShouldBe(app2.OfferConditions.Amount);
 		result.Value.DocumentId.ShouldBeNull();
 	}
 
 	[Fact]
 	public async Task Handle_ShouldReturnFailureOrNullValue_WhenApplicationDoesNotExist()
 	{
-		// Arrange
 		var existingApp = CreateTestApplication(userId: 5);
 		await _dbContext.Set<ApplicationEntity>().AddAsync(existingApp);
 		await _dbContext.SaveChangesAsync();
@@ -67,7 +60,7 @@ public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixt
 
 		var result = await _handler.Handle(query, CancellationToken.None);
 
-		result.IsSuccess.ShouldBeFalse();    
+		result.IsSuccess.ShouldBeFalse();
 		result.Value.ShouldBeNull();
 	}
 
@@ -78,7 +71,7 @@ public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixt
 
 		var result = await _handler.Handle(query, CancellationToken.None);
 
-		result.IsSuccess.ShouldBeFalse();        
+		result.IsSuccess.ShouldBeFalse();
 		result.Value.ShouldBeNull();
 	}
 

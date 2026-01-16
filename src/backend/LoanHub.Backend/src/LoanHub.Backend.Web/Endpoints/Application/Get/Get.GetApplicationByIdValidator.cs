@@ -1,4 +1,6 @@
-namespace LoanHub.Backend.Web.Endpoints.Applications;
+using LoanHub.Backend.Web.Endpoints.Applications;
+
+namespace LoanHub.Backend.Web.Endpoints.Application.Get;
 
 public class GetApplicationByIdValidator : Validator<GetApplicationByIdRequest>
 {
