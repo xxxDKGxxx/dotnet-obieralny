@@ -14,25 +14,25 @@ public sealed class GetApplicationByIdQueryHandler(
 
 		var user = await usersRepository.GetByIdAsync(request.RequestingUserId, cancellationToken);
 
-		if (user is not null)
+		if (application is null)
 		{
-			if (application is not null)
-			{
-				if (application.UserId is not null)
-				{
-					if (user.Id == application.UserId)
-					{
-						return Result.Success(mapper.Map<ApplicationDto>(application));
-					}
-				}
-				if (user.Role == UserRole.Admin || user.Role == UserRole.Employee)
-				{
-					return Result.Success(mapper.Map<ApplicationDto>(application));
-				}
-				return Result.Unauthorized();
-			}
 			return Result.NotFound();
 		}
-		return Result.Unauthorized();
+
+		if (user is null)
+		{
+			return Result.Unauthorized();
+		}
+
+		if (application.UserId is not null
+			 && application.UserId != user.Id
+			 && user.Role != UserRole.Admin
+			 && user.Role != UserRole.Employee)
+		{
+			return Result.Forbidden();
+
+		}
+
+		return Result.Success(mapper.Map<ApplicationDto>(application));
 	}
 }
