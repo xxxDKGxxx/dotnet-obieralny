@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-=======
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
 namespace LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 
 public class ApplicationStatus(

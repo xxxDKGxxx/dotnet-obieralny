@@ -30,37 +30,15 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-<<<<<<< HEAD
-=======
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("BankEmployeeId")
-                        .HasColumnType("int");
-
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-<<<<<<< HEAD
                     b.Property<string>("DocumentId")
                         .HasColumnType("nvarchar(max)");
 
-=======
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Duration")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("InterestRate")
-                        .HasColumnType("decimal(18,2)");
-
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -73,28 +51,11 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
                     b.Property<int?>("UserId")
-=======
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
-=======
-                    b.HasIndex("BankEmployeeId");
-
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.HasIndex("OfferId");
 
                     b.HasIndex("UserId");
@@ -135,11 +96,7 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                     b.ToTable("Offers", (string)null);
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.UserAggregate.User", b =>
-=======
-            modelBuilder.Entity("LoanHub.Backend.Core.UserAggregate.User", b =>
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -211,21 +168,12 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Application", b =>
                 {
-<<<<<<< HEAD
-=======
-                    b.HasOne("LoanHub.Backend.Core.UserAggregate.User", null)
-                        .WithMany()
-                        .HasForeignKey("BankEmployeeId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.HasOne("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer", null)
                         .WithMany()
                         .HasForeignKey("OfferId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-<<<<<<< HEAD
                     b.HasOne("LoanHub.Backend.Core.EntityAggregates.UserAggregate.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -344,12 +292,6 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("PersonalData")
-=======
-                    b.HasOne("LoanHub.Backend.Core.UserAggregate.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                         .IsRequired();
                 });
 
