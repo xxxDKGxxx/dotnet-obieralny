@@ -74,6 +74,5 @@ public sealed class ApplicationConfiguration : LoanHubBaseEntityConfiguration<Ap
 
 		builder.HasIndex(a => a.UserId);
 		builder.HasIndex(a => a.OfferId);
-
 	}
 }
