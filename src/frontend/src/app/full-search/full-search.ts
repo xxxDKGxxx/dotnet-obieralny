@@ -85,8 +85,6 @@ export class FullSearch implements OnInit {
             return of({ offers: [], calculatedOffers: [] });
           }
 
-          console.log('Sending request');
-
           if (this.additionalDataProvided()) {
             return this.offersService
               .listCalculatedOffers(
