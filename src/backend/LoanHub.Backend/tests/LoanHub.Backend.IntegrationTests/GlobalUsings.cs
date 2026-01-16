@@ -7,6 +7,8 @@ global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
 global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Specifications;
 global using LoanHub.Backend.Core.Interfaces;
 global using LoanHub.Backend.Infrastructure.Data;
+global using LoanHub.Backend.IntegrationTests.Data;
+global using LoanHub.Backend.UseCases.Features.Application.Get;
 global using LoanHub.Backend.UseCases.Features.Offer;
 global using LoanHub.Backend.UseCases.Features.Offer.List;
 global using LoanHub.Backend.UseCases.Mapping.Profiles;

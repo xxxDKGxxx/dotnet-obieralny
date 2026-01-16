@@ -1,6 +1,3 @@
-using LoanHub.Backend.IntegrationTests.Data;
-using LoanHub.Backend.UseCases.Features.Application.Get;
-
 namespace LoanHub.Backend.IntegrationTests.Features.Application.Get;
 
 public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixture
