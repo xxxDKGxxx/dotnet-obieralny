@@ -1,10 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-
-export interface CounterResponse {
-  count: number;
-}
+import { CounterResponse } from './counter-model';
 
 @Injectable({
   providedIn: 'root',

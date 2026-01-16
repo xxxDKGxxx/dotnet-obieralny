@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { CounterService } from '../services/counter.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CounterService } from '../services/counter/counter.service';
 
 @Component({
   selector: 'app-counter',
@@ -12,11 +13,15 @@ import { CounterService } from '../services/counter.service';
 })
 export class Counter implements OnInit {
   private readonly counterService = inject(CounterService);
+  private readonly destroyRef = inject(DestroyRef);
   protected counterCount!: number;
 
   ngOnInit(): void {
-    this.counterService.getCounterData().subscribe((data) => {
-      this.counterCount = data.count;
-    });
+    this.counterService
+      .getCounterData()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => {
+        this.counterCount = data.count;
+      });
   }
 }
