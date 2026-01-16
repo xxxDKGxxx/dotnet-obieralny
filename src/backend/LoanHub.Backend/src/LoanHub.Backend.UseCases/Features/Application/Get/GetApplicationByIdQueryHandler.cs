@@ -5,7 +5,7 @@ public sealed class GetApplicationByIdQueryHandler(IReadRepository<ApplicationEn
 {
 	public async Task<Result<ApplicationDto>> Handle(GetApplicationByIdQuery request, CancellationToken cancellationToken)
 	{
-		var spec = new ApplicationByIdSpec(request.OfferId);
+		var spec = new ApplicationByIdSpec(request.ApplicationId);
 		var application = await offersRepository.SingleOrDefaultAsync(spec, cancellationToken);
 
 		return application is null ? Result.NotFound() : Result.Success(mapper.Map<ApplicationDto>(application));
