@@ -60,7 +60,7 @@ public class ApplicationByIdSpecIntegrationTests : BaseEfRepoTestFixture
 		result.ShouldBeNull();
 	}
 
-	private Application CreateTestApplication(string debugName, int? userId = null)
+	private static Application CreateTestApplication(string debugName, int? userId = null)
 	{
 		var personal = new ApplicantPersonalInfo("Jan", "Kowalski", 35);
 		var contact = new ApplicantContactInfo(

@@ -75,7 +75,7 @@ public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixt
 		result.Value.ShouldBeNull();
 	}
 
-	private ApplicationEntity CreateTestApplication(int? userId = null)
+	private static ApplicationEntity CreateTestApplication(int? userId = null)
 	{
 		var personal = new ApplicantPersonalInfo("Anna", "Nowak", 29);
 		var contact = new ApplicantContactInfo(

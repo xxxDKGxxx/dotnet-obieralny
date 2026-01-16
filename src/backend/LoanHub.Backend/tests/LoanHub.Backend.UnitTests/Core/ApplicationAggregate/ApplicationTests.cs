@@ -35,38 +35,110 @@ public class ApplicationTests
 		);
 
 		application.ShouldSatisfyAllConditions(
-			() => application.OfferId.ShouldBe(offerId),
-			() => application.UserId.ShouldBe(userId),
-			() => application.Status.ShouldBe(ApplicationStatus.Created),
-			() => application.DocumentId.ShouldBeNull(),
+			() =>
+			{
+				application.OfferId.ShouldBe(offerId);
+			},
+			() =>
+			{
+				application.UserId.ShouldBe(userId);
+			},
+			() =>
+			{
+				application.Status.ShouldBe(ApplicationStatus.Created);
+			},
+			() =>
+			{
+				application.DocumentId.ShouldBeNull();
+			},
 			// PersonalData
-			() => application.PersonalData.ShouldBe(personalData),
-			() => application.PersonalData.FirstName.ShouldBe("Jan"),
-			() => application.PersonalData.LastName.ShouldBe("Kowalski"),
-			() => application.PersonalData.Age.ShouldBe(35),
+			() =>
+			{
+				application.PersonalData.ShouldBe(personalData);
+			},
+			() =>
+			{
+				application.PersonalData.FirstName.ShouldBe("Jan");
+			},
+			() =>
+			{
+				application.PersonalData.LastName.ShouldBe("Kowalski");
+			},
+			() =>
+			{
+				application.PersonalData.Age.ShouldBe(35);
+			},
 			// ContactInfo
-			() => application.ContactInfo.ShouldBe(contactInfo),
-			() => application.ContactInfo.Email.ShouldBe("jan.kowalski@example.com"),
-			() => application.ContactInfo.PhoneNumber.ShouldBe("+48 123 456 789"),
-			() => application.ContactInfo.Address.ShouldBe("ul. Testowa 12, 00-000 Warszawa"),
+			() =>
+			{
+				application.ContactInfo.ShouldBe(contactInfo);
+			},
+			() =>
+			{
+				application.ContactInfo.Email.ShouldBe("jan.kowalski@example.com");
+			},
+			() =>
+			{
+				application.ContactInfo.PhoneNumber.ShouldBe("+48 123 456 789");
+			},
+			() =>
+			{
+				application.ContactInfo.Address.ShouldBe("ul. Testowa 12, 00-000 Warszawa");
+			},
 			// ApplicantFinancials
-			() => application.ApplicantFinancials.ShouldBe(financials),
-			() => application.ApplicantFinancials.Income.ShouldBe(6500m),
-			() => application.ApplicantFinancials.Costs.ShouldBe(3200m),
-			() => application.ApplicantFinancials.Dependents.ShouldBe(2),
-			() => application.ApplicantFinancials.Job.ShouldBe("Software Developer"),
+			() =>
+			{
+				application.ApplicantFinancials.ShouldBe(financials);
+			},
+			() =>
+			{
+				application.ApplicantFinancials.Income.ShouldBe(6500m);
+			},
+			() =>
+			{
+				application.ApplicantFinancials.Costs.ShouldBe(3200m);
+			},
+			() =>
+			{
+				application.ApplicantFinancials.Dependents.ShouldBe(2);
+			},
+			() =>
+			{
+				application.ApplicantFinancials.Job.ShouldBe("Software Developer");
+			},
 			// OfferConditions
-			() => application.OfferConditions.ShouldBe(conditions),
-			() => application.OfferConditions.Amount.ShouldBe(25000m),
-			() => application.OfferConditions.Duration.ShouldBe((uint)18),
-			() => application.OfferConditions.InterestRate.ShouldBe(9.99m),
+			() =>
+			{
+				application.OfferConditions.ShouldBe(conditions);
+			},
+			() =>
+			{
+				application.OfferConditions.Amount.ShouldBe(25000m);
+			},
+			() =>
+			{
+				application.OfferConditions.Duration.ShouldBe((uint)18);
+			},
+			() =>
+			{
+				application.OfferConditions.InterestRate.ShouldBe(9.99m);
+			},
 			// Base / audit fields
-			() => application.Id.ShouldBe(0),
-			() => application.CreatedAt.ShouldBeInRange(
-				DateTime.UtcNow.AddSeconds(-2),
-				DateTime.UtcNow.AddSeconds(2)
-			),
-			() => application.IsDeleted.ShouldBeFalse()
+			() =>
+			{
+				application.Id.ShouldBe(0);
+			},
+			() =>
+			{
+				application.CreatedAt.ShouldBeInRange(
+					DateTime.UtcNow.AddSeconds(-2),
+					DateTime.UtcNow.AddSeconds(2)
+				);
+			},
+			() =>
+			{
+				application.IsDeleted.ShouldBeFalse();
+			}
 		);
 	}
 

@@ -1,8 +1,6 @@
-using LoanHub.Backend.UseCases.Features.Applications.Get;
 using LoanHub.Backend.UseCases.Features.Offer.Get;
-using LoanHub.Backend.Web.Endpoints.Offers.Get;
 
-namespace LoanHub.Backend.Web.Endpoints.Applications;
+namespace LoanHub.Backend.Web.Endpoints.Application.Get;
 
 /// <summary>
 /// Get an Application by integer ID.
