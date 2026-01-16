@@ -1,0 +1,38 @@
+<div
+  class="relative w-screen left-1/2 -translate-x-1/2 mt-0 px-5 py-16 shadow-[0_4px_1px_rgba(0,0,0,0.15)]"
+  style="background: linear-gradient(180deg, #181616 0%, #1560b6 4%, #1560b6 100%)"
+>
+  <div class="max-w-[1200px] mx-auto text-white text-left">
+    <h2 class="text-[32px] font-bold m-0 mb-4 leading-tight">Porównaj oferty kredytowe</h2>
+    <p class="text-xl font-normal opacity-95 m-0 leading-relaxed">
+      Wyszukaj i porównaj najlepsze oferty kredytowe<br />
+      z naszego banku oraz od zweryfikowanych partnerów.<br />
+      Szybko, przejrzyście i bezpiecznie.
+    </p>
+    <div
+      class="w-full md:w-[520px] h-[90px] rounded-lg border border-white/25 mt-8 flex items-center justify-start p-4"
+      style="
+        background: rgba(159, 195, 218, 0.15);
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.12),
+          inset 0 1px 6px rgba(255, 255, 255, 0.1);
+      "
+    >
+      <span
+        class="w-10 h-10 rounded-full inline-flex items-center justify-center text-white shadow-[0_2px_6px_rgba(0,0,0,0.2)]"
+        style="background: #26c6da"
+      >
+        <mat-icon>group</mat-icon>
+      </span>
+      <div class="flex-1 ml-3 flex flex-col">
+        <div class="flex items-center gap-2">
+          <div class="text-[28px] font-bold text-white leading-none">
+            {{ counterCount === null ? '' : (counterCount | number: '1.0-0') }}
+          </div>
+          <mat-icon class="text-[#4caf50] text-2xl">check_circle</mat-icon>
+        </div>
+        <div class="text-sm text-white/90 mt-1">osób zaaplikowało przez naszą platformę</div>
+      </div>
+    </div>
+  </div>
+</div>
