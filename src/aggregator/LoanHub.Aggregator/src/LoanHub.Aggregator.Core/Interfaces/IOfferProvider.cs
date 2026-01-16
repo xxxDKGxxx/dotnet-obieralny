@@ -26,4 +26,6 @@ public interface IOfferProvider
 		decimal monthlyCosts,
 		int age,
 		int dependants);
+
+	public Task<ApplicationDTO> GetApplicationByIdAsync(int applicationId);
 }
