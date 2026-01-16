@@ -1,6 +1,7 @@
 using LoanHub.Backend.IntegrationTests.Data;
 
 namespace LoanHub.Backend.IntegrationTests.Core.ApplicationAggregate.Specifications;
+
 public class ApplicationByIdSpecIntegrationTests : BaseEfRepoTestFixture
 {
 	private readonly EfRepository<Application> _applicationRepository;
