@@ -1,6 +1,3 @@
-using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.DTO;
-using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Specifications;
-
 namespace LoanHub.Backend.UseCases.Features.Application.Get;
 
 public sealed class GetApplicationByIdQueryHandler(IReadRepository<ApplicationEntity> offersRepository, IMapper mapper) :
