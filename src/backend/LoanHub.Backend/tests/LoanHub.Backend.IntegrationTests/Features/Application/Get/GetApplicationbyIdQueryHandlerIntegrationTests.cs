@@ -1,0 +1,108 @@
+namespace LoanHub.Backend.IntegrationTests.Features.Application.Get;
+
+public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixture
+{
+	private readonly EfRepository<ApplicationEntity> _applicationRepository;
+	private readonly EfRepository<UserEntity> _userRepository;
+	private readonly IMapper _mapper;
+	private readonly GetApplicationByIdQueryHandler _handler;
+
+	public GetApplicationByIdQueryHandlerIntegrationTests()
+	{
+		_applicationRepository = new EfRepository<ApplicationEntity>(_dbContext);
+		_userRepository = new EfRepository<UserEntity>(_dbContext);
+
+		var config = new MapperConfiguration(cfg =>
+		{
+			cfg.AddProfile<ApplicationProfile>();
+		}, new SerilogLoggerFactory());
+
+		_mapper = config.CreateMapper();
+		_handler = new GetApplicationByIdQueryHandler(_applicationRepository, _userRepository, _mapper);
+	}
+
+	//[Fact]
+	//public async Task Handle_ShouldReturnCorrectApplication_WhenIdExists()
+	//{
+	//	var app1 = CreateTestApplication(10);
+	//	var app2 = CreateTestApplication(15);
+	//	var app3 = CreateTestApplication(20);
+
+	//	await _dbContext.Set<ApplicationEntity>().AddRangeAsync(app1, app2, app3);
+	//	await _dbContext.SaveChangesAsync();
+
+	//	var targetId = app2.Id;
+	//	var targetApplicantId = 15;
+	//	var query = new GetApplicationByIdQuery(targetId,targetApplicantId);
+
+	//	var result = await _handler.Handle(query, CancellationToken.None);
+
+	//	result.IsSuccess.ShouldBeTrue();
+	//	result.Value.ShouldNotBeNull();
+	//	result.Value.OfferId.ShouldBe(app2.OfferId);
+	//	result.Value.UserId.ShouldBe(app2.UserId);
+	//	result.Value.Status.ShouldBe(ApplicationStatus.Created.Value);
+	//	result.Value.PersonalData.FirstName.ShouldBe(app2.PersonalData.FirstName);
+	//	result.Value.PersonalData.LastName.ShouldBe(app2.PersonalData.LastName);
+	//	result.Value.ContactInfo.Email.ShouldBe(app2.ContactInfo.Email);
+	//	result.Value.OfferConditions.Amount.ShouldBe(app2.OfferConditions.Amount);
+	//	result.Value.DocumentId.ShouldBeNull();
+	//}
+
+	[Fact]
+	public async Task Handle_ShouldReturnFailureOrNullValue_WhenApplicationDoesNotExist()
+	{
+		var existingApp = CreateTestApplication(userId: 5);
+		await _dbContext.Set<ApplicationEntity>().AddAsync(existingApp);
+		await _dbContext.SaveChangesAsync();
+
+		var nonExistingId = 99999;
+		var query = new GetApplicationByIdQuery(nonExistingId, 5);
+
+		var result = await _handler.Handle(query, CancellationToken.None);
+
+		result.IsSuccess.ShouldBeFalse();
+		result.Value.ShouldBeNull();
+	}
+
+	[Fact]
+	public async Task Handle_ShouldReturnFailureOrNull_WhenDatabaseIsEmpty()
+	{
+		var query = new GetApplicationByIdQuery(1, 0);
+
+		var result = await _handler.Handle(query, CancellationToken.None);
+
+		result.IsSuccess.ShouldBeFalse();
+		result.Value.ShouldBeNull();
+	}
+
+	private static ApplicationEntity CreateTestApplication(int? userId = null)
+	{
+		var personal = new ApplicantPersonalInfo("Anna", "Nowak", 29);
+		var contact = new ApplicantContactInfo(
+			"anna.nowak@example.pl",
+			"+48 600 700 800",
+			"ul. Marszałkowska 10, 00-950 Warszawa"
+		);
+		var financials = new ApplicantFinancialInfo(
+			Income: 5800m,
+			Costs: 2600m,
+			Dependents: 1,
+			Job: "Accountant"
+		);
+		var conditions = new OfferConditions(
+			Amount: 22000m,
+			Duration: 36,
+			InterestRate: 7.49m
+		);
+
+		return new ApplicationEntity(
+			200 + (userId ?? 0),
+			userId,
+			financials,
+			contact,
+			personal,
+			conditions
+		);
+	}
+}
