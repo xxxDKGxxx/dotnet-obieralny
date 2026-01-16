@@ -34,7 +34,7 @@ public class Get(IMediator mediator) : Endpoint<GetApplicationByIdRequest, Appli
 		}
 
 		var requestApplication = new GetApplicationByIdQuery(req.ApplicationId, userId);
-		var application = await mediator.Send(request_application, ct);
+		var application = await mediator.Send(requestApplication, ct);
 
 		await application.SendResult(this, ct: ct);
 	}
