@@ -2,6 +2,7 @@ using LoanHub.Backend.IntegrationTests.Data;
 using LoanHub.Backend.UseCases.Features.Application.Get;
 
 namespace LoanHub.Backend.IntegrationTests.Features.Application.Get;
+
 public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixture
 {
 	private readonly EfRepository<ApplicationEntity> _applicationRepository;
@@ -24,9 +25,9 @@ public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixt
 	[Fact]
 	public async Task Handle_ShouldReturnCorrectApplication_WhenIdExists()
 	{
-		var app1 = CreateTestApplication(userId: 10);
-		var app2 = CreateTestApplication(userId: 15);
-		var app3 = CreateTestApplication(userId: 20);
+		var app1 = CreateTestApplication(10);
+		var app2 = CreateTestApplication(15);
+		var app3 = CreateTestApplication(20);
 
 		await _dbContext.Set<ApplicationEntity>().AddRangeAsync(app1, app2, app3);
 		await _dbContext.SaveChangesAsync();
@@ -40,7 +41,7 @@ public class GetApplicationByIdQueryHandlerIntegrationTests : BaseEfRepoTestFixt
 		result.Value.ShouldNotBeNull();
 		result.Value.OfferId.ShouldBe(app2.OfferId);
 		result.Value.UserId.ShouldBe(app2.UserId);
-		result.Value.Status.ShouldBe(ApplicationStatus.Created.Name);
+		result.Value.Status.ShouldBe(ApplicationStatus.Created.Value);
 		result.Value.PersonalData.FirstName.ShouldBe(app2.PersonalData.FirstName);
 		result.Value.PersonalData.LastName.ShouldBe(app2.PersonalData.LastName);
 		result.Value.ContactInfo.Email.ShouldBe(app2.ContactInfo.Email);
