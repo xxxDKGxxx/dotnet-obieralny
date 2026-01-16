@@ -4,6 +4,7 @@ using LoanHub.Backend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoanHub.Backend.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251230142827_ApplicationAggregate")]
+    partial class ApplicationAggregate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,26 +33,18 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-<<<<<<< HEAD
-=======
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("BankEmployeeId")
                         .HasColumnType("int");
 
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-<<<<<<< HEAD
-                    b.Property<string>("DocumentId")
-                        .HasColumnType("nvarchar(max)");
-
-=======
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -60,7 +55,6 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                     b.Property<decimal>("InterestRate")
                         .HasColumnType("decimal(18,2)");
 
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -73,9 +67,6 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
-                    b.Property<int?>("UserId")
-=======
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -85,16 +76,12 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
-=======
                     b.HasIndex("BankEmployeeId");
 
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.HasIndex("OfferId");
 
                     b.HasIndex("UserId");
@@ -135,11 +122,7 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
                     b.ToTable("Offers", (string)null);
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.UserAggregate.User", b =>
-=======
             modelBuilder.Entity("LoanHub.Backend.Core.UserAggregate.User", b =>
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -211,145 +194,21 @@ namespace LoanHub.Backend.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Application", b =>
                 {
-<<<<<<< HEAD
-=======
                     b.HasOne("LoanHub.Backend.Core.UserAggregate.User", null)
                         .WithMany()
                         .HasForeignKey("BankEmployeeId")
                         .OnDelete(DeleteBehavior.SetNull);
 
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                     b.HasOne("LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer", null)
                         .WithMany()
                         .HasForeignKey("OfferId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-<<<<<<< HEAD
-                    b.HasOne("LoanHub.Backend.Core.EntityAggregates.UserAggregate.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.ApplicantContactInfo", "ContactInfo", b1 =>
-                        {
-                            b1.Property<int>("ApplicationId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Address")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)");
-
-                            b1.Property<string>("Email")
-                                .IsRequired()
-                                .HasMaxLength(254)
-                                .HasColumnType("nvarchar(254)");
-
-                            b1.Property<string>("PhoneNumber")
-                                .IsRequired()
-                                .HasMaxLength(9)
-                                .HasColumnType("nvarchar(9)");
-
-                            b1.HasKey("ApplicationId");
-
-                            b1.ToTable("Applications");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApplicationId");
-                        });
-
-                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.ApplicantFinancialInfo", "ApplicantFinancials", b1 =>
-                        {
-                            b1.Property<int>("ApplicationId")
-                                .HasColumnType("int");
-
-                            b1.Property<decimal>("Costs")
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.Property<int>("Dependents")
-                                .HasColumnType("int");
-
-                            b1.Property<decimal>("Income")
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.Property<string>("Job")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
-
-                            b1.HasKey("ApplicationId");
-
-                            b1.ToTable("Applications");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApplicationId");
-                        });
-
-                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.ApplicantPersonalInfo", "PersonalData", b1 =>
-                        {
-                            b1.Property<int>("ApplicationId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Age")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.HasKey("ApplicationId");
-
-                            b1.ToTable("Applications");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApplicationId");
-                        });
-
-                    b.OwnsOne("LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.OfferConditions", "OfferConditions", b1 =>
-                        {
-                            b1.Property<int>("ApplicationId")
-                                .HasColumnType("int");
-
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.Property<long>("Duration")
-                                .HasColumnType("bigint");
-
-                            b1.Property<decimal>("InterestRate")
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.HasKey("ApplicationId");
-
-                            b1.ToTable("Applications");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApplicationId");
-                        });
-
-                    b.Navigation("ApplicantFinancials")
-                        .IsRequired();
-
-                    b.Navigation("ContactInfo")
-                        .IsRequired();
-
-                    b.Navigation("OfferConditions")
-                        .IsRequired();
-
-                    b.Navigation("PersonalData")
-=======
                     b.HasOne("LoanHub.Backend.Core.UserAggregate.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
->>>>>>> 7ad7476eeea0e2f4c266a6307f360e22ed70bb07
                         .IsRequired();
                 });
 
