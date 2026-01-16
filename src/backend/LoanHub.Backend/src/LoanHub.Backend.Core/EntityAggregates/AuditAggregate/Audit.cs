@@ -17,7 +17,7 @@ public sealed class Audit(
 	public string Path { get; private set; } = path;
 	public string? Body { get; private set; } = body;
 	public string? HeadersJson { get; private set; } = headersJson;
-	public string ParamsJson {get; private set;} = paramsJson;
+	public string ParamsJson { get; private set; } = paramsJson;
 	public string QueryParamsJson { get; private set; } = queryParamsJson;
 	public int StatusCode { get; private set; } = statusCode;
 	public long DurationMs { get; private set; } = durationMs;

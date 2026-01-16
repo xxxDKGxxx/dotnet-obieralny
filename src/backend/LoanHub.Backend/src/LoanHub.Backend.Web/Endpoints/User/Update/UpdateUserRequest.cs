@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Web.Endpoints.User;
+namespace LoanHub.Backend.Web.Endpoints.User.Update;
 
 public sealed record UpdateUserRequest(
 	int UserId,

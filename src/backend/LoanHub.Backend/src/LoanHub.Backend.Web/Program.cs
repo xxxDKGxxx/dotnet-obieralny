@@ -62,7 +62,7 @@ public sealed class Program
 			app.UseCors("AllowFrontend");
 
 			app.UseAuthentication();
-			app.UseAuthorization() ;
+			app.UseAuthorization();
 
 			await app.UseAppMiddlewareAndSeedDatabase();
 
