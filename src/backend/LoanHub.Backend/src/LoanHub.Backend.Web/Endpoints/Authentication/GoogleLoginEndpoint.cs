@@ -1,5 +1,3 @@
-using LoanHub.Backend.Web.Extensions;
-
 namespace LoanHub.Backend.Web.Endpoints.Authentication;
 
 public sealed class GoogleLoginEndpoint(

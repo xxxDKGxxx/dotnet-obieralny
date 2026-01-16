@@ -1,6 +1,4 @@
-using LoanHub.Backend.UseCases.Features.User.Get;
-
-namespace LoanHub.Backend.Web.Endpoints.User;
+namespace LoanHub.Backend.Web.Endpoints.User.Get;
 
 public sealed class GetMe(IMediator mediator) : EndpointWithoutRequest<UserProfileDto>
 {
