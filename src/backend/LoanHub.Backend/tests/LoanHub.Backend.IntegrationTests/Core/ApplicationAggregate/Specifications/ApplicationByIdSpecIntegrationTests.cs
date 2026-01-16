@@ -13,9 +13,9 @@ public class ApplicationByIdSpecIntegrationTests : BaseEfRepoTestFixture
 	[Fact]
 	public async Task Spec_ShouldReturnCorrectApplication_WhenIdMatches()
 	{
-		var app1 = CreateTestApplication("App-001", userId: 10);
-		var app2 = CreateTestApplication("App-002", userId: 15);
-		var app3 = CreateTestApplication("App-003", userId: 10);
+		var app1 = CreateTestApplication(10);
+		var app2 = CreateTestApplication(15);
+		var app3 = CreateTestApplication(10);
 
 		await _dbContext.Set<Application>().AddRangeAsync(app1, app2, app3);
 		await _dbContext.SaveChangesAsync();
@@ -36,8 +36,8 @@ public class ApplicationByIdSpecIntegrationTests : BaseEfRepoTestFixture
 	[Fact]
 	public async Task Spec_ShouldReturnNull_WhenNoApplicationWithGivenId()
 	{
-		var app1 = CreateTestApplication("App-001", userId: 5);
-		var app2 = CreateTestApplication("App-002", userId: 7);
+		var app1 = CreateTestApplication(5);
+		var app2 = CreateTestApplication(7);
 
 		await _dbContext.Set<Application>().AddRangeAsync(app1, app2);
 		await _dbContext.SaveChangesAsync();
@@ -60,7 +60,7 @@ public class ApplicationByIdSpecIntegrationTests : BaseEfRepoTestFixture
 		result.ShouldBeNull();
 	}
 
-	private static Application CreateTestApplication(string debugName, int? userId = null)
+	private static Application CreateTestApplication(int? userId = null)
 	{
 		var personal = new ApplicantPersonalInfo("Jan", "Kowalski", 35);
 		var contact = new ApplicantContactInfo(
