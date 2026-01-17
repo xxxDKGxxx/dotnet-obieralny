@@ -5,7 +5,7 @@ namespace LoanHub.Backend.Core.Interfaces;
 
 public interface IBlobStorageService
 {
-    Task<string> UploadAsync(Stream content, string documentId, string contentType);
+	public Task<string> UploadAsync(Stream content, string documentId, string contentType);
 
-    Task<Stream> DownloadAsync(string documentId);
+	public Task<Stream> DownloadAsync(string documentId);
 }
