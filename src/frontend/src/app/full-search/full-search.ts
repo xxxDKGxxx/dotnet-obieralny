@@ -17,6 +17,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ApplicationRoutes } from '../app.routes';
 import { AuthService } from '../services/auth.service';
+import { debounceTime, map, of, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-full-search',
@@ -48,44 +49,63 @@ export class FullSearch implements OnInit {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
 
+  private searchParamsChange$ = new Subject<void>();
+
   ngOnInit(): void {
+    this.searchParamsChange$
+      .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(1000))
+      .subscribe({
+        next: () => this.performUrUpdate(),
+      });
+
+    if (this.auth.isAuthenticated()) {
+      this.autoFillUserFields();
+    }
+
     this.activatedRoute.queryParamMap
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
-        const amount = params.get('amount');
-        const duration = params.get('duration');
-        const monthlyIncome = params.get('monthlyIncome');
-        const monthlyCosts = params.get('monthlyCosts');
-        const age = params.get('age');
-        const dependants = params.get('dependants');
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((params) => {
+          const amount = params.get('amount');
+          const duration = params.get('duration');
+          const monthlyIncome = params.get('monthlyIncome');
+          const monthlyCosts = params.get('monthlyCosts');
+          const age = params.get('age');
+          const dependants = params.get('dependants');
 
-        if (!amount || !duration) {
-          return;
-        }
+          if (amount) this.amount = Number.parseInt(amount);
+          if (duration) this.duration = Number.parseInt(duration);
+          if (monthlyIncome) this.monthlyIncome = Number.parseInt(monthlyIncome);
+          if (monthlyCosts) this.monthlyCosts = Number.parseInt(monthlyCosts);
+          if (age) this.age = Number.parseInt(age);
+          if (dependants) this.dependants = Number.parseInt(dependants);
+        }),
+        switchMap(() => {
+          if (!this.amount || !this.duration) {
+            return of({ offers: [], calculatedOffers: [] });
+          }
 
-        const amountAsNumber = Number.parseInt(amount);
-        const durationAsNumber = Number.parseInt(duration);
-
-        this.amount = amountAsNumber;
-        this.duration = durationAsNumber;
-
-        if (monthlyIncome && monthlyCosts && age && dependants) {
-          const monthlyIncomeAsNumber = Number.parseInt(monthlyIncome);
-          const monthlyCostsAsNumber = Number.parseInt(monthlyCosts);
-          const ageAsNumber = Number.parseInt(age);
-          const dependantsAsNumber = Number.parseInt(dependants);
-
-          this.monthlyIncome = monthlyIncomeAsNumber;
-          this.monthlyCosts = monthlyCostsAsNumber;
-          this.age = ageAsNumber;
-          this.dependants = dependantsAsNumber;
-        }
-
-        this.fetchOffers();
-
-        if (this.auth.isAuthenticated()) {
-          this.autoFillUserFields();
-        }
+          if (this.additionalDataProvided()) {
+            return this.offersService
+              .listCalculatedOffers(
+                this.amount,
+                this.duration,
+                this.monthlyIncome,
+                this.monthlyCosts,
+                this.age,
+                this.dependants,
+              )
+              .pipe(map((data) => ({ offers: [], calculatedOffers: data })));
+          } else {
+            return this.offersService
+              .listOffers(this.amount, this.duration)
+              .pipe(map((data) => ({ offers: data, calculatedOffers: [] })));
+          }
+        }),
+      )
+      .subscribe((result: { offers: OfferDto[]; calculatedOffers: CalculatedOfferDto[] }) => {
+        this.offers = result.offers;
+        this.calculatedOffers = result.calculatedOffers;
       });
   }
 
@@ -110,24 +130,14 @@ export class FullSearch implements OnInit {
           if (!this.monthlyCosts && userInfo.costs) {
             this.monthlyCosts = userInfo.costs;
           }
+
+          this.handleParamsChange();
         },
       });
   }
 
-  protected updateUrl() {
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: {
-        amount: this.amount,
-        duration: this.duration,
-        monthlyIncome: this.monthlyIncome,
-        monthlyCosts: this.monthlyCosts,
-        age: this.age,
-        dependants: this.dependants,
-      },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
+  protected handleParamsChange() {
+    this.searchParamsChange$.next();
   }
 
   protected redirectToOfferDetails(data: { id: number; providerType: ApplicationProviderType }) {
@@ -174,5 +184,21 @@ export class FullSearch implements OnInit {
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({ next: (calculatedOffers) => (this.calculatedOffers = calculatedOffers) });
+  }
+
+  private performUrUpdate() {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        amount: this.amount,
+        duration: this.duration,
+        monthlyIncome: this.monthlyIncome,
+        monthlyCosts: this.monthlyCosts,
+        age: this.age,
+        dependants: this.dependants,
+      },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
   }
 }
