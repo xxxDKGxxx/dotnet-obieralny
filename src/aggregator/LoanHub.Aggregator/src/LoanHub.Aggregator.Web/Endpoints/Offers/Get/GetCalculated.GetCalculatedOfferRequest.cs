@@ -1,4 +1,4 @@
-namespace LoanHub.Aggregator.Web.Endpoints.Offers;
+namespace LoanHub.Aggregator.Web.Endpoints.Offers.Get;
 
 public record GetCalculatedOfferRequest(
 	int OfferId,

@@ -1,6 +1,4 @@
-using FluentValidation;
-
-namespace LoanHub.Aggregator.Web.Endpoints.Offers;
+namespace LoanHub.Aggregator.Web.Endpoints.Offers.List;
 
 public sealed class ListCalculatedOffersValidator : Validator<ListCalculatedOffersRequest>
 {

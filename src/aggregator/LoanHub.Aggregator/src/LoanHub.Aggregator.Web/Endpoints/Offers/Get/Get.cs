@@ -1,6 +1,4 @@
-using LoanHub.Aggregator.Web.Dtos;
-
-namespace LoanHub.Aggregator.Web.Endpoints.Offers;
+namespace LoanHub.Aggregator.Web.Endpoints.Offers.Get;
 
 public class Get(IEnumerable<IOfferProvider> offerProviders) : Endpoint<GetOfferRequest, OfferWithProviderTypeDto>
 {
@@ -12,7 +10,7 @@ public class Get(IEnumerable<IOfferProvider> offerProviders) : Endpoint<GetOffer
 
 	public override async Task HandleAsync(GetOfferRequest req, CancellationToken ct)
 	{
-		var headers = this.HttpContext.Request.Headers;
+		var headers = HttpContext.Request.Headers;
 
 		var provider = offerProviders.Single(op =>
 		{

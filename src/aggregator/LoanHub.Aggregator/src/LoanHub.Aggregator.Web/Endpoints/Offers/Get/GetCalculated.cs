@@ -1,6 +1,4 @@
-using LoanHub.Aggregator.Web.Dtos;
-
-namespace LoanHub.Aggregator.Web.Endpoints.Offers;
+namespace LoanHub.Aggregator.Web.Endpoints.Offers.Get;
 
 public class GetCalculated(IEnumerable<IOfferProvider> offerProviders) : Endpoint<GetCalculatedOfferRequest, CalculatedOfferWithProviderTypeDto>
 {

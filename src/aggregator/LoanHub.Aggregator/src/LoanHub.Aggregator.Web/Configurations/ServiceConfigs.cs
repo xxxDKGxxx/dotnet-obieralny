@@ -12,7 +12,7 @@ public static class ServiceConfigs
 		services.AddInfrastructureServices(builder.Configuration, logger);
 
 		var defaultBankUrl = builder.Configuration.GetSection("DefaultBankUrl").Value
-		                     ?? throw new Exception("Default Bank Url was not defined");
+							 ?? throw new Exception("Default Bank Url was not defined");
 
 		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient", opt =>
 		{
@@ -26,7 +26,7 @@ public static class ServiceConfigs
 		});
 
 		var ardalisBankUrl = builder.Configuration.GetValue<string>("ArdalisBankUrl")
-		                     ?? throw new Exception("ArdalisBankUrl was not defined");
+							 ?? throw new Exception("ArdalisBankUrl was not defined");
 
 		services.AddHttpClient<IOfferProvider, ArdalisBankOfferProvider>(opt =>
 			{

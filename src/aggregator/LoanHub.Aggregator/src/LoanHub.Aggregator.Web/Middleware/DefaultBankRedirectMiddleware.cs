@@ -13,8 +13,8 @@ public sealed class DefaultBankRedirectMiddleware(
 		}
 
 		var targetUrl = httpClient.BaseAddress
-		                + context.Request.Path.ToString().TrimStart('/')
-		                + context.Request.QueryString;
+						+ context.Request.Path.ToString().TrimStart('/')
+						+ context.Request.QueryString;
 
 		logger.LogInformation(
 			"Redirecting {GetDisplayUrl} to {TargetUrl}...",

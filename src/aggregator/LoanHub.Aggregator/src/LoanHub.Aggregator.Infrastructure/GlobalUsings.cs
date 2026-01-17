@@ -6,7 +6,6 @@ global using Ardalis.Specification.EntityFrameworkCore;
 global using LoanHub.Aggregator.Core;
 global using LoanHub.Aggregator.Core.ApplicationAggregate;
 global using LoanHub.Aggregator.Core.Interfaces;
-global using LoanHub.Aggregator.Web.Dtos;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Design;
 global using Microsoft.EntityFrameworkCore.Diagnostics;

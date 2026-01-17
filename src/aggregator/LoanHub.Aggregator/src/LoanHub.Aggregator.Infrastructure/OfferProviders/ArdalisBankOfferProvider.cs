@@ -63,7 +63,6 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 	};
 
-
 	public async Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,
 		int? UserId,
@@ -86,14 +85,14 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"Post Application ArdalisBank Error: "
-			                    + $"StatusCode: {responseMessage.StatusCode} {await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"StatusCode: {responseMessage.StatusCode} {await responseMessage.Content.ReadAsStringAsync()}");
 		}
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
 		var deserialized = JsonSerializer.Deserialize<ApplicationDto>(
-			                   content,
-			                   _jsonSerializerOptions)
-		                   ??  throw new JsonException("Could not deserialize response");
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
 
 		var result = new ApplicationWithProviderTypeDto(
 			deserialized.Id,
@@ -122,23 +121,26 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
 		var deserialized = JsonSerializer.Deserialize<IEnumerable<OfferDto>>(
-           content,
-           _jsonSerializerOptions)
-				??  throw new JsonException("Could not deserialize response");
+		   content,
+		   _jsonSerializerOptions)
+				?? throw new JsonException("Could not deserialize response");
 
-		var result = deserialized.Select(o => new OfferWithProviderTypeDto(
-			o.Id,
-			o.Title,
-			o.Description,
-			o.MinAmount,
-			o.MaxAmount,
-			o.MinDuration,
-			o.MaxDuration,
-			o.MinInterestRate,
-			o.MaxInterestRate,
-			o.ValidFrom,
-			o.ValidTo,
-			ProviderType.Value));
+		var result = deserialized.Select(o =>
+		{
+			return new OfferWithProviderTypeDto(
+						o.Id,
+						o.Title,
+						o.Description,
+						o.MinAmount,
+						o.MaxAmount,
+						o.MinDuration,
+						o.MaxDuration,
+						o.MinInterestRate,
+						o.MaxInterestRate,
+						o.ValidFrom,
+						o.ValidTo,
+						ProviderType.Value);
+		});
 
 		return result;
 	}
@@ -167,20 +169,23 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
 		var deserialized = JsonSerializer.Deserialize<IEnumerable<CalculatedOfferDto>>(
-			                   content,
-			                   _jsonSerializerOptions)
-		                   ?? throw new JsonException("Could not deserialize response");
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
 
-		var result = deserialized.Select(o => new CalculatedOfferWithProviderTypeDto(
-			o.Id,
-			o.Title,
-			o.Description,
-			o.Amount,
-			o.Duration,
-			o.InterestRate,
-			o.ValidFrom,
-			o.ValidTo,
-			ProviderType.Value));
+		var result = deserialized.Select(o =>
+		{
+			return new CalculatedOfferWithProviderTypeDto(
+						o.Id,
+						o.Title,
+						o.Description,
+						o.Amount,
+						o.Duration,
+						o.InterestRate,
+						o.ValidFrom,
+						o.ValidTo,
+						ProviderType.Value);
+		});
 
 		return result;
 	}
@@ -198,7 +203,7 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
 		var deserialized = JsonSerializer.Deserialize<OfferDto>(content, _jsonSerializerOptions)
-		                   ?? throw new JsonException("Could not deserialize response");
+						   ?? throw new JsonException("Could not deserialize response");
 
 		var result = new OfferWithProviderTypeDto(
 			deserialized.Id,
@@ -242,9 +247,9 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 
 		var content = await responseMessage.Content.ReadAsStringAsync();
 		var deserialized = JsonSerializer.Deserialize<CalculatedOfferDto>(
-			                   content,
-			                   _jsonSerializerOptions)
-		                   ?? throw new JsonException("Could not deserialize response");
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
 
 		var result = new CalculatedOfferWithProviderTypeDto(
 			deserialized.Id,

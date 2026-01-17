@@ -1,4 +1,4 @@
-namespace LoanHub.Aggregator.Web.Endpoints.Offers;
+namespace LoanHub.Aggregator.Web.Endpoints.Offers.List;
 
 public sealed record ListCalculatedOffersRequest(
 	decimal Amount,
