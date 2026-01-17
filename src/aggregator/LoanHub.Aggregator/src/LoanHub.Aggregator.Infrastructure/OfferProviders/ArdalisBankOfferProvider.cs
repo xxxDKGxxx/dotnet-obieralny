@@ -48,7 +48,7 @@ public sealed record PostApplicationRequest(
 	ApplicantContactInfo Contact,
 	ApplicantPersonalInfo PersonalData);
 
-public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClient) : IOfferProvider
+public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProvider
 {
 	public ApplicationProviderType ProviderType
 	{
@@ -73,7 +73,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		ApplicantContactInfo Contact,
 		ApplicantPersonalInfo PersonalData)
 	{
-		var responseMessage = await httpClient.PostAsJsonAsync($"{apiUrl}/applications",
+		var responseMessage = await httpClient.PostAsJsonAsync($"applications",
 			new PostApplicationRequest(
 				OfferId,
 				UserId,
@@ -112,7 +112,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 
 	public async Task<IEnumerable<OfferWithProviderTypeDto>> ListOffersAsync(decimal amount, uint duration)
 	{
-		var responseMessage = await httpClient.GetAsync($"{apiUrl}/offers?Amount={amount}&Duration={duration}");
+		var responseMessage = await httpClient.GetAsync($"offers?Amount={amount}&Duration={duration}");
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
@@ -151,7 +151,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		int age,
 		int dependants)
 	{
-		var responseMessage = await httpClient.GetAsync($"{apiUrl}/calculated-offers?Amount={amount}"
+		var responseMessage = await httpClient.GetAsync($"calculated-offers?Amount={amount}"
 			+ $"&Duration={duration}"
 			+ $"&MonthlyIncome={monthlyIncome}"
 			+ $"&MonthlyCosts={monthlyCosts}"
@@ -187,7 +187,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 
 	public async Task<OfferWithProviderTypeDto> GetOfferByIdAsync(int offerId)
 	{
-		var responseMessage = await httpClient.GetAsync($"{apiUrl}/offers/{offerId}");
+		var responseMessage = await httpClient.GetAsync($"offers/{offerId}");
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
@@ -226,7 +226,7 @@ public sealed class ArdalisBankOfferProvider(string apiUrl, HttpClient httpClien
 		int age,
 		int dependants)
 	{
-		var responseMessage = await httpClient.GetAsync($"{apiUrl}/calculated-offers/{offerId}?Amount={amount}"
+		var responseMessage = await httpClient.GetAsync($"calculated-offers/{offerId}?Amount={amount}"
 														+ $"&Duration={duration}"
 														+ $"&MonthlyIncome={monthlyIncome}"
 														+ $"&MonthlyCosts={monthlyCosts}"

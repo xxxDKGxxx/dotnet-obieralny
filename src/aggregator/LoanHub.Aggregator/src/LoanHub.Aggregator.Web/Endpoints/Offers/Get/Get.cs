@@ -1,4 +1,3 @@
-using LoanHub.Aggregator.Core.Interfaces;
 using LoanHub.Aggregator.Web.Dtos;
 
 namespace LoanHub.Aggregator.Web.Endpoints.Offers;
