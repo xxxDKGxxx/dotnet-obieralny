@@ -26,15 +26,6 @@ public class GetCalculated(IEnumerable<IOfferProvider> offerProviders) : Endpoin
 			req.Age,
 			req.Dependants);
 
-		Response = new CalculatedOfferWithProviderTypeDto(
-			calculatedOffer.Id,
-			calculatedOffer.Title,
-			calculatedOffer.Description,
-			calculatedOffer.Amount,
-			calculatedOffer.Duration,
-			calculatedOffer.InterestRate,
-			calculatedOffer.ValidFrom,
-			calculatedOffer.ValidTo,
-			provider.ProviderType.Value);
+		Response = calculatedOffer;
 	}
 }

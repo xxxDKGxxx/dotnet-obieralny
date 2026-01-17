@@ -1,4 +1,3 @@
-using LoanHub.Aggregator.Core.Interfaces;
 using LoanHub.Aggregator.Infrastructure.Data;
 using LoanHub.Aggregator.Infrastructure.OfferProviders;
 

@@ -1,5 +1,3 @@
-using LoanHub.Aggregator.Core.ApplicationAggregate;
-
 namespace LoanHub.Aggregator.Web.Dtos;
 
 public sealed record CalculatedOfferWithProviderTypeDto(

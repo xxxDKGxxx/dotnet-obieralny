@@ -1,4 +1,3 @@
-using LoanHub.Aggregator.Core.ApplicationAggregate;
 using LoanHub.Aggregator.Core.Interfaces.Dtos;
 
 namespace LoanHub.Aggregator.Core.Interfaces;
@@ -9,16 +8,25 @@ public interface IOfferProvider
 	{
 		get;
 	}
-	public Task<IEnumerable<OfferDto>> ListOffersAsync(decimal amount, uint duration);
-	public Task<IEnumerable<CalculatedOfferDto>> ListCalculatedOffersAsync(
+
+	public Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
+		int OfferId,
+		int? UserId,
+		decimal Amount,
+		uint Duration,
+		ApplicantFinancialInfo Financials,
+		ApplicantContactInfo Contact,
+		ApplicantPersonalInfo PersonalData);
+	public Task<IEnumerable<OfferWithProviderTypeDto>> ListOffersAsync(decimal amount, uint duration);
+	public Task<IEnumerable<CalculatedOfferWithProviderTypeDto>> ListCalculatedOffersAsync(
 		decimal amount,
 		uint duration,
 		decimal monthlyIncome,
 		decimal monthlyCosts,
 		int age,
 		int dependants);
-	public Task<OfferDto> GetOfferByIdAsync(int offerId);
-	public Task<CalculatedOfferDto> GetCalculatedOfferByIdAsync(
+	public Task<OfferWithProviderTypeDto> GetOfferByIdAsync(int offerId);
+	public Task<CalculatedOfferWithProviderTypeDto> GetCalculatedOfferByIdAsync(
 		int offerId,
 		decimal amount,
 		uint duration,
