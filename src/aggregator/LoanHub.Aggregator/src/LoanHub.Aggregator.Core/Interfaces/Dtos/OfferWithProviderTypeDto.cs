@@ -1,6 +1,4 @@
-using LoanHub.Aggregator.Core.ApplicationAggregate;
-
-namespace LoanHub.Aggregator.Web.Dtos;
+namespace LoanHub.Aggregator.Core.Interfaces.Dtos;
 
 public sealed record OfferWithProviderTypeDto(
 	int Id,

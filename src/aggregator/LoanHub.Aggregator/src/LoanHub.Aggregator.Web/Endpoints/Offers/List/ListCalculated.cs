@@ -1,7 +1,4 @@
-using LoanHub.Aggregator.Core.Interfaces;
-using LoanHub.Aggregator.Web.Dtos;
-
-namespace LoanHub.Aggregator.Web.Endpoints.Offers;
+namespace LoanHub.Aggregator.Web.Endpoints.Offers.List;
 
 public sealed class ListCalculated(IEnumerable<IOfferProvider> offerProviders) :
 	Endpoint<ListCalculatedOffersRequest, IEnumerable<CalculatedOfferWithProviderTypeDto>>
@@ -26,13 +23,13 @@ public sealed class ListCalculated(IEnumerable<IOfferProvider> offerProviders) :
 					req.Age,
 					req.Dependants);
 
-				return (Offers: offers, ProviderType: provider.ProviderType.Value);
+				return offers;
 			}
 			catch (Exception ex)
 			{
 				Logger.LogError("{Message}", ex.Message);
 
-				return (Offers: [], ProviderType: provider.ProviderType.Value);
+				return [];
 			}
 		});
 
@@ -40,23 +37,9 @@ public sealed class ListCalculated(IEnumerable<IOfferProvider> offerProviders) :
 
 		var result = new List<CalculatedOfferWithProviderTypeDto>();
 
-		foreach (var (offerCollection, providerType) in offerCollections)
+		foreach (var offerCollection in offerCollections)
 		{
-			result.AddRange(
-				offerCollection.Select(
-					cod =>
-					{
-						return new CalculatedOfferWithProviderTypeDto(
-												cod.Id,
-												cod.Title,
-												cod.Description,
-												cod.Amount,
-												cod.Duration,
-												cod.InterestRate,
-												cod.ValidFrom,
-												cod.ValidTo,
-												providerType);
-					}));
+			result.AddRange(offerCollection);
 		}
 
 		Response = result;

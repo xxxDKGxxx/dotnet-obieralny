@@ -1,6 +1,6 @@
 namespace LoanHub.Aggregator.Core.Interfaces.Dtos;
 
-public sealed record CalculatedOfferDto(
+public sealed record CalculatedOfferWithProviderTypeDto(
 	int Id,
 	string Title,
 	string Description,
@@ -8,5 +8,6 @@ public sealed record CalculatedOfferDto(
 	uint Duration,
 	decimal InterestRate,
 	DateTime ValidFrom,
-	DateTime ValidTo
+	DateTime ValidTo,
+	string ProviderType
 );
