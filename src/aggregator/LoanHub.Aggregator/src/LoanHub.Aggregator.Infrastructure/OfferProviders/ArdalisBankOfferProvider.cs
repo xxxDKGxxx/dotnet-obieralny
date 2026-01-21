@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using Azure;
 using LoanHub.Aggregator.Core.Interfaces.Dtos;
 
 namespace LoanHub.Aggregator.Infrastructure.OfferProviders;
@@ -260,6 +261,38 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 			deserialized.InterestRate,
 			deserialized.ValidFrom,
 			deserialized.ValidTo,
+			ProviderType.Value);
+
+		return result;
+	}
+
+	public async Task<ApplicationWithProviderTypeDto> GetApplicationByIdAsync(int applicationId)
+	{
+		var responseMessage = await httpClient.GetAsync($"applications/{applicationId}");
+
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception($"Get Application by id ArdalisBank Error: "
+								+ $"Status Code: {responseMessage.StatusCode}"
+								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+		}
+
+		var content = await responseMessage.Content.ReadAsStringAsync();
+		var deserialized = JsonSerializer.Deserialize<ApplicationDto>(
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
+
+		var result = new ApplicationWithProviderTypeDto(
+			deserialized.Id,
+			deserialized.OfferId,
+			deserialized.UserId,
+			deserialized.Status,
+			deserialized.ContactInfo,
+			deserialized.ApplicantFinancials,
+			deserialized.PersonalData,
+			deserialized.OfferConditions,
+			deserialized.DocumentId,
 			ProviderType.Value);
 
 		return result;

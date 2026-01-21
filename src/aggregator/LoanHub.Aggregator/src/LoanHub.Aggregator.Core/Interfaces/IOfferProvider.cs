@@ -35,5 +35,5 @@ public interface IOfferProvider
 		int age,
 		int dependants);
 
-	public Task<ApplicationDTO> GetApplicationByIdAsync(int applicationId);
+	public Task<ApplicationWithProviderTypeDto> GetApplicationByIdAsync(int applicationId);
 }
