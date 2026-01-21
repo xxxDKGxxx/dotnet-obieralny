@@ -29,6 +29,11 @@ public sealed class DefaultBankRedirectMiddleware(
 
 		foreach (var header in context.Request.Headers)
 		{
+			if (string.Equals(header.Key, "Host", StringComparison.OrdinalIgnoreCase))
+			{
+				continue;
+			}
+
 			requestMessage.Headers.TryAddWithoutValidation(header.Key, [.. header.Value]);
 		}
 
