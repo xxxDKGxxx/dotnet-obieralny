@@ -1,5 +1,6 @@
 using Ardalis.ListStartupServices;
 using LoanHub.Backend.Infrastructure.Data;
+using LoanHub.Backend.Web.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoanHub.Backend.Web.Configurations;
@@ -27,6 +28,8 @@ public static class MiddlewareConfig
 					c.Versioning.PrependToRoute = true;
 				})
 			.UseSwaggerGen(); // Includes AddFileServer and static files middleware
+
+		app.UseMiddleware<AuditMiddleware>();
 
 		await SeedDatabase(app);
 

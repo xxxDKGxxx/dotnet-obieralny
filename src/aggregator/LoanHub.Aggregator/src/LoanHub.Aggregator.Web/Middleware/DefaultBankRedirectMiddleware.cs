@@ -2,12 +2,8 @@ namespace LoanHub.Aggregator.Web.Middleware;
 
 public sealed class DefaultBankRedirectMiddleware(
 	HttpClient httpClient,
-	ILogger<DefaultBankRedirectMiddleware> logger,
-	IConfiguration configuration) : IMiddleware
+	ILogger<DefaultBankRedirectMiddleware> logger) : IMiddleware
 {
-	private readonly string _defaultBankUrl = configuration.GetSection("DefaultBankUrl").Value
-		?? throw new Exception("Default Bank Url was not defined");
-
 	public async Task InvokeAsync(HttpContext context, RequestDelegate next)
 	{
 		if (context.GetEndpoint() is not null)
@@ -16,7 +12,9 @@ public sealed class DefaultBankRedirectMiddleware(
 			return;
 		}
 
-		var targetUrl = _defaultBankUrl + context.Request.Path + context.Request.QueryString;
+		var targetUrl = httpClient.BaseAddress
+						+ context.Request.Path.ToString().TrimStart('/')
+						+ context.Request.QueryString;
 
 		logger.LogInformation(
 			"Redirecting {GetDisplayUrl} to {TargetUrl}...",
@@ -31,6 +29,11 @@ public sealed class DefaultBankRedirectMiddleware(
 
 		foreach (var header in context.Request.Headers)
 		{
+			if (string.Equals(header.Key, "Host", StringComparison.OrdinalIgnoreCase))
+			{
+				continue;
+			}
+
 			requestMessage.Headers.TryAddWithoutValidation(header.Key, [.. header.Value]);
 		}
 

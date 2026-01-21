@@ -1,5 +1,4 @@
 using LoanHub.Aggregator.Web.Configurations;
-using LoanHub.Aggregator.Web.Middleware;
 
 namespace LoanHub.Aggregator.Web;
 
@@ -23,12 +22,27 @@ public sealed class Program
 
 		builder.Services.AddServiceConfigs(appLogger, builder);
 
-		builder.Services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient");
-
 		builder.Services.AddFastEndpoints()
 			.SwaggerDocument(o =>
 			{
 				o.ShortSchemaNames = true;
+				o.EnableJWTBearerAuth = true;
+				o.DocumentSettings = s =>
+				{
+					s.Title = "Moje API";
+					s.Version = "v1";
+
+					s.AddSecurity("Bearer",
+						new NSwag.OpenApiSecurityScheme
+						{
+							Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
+							Name = "Authorization",
+							In = NSwag.OpenApiSecurityApiKeyLocation.Header,
+							Description = "Wpisz: Bearer {Twój_Token}"
+						});
+
+					s.OperationProcessors.Add(new OperationSecurityScopeProcessor("Bearer"));
+				};
 			});
 
 		builder.Services.AddCors(options =>
