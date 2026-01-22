@@ -21,7 +21,7 @@ export class OfferDetails implements OnInit {
   protected monthlyCosts!: number | null;
   protected age!: number | null;
   protected dependants!: number | null;
-  protected providerType!: string | null;
+  protected providerType!: string;
   protected offerDto!: OfferDto | null;
   protected calculatedOfferDto!: CalculatedOfferDto | null;
 
@@ -34,8 +34,9 @@ export class OfferDetails implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([params, queryParams]) => {
         const offerIdStr = params.get('offerId');
+        const providerTypeStr = queryParams.get('providerType');
 
-        if (!offerIdStr) {
+        if (!offerIdStr || !providerTypeStr) {
           return;
         }
 
@@ -46,7 +47,7 @@ export class OfferDetails implements OnInit {
         this.monthlyCosts = Number.parseInt(queryParams.get('monthlyCosts') ?? '0', 10);
         this.age = Number.parseInt(queryParams.get('age') ?? '0', 10);
         this.dependants = Number.parseInt(queryParams.get('dependants') ?? '0', 10);
-        this.providerType = queryParams.get('providerType');
+        this.providerType = providerTypeStr;
 
         this.fetchOffer();
       });

@@ -9,6 +9,8 @@
 ) {
   <app-calculated-offer [calculatedOffer]="calculatedOfferDto" [detailsButton]="false" />
   <app-application-form
+    [offerId]="offerId"
+    [providerType]="providerType"
     [amount]="amount"
     [duration]="duration"
     [monthlyIncome]="monthlyIncome"
@@ -20,6 +22,8 @@
 } @else if (!!offerDto && !!amount && !!duration) {
   <app-offer [offer]="offerDto" [detailsButton]="false" />
   <app-application-form
+    [offerId]="offerId"
+    [providerType]="providerType"
     [amount]="amount"
     [duration]="duration"
     (conditionsChange)="updateOfferBasedOnNewConditions($event)"
