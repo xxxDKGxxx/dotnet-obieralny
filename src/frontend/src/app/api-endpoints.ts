@@ -1,6 +1,7 @@
 import { environment } from '../environments/environment';
 
 export const apiEndpoints = {
+  postApplication: () => `${environment.apiBaseUrl}/applications`,
   listOffers: (amount: number, duration: number) =>
     `${environment.apiBaseUrl}/offers?amount=${amount}&duration=${duration}`,
   listCalculatedOffers: (
