@@ -1,0 +1,32 @@
+<table mat-table [dataSource]="applicationsWithOffers">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Id Aplikacji</th>
+    <td mat-cell *matCellDef="let applicationWithOffer">
+      {{ applicationWithOffer.application.id }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="offerTitle">
+    <th mat-header-cell *matHeaderCellDef>Tytuł oferty</th>
+    <td mat-cell *matCellDef="let applicationWithOffer">
+      {{ applicationWithOffer.offer.title }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="firstname">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let applicationWithOffer">
+      {{ applicationWithOffer.application.personalData.firstName }}
+    </td>
+  </ng-container>k
+  <ng-container matColumnDef="lastname">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let applicationWithOffer">
+      {{ applicationWithOffer.application.personalData.lastName }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let applicationWithOffer">
+      {{ applicationWithOffer.application.contactInfo.email }}
+    </td>
+  </ng-container>
+</table>
