@@ -2,7 +2,11 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { OffersService } from '../services/offers/offers-service';
-import { CalculatedOfferDto, OfferDto } from '../services/offers/offer-model';
+import {
+  ApplicationProviderType,
+  CalculatedOfferDto,
+  OfferDto,
+} from '../services/offers/offer-model';
 import { CalculatedOffer } from '../common/calculated-offer/calculated-offer';
 import { Offer } from '../common/offer/offer';
 import { ApplicationForm, OfferConditions } from './application-form/application-form';
@@ -21,7 +25,7 @@ export class OfferDetails implements OnInit {
   protected monthlyCosts!: number | null;
   protected age!: number | null;
   protected dependants!: number | null;
-  protected providerType!: string;
+  protected providerType!: ApplicationProviderType;
   protected offerDto!: OfferDto | null;
   protected calculatedOfferDto!: CalculatedOfferDto | null;
 
@@ -47,7 +51,7 @@ export class OfferDetails implements OnInit {
         this.monthlyCosts = Number.parseInt(queryParams.get('monthlyCosts') ?? '0', 10);
         this.age = Number.parseInt(queryParams.get('age') ?? '0', 10);
         this.dependants = Number.parseInt(queryParams.get('dependants') ?? '0', 10);
-        this.providerType = providerTypeStr;
+        this.providerType = providerTypeStr as ApplicationProviderType;
 
         this.fetchOffer();
       });

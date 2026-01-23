@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { OfferDto } from '../../services/offers/offer-model';
 import { OffersService } from '../../services/offers/offers-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { forkJoin, map } from 'rxjs';
 
 interface ApplicationWithOffer {
   application: ApplicationWithProviderTypeDto;
@@ -14,29 +15,44 @@ interface ApplicationWithOffer {
   selector: 'app-applications-list',
   imports: [MatTableModule],
   templateUrl: './applications-list.html',
+  styleUrl: './applications-list.css',
 })
 export class ApplicationsList implements OnInit {
   @Input({ required: true })
   applications!: ApplicationWithProviderTypeDto[];
 
-  protected readonly applicationsWithOffers: ApplicationWithOffer[] = [];
+  protected applicationsWithOffers: ApplicationWithOffer[] = [];
+
+  protected readonly columnsToDisplay = [
+    'id',
+    'offerTitle',
+    'amount',
+    'duration',
+    'interestRate',
+    'firstname',
+    'lastname',
+    'email',
+    'status',
+  ];
 
   private readonly offersService = inject(OffersService);
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    for (let application of this.applications) {
+    const requests = this.applications.map((app) =>
       this.offersService
-        .getById(application.offerId, application.providerType)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (offer) => {
-            this.applicationsWithOffers.push({
-              application: application,
-              offer: offer,
-            });
-          },
-        });
-    }
+        .getById(app.offerId, app.providerType)
+        .pipe(map((offer) => ({ application: app, offer }))),
+    );
+
+    forkJoin(requests)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => {
+        this.applicationsWithOffers = data;
+      });
+  }
+  protected redirectToAppDetails(id: number) {
+    void id;
+    // console.log('In the future this will redirect to application id', id);
   }
 }
