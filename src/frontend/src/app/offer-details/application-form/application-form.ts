@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
 import { ApplicationsService } from '../../services/applications/applications-service';
 import { ApplicationWithProviderTypeDto } from '../../services/applications/applications-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ApplicationProviderType } from '../../services/offers/offer-model';
+import { ApplicationProviderType } from '../../shared/enum';
 
 export interface OfferConditions {
   amount: number | null;

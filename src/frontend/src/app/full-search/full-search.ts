@@ -9,15 +9,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { OffersList } from './offers-list/offers-list';
 import { OffersService } from '../services/offers/offers-service';
-import {
-  ApplicationProviderType,
-  CalculatedOfferDto,
-  OfferDto,
-} from '../services/offers/offer-model';
+import { CalculatedOfferDto, OfferDto } from '../services/offers/offer-model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ApplicationRoutes } from '../app.routes';
 import { AuthService } from '../services/auth.service';
 import { debounceTime, map, of, Subject, switchMap, tap } from 'rxjs';
+import { ApplicationProviderType } from '../shared/enum';
 
 @Component({
   selector: 'app-full-search',

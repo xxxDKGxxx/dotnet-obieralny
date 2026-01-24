@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 
-th, tr {
-    @apply text-white
+th,
+tr {
+  @apply text-white;
 }

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ApplicationProviderType, OfferDto } from '../../services/offers/offer-model';
+import { OfferDto } from '../../services/offers/offer-model';
 import { ProviderTypePipe } from '../provider-type-pipe';
 import { MatButtonModule } from '@angular/material/button';
+import { ApplicationProviderType } from '../../shared/enum';
 
 @Component({
   selector: 'app-offer',

@@ -4,7 +4,7 @@ import { ApplicationWithProviderTypeDto, PostApplicationRequest } from './applic
 import { apiEndpoints } from '../../api-endpoints';
 import { Observable, of } from 'rxjs';
 import { allApplications, userMockApplications } from './applications-mock';
-import { ApplicationProviderType } from '../offers/offer-model';
+import { ApplicationProviderType } from '../../shared/enum';
 
 @Injectable({
   providedIn: 'root',

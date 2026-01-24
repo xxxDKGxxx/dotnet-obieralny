@@ -1,4 +1,4 @@
-import { ApplicationProviderType } from '../offers/offer-model';
+import { ApplicationProviderType } from '../../shared/enum';
 
 export interface ApplicantContactInfo {
   email: string;
@@ -29,7 +29,7 @@ export interface ApplicationWithProviderTypeDto {
   id: number;
   offerId: number;
   userId: number | null;
-  status: string;
+  status: ApplicationStatus;
   contactInfo: ApplicantContactInfo;
   applicantFinancials: ApplicantFinancialInfo;
   personalData: ApplicantPersonalInfo;
@@ -46,4 +46,14 @@ export interface PostApplicationRequest {
   contact: ApplicantContactInfo;
   personalData: ApplicantPersonalInfo;
   providerType: ApplicationProviderType;
+}
+
+export enum ApplicationStatus {
+  Created = 'Created',
+  AwaitingSignature = 'AwaitingSignature',
+  Signed = 'Signed',
+  Granted = 'Granted',
+  AwaitingAmendments = 'AwaitingAmendments',
+  Rejected = 'Rejected',
+  Withdrawn = 'Withdrawn',
 }
