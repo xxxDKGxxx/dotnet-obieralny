@@ -11,12 +11,12 @@ public sealed class NotificationService(
 {
 	public async Task NotifyApplicationCreatedAsync(Application application)
 	{
-		var offer =  await offersRepository.GetByIdAsync(application.OfferId);
+		var offer = await offersRepository.GetByIdAsync(application.OfferId);
 
 		if (offer is null)
 		{
 			logger.LogError("Could not send status change notification: "
-			                + "Offer with id: {OfferId} not found", application.OfferId);
+							+ "Offer with id: {OfferId} not found", application.OfferId);
 			return;
 		}
 
@@ -30,12 +30,12 @@ public sealed class NotificationService(
 		Application application,
 		string? message)
 	{
-		var offer =  await offersRepository.GetByIdAsync(application.OfferId);
+		var offer = await offersRepository.GetByIdAsync(application.OfferId);
 
 		if (offer is null)
 		{
 			logger.LogError("Could not send status change notification: "
-			                + "Offer with id: {OfferId} not found", application.OfferId);
+							+ "Offer with id: {OfferId} not found", application.OfferId);
 			return;
 		}
 
@@ -58,8 +58,8 @@ public sealed class NotificationService(
 		string? message)
 	{
 		var emailContent = $"Cześć {applicantName},<br>"
-		                   + $"status twojej aplikacji o id {applicationId} na ofertę {offerTitle} został zmieniony"
-		                   + $"na {newStatus.Value}. <br><br>";
+						   + $"status twojej aplikacji o id {applicationId} na ofertę {offerTitle} został zmieniony"
+						   + $"na {newStatus.Value}. <br><br>";
 
 		if (message is not null)
 		{
