@@ -18,7 +18,19 @@ public class GetCalculatedOfferValidator : Validator<GetCalculatedOfferRequest>
 			InclusiveBetween(1, 75);
 		RuleFor(o => o.Dependants)
 			.GreaterThanOrEqualTo(0);
-		RuleFor(o => o.ProviderType).
-			NotNull();
+		RuleFor(providerType => providerType.ProviderType).
+			Custom((providerType, context) =>
+			{
+				try
+				{
+					ApplicationProviderType.FromValue(providerType);
+				}
+				catch (KeyNotFoundException)
+				{
+					context.AddFailure(
+						nameof(UpdateApplicationStatusRequest.NewStatus),
+						"Not a valid ProviderType");
+				}
+			});
 	}
 }

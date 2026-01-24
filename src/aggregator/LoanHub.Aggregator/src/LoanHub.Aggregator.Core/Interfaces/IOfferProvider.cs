@@ -10,6 +10,7 @@ public interface IOfferProvider
 	}
 
 	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(int? userId);
+	public Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(int applicationId, ApplicationStatus newStatus);
 	public Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,
 		int? UserId,
