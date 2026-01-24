@@ -1,11 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Offer } from '../../common/offer/offer';
-import {
-  ApplicationProviderType,
-  CalculatedOfferDto,
-  OfferDto,
-} from '../../services/offers/offer-model';
+import { CalculatedOfferDto, OfferDto } from '../../services/offers/offer-model';
 import { CalculatedOffer } from '../../common/calculated-offer/calculated-offer';
+import { ApplicationProviderType } from '../../shared/enum';
 
 @Component({
   selector: 'app-offers-list',

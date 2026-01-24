@@ -82,6 +82,7 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.saveToken(response.accessToken);
+          globalThis.window.location.reload();
         }),
       );
   }
@@ -92,6 +93,7 @@ export class AuthService {
     }
     this.isAuthenticated.set(false);
     this.router.navigate(['/']);
+    globalThis.window.location.reload();
   }
 
   getToken(): string | null {
