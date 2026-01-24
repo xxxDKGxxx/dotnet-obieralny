@@ -3,7 +3,7 @@ export interface UserDto {
   email: string;
   firstName: string;
   lastName: string;
-  role: string;
+  role: UserRoles;
   address?: string;
   phone?: string;
   job?: string;
@@ -11,6 +11,12 @@ export interface UserDto {
   costs?: number;
   age?: number;
   dependents?: number;
+}
+
+export enum UserRoles {
+  User = 'User',
+  Employee = 'Employee',
+  Admin = 'Admin',
 }
 
 export interface GoogleAuthResponse {

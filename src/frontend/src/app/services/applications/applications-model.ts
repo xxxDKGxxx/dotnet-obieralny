@@ -37,7 +37,6 @@ export interface ApplicationWithProviderTypeDto {
   documentId: string | null;
   providerType: ApplicationProviderType;
 }
-
 export interface PostApplicationRequest {
   offerId: number;
   userId: number | null;

@@ -2,7 +2,11 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { OffersService } from '../services/offers/offers-service';
-import { CalculatedOfferDto, OfferDto } from '../services/offers/offer-model';
+import {
+  ApplicationProviderType,
+  CalculatedOfferDto,
+  OfferDto,
+} from '../services/offers/offer-model';
 import { CalculatedOffer } from '../common/calculated-offer/calculated-offer';
 import { Offer } from '../common/offer/offer';
 import { ApplicationForm, OfferConditions } from './application-form/application-form';

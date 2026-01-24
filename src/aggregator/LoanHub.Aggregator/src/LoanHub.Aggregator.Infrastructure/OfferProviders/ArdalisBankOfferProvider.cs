@@ -63,6 +63,48 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 	};
 
+	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(int? userId)
+	{
+		var url = "applications";
+
+		if (userId.HasValue)
+		{
+			url += $"?userId={userId.Value}";
+		}
+
+		var responseMessage = await httpClient.GetAsync(url);
+
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception($"List Applications ArdalisBank Error: "
+								+ $"StatusCode: {responseMessage.StatusCode} "
+								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+		}
+
+		var content = await responseMessage.Content.ReadAsStringAsync();
+		var deserialized = JsonSerializer.Deserialize<IEnumerable<ApplicationDto>>(
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
+
+		var result = deserialized.Select(a =>
+		{
+			return new ApplicationWithProviderTypeDto(
+							a.Id,
+							a.OfferId,
+							a.UserId,
+							a.Status,
+							a.ContactInfo,
+							a.ApplicantFinancials,
+							a.PersonalData,
+							a.OfferConditions,
+							a.DocumentId,
+							ProviderType.Value);
+		});
+
+		return result;
+	}
+
 	public async Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,
 		int? UserId,
