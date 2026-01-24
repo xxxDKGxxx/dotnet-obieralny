@@ -12,6 +12,8 @@ import { ApplicationsService } from '../../services/applications/applications-se
 import { ApplicationWithProviderTypeDto } from '../../services/applications/applications-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApplicationProviderType } from '../../shared/enum';
+import { Router } from '@angular/router';
+import { ApplicationRoutes } from '../../app.routes';
 
 export interface OfferConditions {
   amount: number | null;
@@ -66,6 +68,7 @@ export class ApplicationForm implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly applicationsService = inject(ApplicationsService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
 
   private inputChangeSubject = new Subject<OfferConditions>();
 
@@ -145,6 +148,7 @@ export class ApplicationForm implements OnInit {
     this.createApplicationBasedOnLoginStatus().subscribe({
       next: (_) => {
         this.snackBar.open('Pomyślnie utworzono aplikację!');
+        this.router.navigateByUrl(ApplicationRoutes.myApplications);
       },
       error: (e) => {
         this.snackBar.open('Wystąpił błąd podczas tworzenia aplikacji. Spróbuj ponownie później.');
