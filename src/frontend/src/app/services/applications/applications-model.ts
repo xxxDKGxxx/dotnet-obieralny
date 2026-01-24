@@ -1,3 +1,5 @@
+import { ApplicationProviderType } from '../offers/offer-model';
+
 export interface ApplicantContactInfo {
   email: string;
   phoneNumber: string;
@@ -33,9 +35,8 @@ export interface ApplicationWithProviderTypeDto {
   personalData: ApplicantPersonalInfo;
   offerConditions: OfferConditions;
   documentId: string | null;
-  providerType: string;
+  providerType: ApplicationProviderType;
 }
-
 export interface PostApplicationRequest {
   offerId: number;
   userId: number | null;
@@ -44,5 +45,5 @@ export interface PostApplicationRequest {
   financials: ApplicantFinancialInfo;
   contact: ApplicantContactInfo;
   personalData: ApplicantPersonalInfo;
-  providerType: string;
+  providerType: ApplicationProviderType;
 }

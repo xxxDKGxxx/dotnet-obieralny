@@ -26,5 +26,5 @@ export interface CalculatedOfferDto {
 }
 
 export enum ApplicationProviderType {
-  ArdalisBank,
+  ArdalisBank = 'ArdalisBank',
 }

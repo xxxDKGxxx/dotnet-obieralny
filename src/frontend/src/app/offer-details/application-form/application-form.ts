@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
 import { ApplicationsService } from '../../services/applications/applications-service';
 import { ApplicationWithProviderTypeDto } from '../../services/applications/applications-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApplicationProviderType } from '../../services/offers/offer-model';
 
 export interface OfferConditions {
   amount: number | null;
@@ -37,7 +38,7 @@ export class ApplicationForm implements OnInit {
   @Input({ required: true })
   offerId!: number;
   @Input({ required: true })
-  providerType!: string;
+  providerType!: ApplicationProviderType;
   @Input()
   amount!: number;
   @Input()
