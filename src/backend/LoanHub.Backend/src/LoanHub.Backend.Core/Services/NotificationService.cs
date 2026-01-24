@@ -1,33 +1,53 @@
 using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
+using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
 using LoanHub.Backend.Core.Interfaces;
 
 namespace LoanHub.Backend.Core.Services;
 
-public sealed class NotificationService(IEmailSender emailSender) : INotificationService
+public sealed class NotificationService(
+	IEmailSender emailSender,
+	IReadRepository<Offer> offersRepository,
+	ILogger<NotificationService> logger) : INotificationService
 {
-	public async Task NotifyApplicationCreatedAsync(
-		string applicantEmailAddress,
-		string offerTitle,
-		string applicantName)
+	public async Task NotifyApplicationCreatedAsync(Application application)
 	{
+		var offer =  await offersRepository.GetByIdAsync(application.OfferId);
+
+		if (offer is null)
+		{
+			logger.LogError("Could not send status change notification: "
+			                + "Offer with id: {OfferId} not found", application.OfferId);
+			return;
+		}
+
 		await emailSender.SendEmailAsync(
-			applicantEmailAddress,
+			application.ContactInfo.Email,
 			"Utworzenie aplikacji",
-			NotifyApplicationCreatedSuccessfullyEmail(offerTitle, applicantName));
+			NotifyApplicationCreatedSuccessfullyEmail(offer.Title, application.PersonalData.FirstName));
 	}
 
 	public async Task NotifyApplicationStatusChangedAsync(
-		int applicationId,
-		string applicantEmailAddress,
-		string offerTitle,
-		string applicantName,
-		ApplicationStatus newStatus,
+		Application application,
 		string? message)
 	{
+		var offer =  await offersRepository.GetByIdAsync(application.OfferId);
+
+		if (offer is null)
+		{
+			logger.LogError("Could not send status change notification: "
+			                + "Offer with id: {OfferId} not found", application.OfferId);
+			return;
+		}
+
 		await emailSender.SendEmailAsync(
-			applicantEmailAddress,
-			$"Zmiana statusu aplikacji [ID: {applicationId}]",
-			NotifyStatusChangedEmail(applicationId, offerTitle, applicantName, newStatus, message));
+			application.ContactInfo.Email,
+			$"Zmiana statusu aplikacji [ID: {application.Id}]",
+			NotifyStatusChangedEmail(
+				application.Id,
+				offer.Title,
+				application.PersonalData.FirstName,
+				application.Status,
+				message));
 	}
 
 	private static string NotifyStatusChangedEmail(
