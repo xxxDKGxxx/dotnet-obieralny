@@ -1,5 +1,5 @@
 import { Pipe, type PipeTransform } from '@angular/core';
-import { ApplicationProviderType } from '../services/offers/offer-model';
+import { ApplicationProviderType } from '../shared/enum';
 
 @Pipe({
   name: 'appProviderType',
