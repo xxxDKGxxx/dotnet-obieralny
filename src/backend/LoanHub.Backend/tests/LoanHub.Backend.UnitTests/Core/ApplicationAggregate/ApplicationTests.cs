@@ -45,7 +45,7 @@ public class ApplicationTests
 			},
 			() =>
 			{
-				application.Status.ShouldBe(ApplicationStatus.Submitted);
+				application.Status.ShouldBe(ApplicationStatus.Created);
 			},
 			() =>
 			{
@@ -161,7 +161,7 @@ public class ApplicationTests
 		);
 
 		application.UserId.ShouldBeNull();
-		application.Status.ShouldBe(ApplicationStatus.Submitted);
+		application.Status.ShouldBe(ApplicationStatus.Created);
 		application.OfferId.ShouldBe(offerId);
 		application.IsDeleted.ShouldBeFalse();
 		application.CreatedAt.ShouldBeInRange(DateTime.UtcNow.AddSeconds(-2), DateTime.UtcNow.AddSeconds(2));

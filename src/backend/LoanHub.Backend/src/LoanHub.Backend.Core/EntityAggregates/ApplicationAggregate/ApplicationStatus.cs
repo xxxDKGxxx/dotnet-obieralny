@@ -8,7 +8,7 @@ public class ApplicationStatus(
 	/// <summary>
 	/// Client has applied for a loan
 	/// </summary>
-	public static readonly ApplicationStatus Submitted = new SubmittedApplicationStatus();
+	public static readonly ApplicationStatus Created = new CreatedApplicationStatus();
 
 	/// <summary>
 	/// Bank employee has reviewed and accepted the application, email with document sent to client
@@ -40,8 +40,8 @@ public class ApplicationStatus(
 	/// </summary>
 	public static readonly ApplicationStatus Withdrawn = new WithdrawnApplicationStatus();
 
-	private sealed class SubmittedApplicationStatus() :
-		ApplicationStatus(nameof(SubmittedApplicationStatus), nameof(Submitted))
+	private sealed class CreatedApplicationStatus() :
+		ApplicationStatus(nameof(CreatedApplicationStatus), nameof(Created))
 	{
 	}
 

@@ -27,7 +27,7 @@ public sealed class Application :
 		ApplicantFinancials = financials;
 		PersonalData = personalData;
 		OfferConditions = conditions;
-		Status = ApplicationStatus.Submitted;
+		Status = ApplicationStatus.Created;
 	}
 
 #pragma warning disable CS8618
