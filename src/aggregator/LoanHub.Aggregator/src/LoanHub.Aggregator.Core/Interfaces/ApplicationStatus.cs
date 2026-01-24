@@ -1,6 +1,4 @@
-using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
-
-namespace LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
+namespace LoanHub.Aggregator.Core.Interfaces;
 
 public abstract class ApplicationStatus(
 	string name,
@@ -42,89 +40,38 @@ public abstract class ApplicationStatus(
 	/// </summary>
 	public static readonly ApplicationStatus Withdrawn = new WithdrawnApplicationStatus();
 
-	public abstract bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho);
-
 	private sealed class CreatedApplicationStatus() :
 		ApplicationStatus(nameof(CreatedApplicationStatus), nameof(Created))
 	{
-		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
-		{
-			return newStatus switch
-			{
-				_ when newStatus == AwaitingSignature && byWho == UserRole.Employee => true,
-				_ when newStatus == Withdrawn && byWho == UserRole.User => true,
-				_ => false
-			};
-		}
 	}
 
 	private sealed class AwaitingSignatureApplicationStatus() :
 		ApplicationStatus(nameof(AwaitingSignatureApplicationStatus), nameof(AwaitingSignature))
 	{
-		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
-		{
-			return newStatus switch
-			{
-				_ when (newStatus == Signed || newStatus == Withdrawn) && byWho == UserRole.User => true,
-				_ => false
-			};
-		}
 	}
 
 	private sealed class SignedApplicationStatus() :
 		ApplicationStatus(nameof(SignedApplicationStatus), nameof(Signed))
 	{
-		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
-		{
-			return newStatus switch
-			{
-				_ when (newStatus == Granted
-					   || newStatus == Rejected
-					   || newStatus == AwaitingAmendments)
-					&& byWho == UserRole.Employee => true,
-				_ when newStatus == Withdrawn && byWho == UserRole.User => true,
-				_ => false
-			};
-		}
 	}
 
 	private sealed class GrantedApplicationStatus() :
 		ApplicationStatus(nameof(GrantedApplicationStatus), nameof(Granted))
 	{
-		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
-		{
-			return false;
-		}
 	}
 
 	private sealed class AwaitingAmendmentsApplicationStatus() :
 	ApplicationStatus(nameof(AwaitingAmendmentsApplicationStatus), nameof(AwaitingAmendments))
 	{
-		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
-		{
-			return newStatus switch
-			{
-				_ when (newStatus == Signed || newStatus == Withdrawn) && byWho == UserRole.User => true,
-				_ => false
-			};
-		}
 	}
 
 	private sealed class RejectedApplicationStatus() :
 		ApplicationStatus(nameof(RejectedApplicationStatus), nameof(Rejected))
 	{
-		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
-		{
-			return false;
-		}
 	}
 
 	private sealed class WithdrawnApplicationStatus() :
 		ApplicationStatus(nameof(WithdrawnApplicationStatus), nameof(Withdrawn))
 	{
-		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
-		{
-			return false;
-		}
 	}
 }

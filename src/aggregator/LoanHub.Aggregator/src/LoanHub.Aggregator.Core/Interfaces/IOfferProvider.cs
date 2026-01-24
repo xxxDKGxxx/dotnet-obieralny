@@ -9,6 +9,7 @@ public interface IOfferProvider
 		get;
 	}
 
+	public Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(int applicationId, ApplicationStatus newStatus);
 	public Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,
 		int? UserId,
