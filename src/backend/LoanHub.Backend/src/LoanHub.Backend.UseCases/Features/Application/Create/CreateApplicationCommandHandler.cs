@@ -66,7 +66,7 @@ public sealed class CreateApplicationCommandHandler(
 
 		newApplication = await applicationsRepository.AddAsync(newApplication, cancellationToken);
 
-		notificationService.NotifyApplicationCreated(
+		await notificationService.NotifyApplicationCreatedAsync(
 			newApplication.ContactInfo.Email,
 			offer.Title,
 			newApplication.PersonalData.FirstName);
