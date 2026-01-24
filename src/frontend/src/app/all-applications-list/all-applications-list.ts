@@ -1,9 +1,9 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ApplicationsService } from '../services/applications/applications-service';
-import { ApplicationProviderType } from '../services/offers/offer-model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ApplicationWithProviderTypeDto } from '../services/applications/applications-model';
 import { ApplicationsList } from '../common/applications-list/applications-list';
+import { ApplicationProviderType } from '../shared/enum';
 
 @Component({
   selector: 'app-all-applications-list',

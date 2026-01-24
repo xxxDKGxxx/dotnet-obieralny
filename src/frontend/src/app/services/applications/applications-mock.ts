@@ -1,5 +1,5 @@
-import { ApplicationProviderType } from '../offers/offer-model';
-import { ApplicationWithProviderTypeDto } from './applications-model';
+import { ApplicationProviderType } from '../../shared/enum';
+import { ApplicationStatus, ApplicationWithProviderTypeDto } from './applications-model';
 
 // --- Aplikacje tego samego użytkownika (Marek Łuszkiewicz) ---
 export const userMockApplications: ApplicationWithProviderTypeDto[] = [
@@ -7,7 +7,7 @@ export const userMockApplications: ApplicationWithProviderTypeDto[] = [
     id: 2,
     offerId: 1,
     userId: 2,
-    status: 'Created',
+    status: ApplicationStatus.Created,
     contactInfo: {
       email: 'marek.l@example.com',
       phoneNumber: '123456789',
@@ -36,7 +36,7 @@ export const userMockApplications: ApplicationWithProviderTypeDto[] = [
     id: 5,
     offerId: 10,
     userId: 2,
-    status: 'Accepted',
+    status: ApplicationStatus.Granted,
     contactInfo: {
       email: 'marek.l@example.com',
       phoneNumber: '123456789',
@@ -65,7 +65,7 @@ export const userMockApplications: ApplicationWithProviderTypeDto[] = [
     id: 12,
     offerId: 3,
     userId: 2,
-    status: 'Rejected',
+    status: ApplicationStatus.Rejected,
     contactInfo: {
       email: 'marek.l@example.com',
       phoneNumber: '123456789',
@@ -99,7 +99,7 @@ export const allApplications: ApplicationWithProviderTypeDto[] = [
     id: 20,
     offerId: 4,
     userId: 45,
-    status: 'In Progress',
+    status: ApplicationStatus.AwaitingSignature,
     contactInfo: {
       email: 'anna.nowak@test.pl',
       phoneNumber: '987654321',
@@ -128,7 +128,7 @@ export const allApplications: ApplicationWithProviderTypeDto[] = [
     id: 21,
     offerId: 7,
     userId: 102,
-    status: 'Created',
+    status: ApplicationStatus.Created,
     contactInfo: {
       email: 'j.kowalski@poczta.pl',
       phoneNumber: '555666777',
