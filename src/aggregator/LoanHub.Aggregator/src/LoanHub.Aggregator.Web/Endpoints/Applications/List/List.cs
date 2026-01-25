@@ -26,7 +26,8 @@ public class List(IEnumerable<IOfferProvider> offerProviders) :
 			try
 			{
 				var offers = await provider.ListApplicationsAsync(
-					req.UserId);
+					req.UserId,
+					ct);
 
 				return offers;
 			}
