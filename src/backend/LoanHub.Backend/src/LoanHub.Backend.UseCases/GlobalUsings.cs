@@ -3,6 +3,7 @@ global using Ardalis.SharedKernel;
 global using AutoMapper;
 global using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 global using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Dto;
+global using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Specifications;
 global using LoanHub.Backend.Core.EntityAggregates.AuditAggregate.Dto;
 global using LoanHub.Backend.Core.EntityAggregates.AuditAggregate.Specifications;
 global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;

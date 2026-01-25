@@ -1,3 +1,5 @@
+import { ApplicationProviderType } from '../../shared/enum';
+
 export interface OfferDto {
   id: number;
   title: string;
@@ -23,8 +25,4 @@ export interface CalculatedOfferDto {
   validFrom: Date;
   validTo: Date;
   providerType: ApplicationProviderType;
-}
-
-export enum ApplicationProviderType {
-  ArdalisBank,
 }

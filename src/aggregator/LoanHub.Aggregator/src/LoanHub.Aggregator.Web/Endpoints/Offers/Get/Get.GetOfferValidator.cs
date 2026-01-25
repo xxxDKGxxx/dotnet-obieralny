@@ -7,6 +7,18 @@ public class GetOfferValidator : Validator<GetOfferRequest>
 		RuleFor(request => request.OfferId).
 			GreaterThanOrEqualTo(0);
 		RuleFor(request => request.ProviderType).
-			NotNull();
+			Custom((providerType, context) =>
+			{
+				try
+				{
+					ApplicationProviderType.FromValue(providerType);
+				}
+				catch (KeyNotFoundException)
+				{
+					context.AddFailure(
+						nameof(UpdateApplicationStatusRequest.NewStatus),
+						"Not a valid ProviderType");
+				}
+			});
 	}
 }

@@ -1,5 +1,3 @@
-using Ardalis.SmartEnum;
-
 namespace LoanHub.Aggregator.Core.ApplicationAggregate;
 
 public class ApplicationProviderType(

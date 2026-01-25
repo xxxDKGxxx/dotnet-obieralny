@@ -58,5 +58,19 @@ public class PostApplicationValidator : Validator<PostApplicationRequest>
 				personal.RuleFor(x => x.Age)
 					.GreaterThanOrEqualTo(18);
 			});
+		RuleFor(x => x.ProviderType).
+			Custom((providerType, context) =>
+			{
+				try
+				{
+					ApplicationProviderType.FromValue(providerType);
+				}
+				catch (KeyNotFoundException)
+				{
+					context.AddFailure(
+						nameof(UpdateApplicationStatusRequest.NewStatus),
+						"Not a valid ProviderType");
+				}
+			});
 	}
 }

@@ -49,6 +49,8 @@ public sealed record PostApplicationRequest(
 	ApplicantContactInfo Contact,
 	ApplicantPersonalInfo PersonalData);
 
+public record UpdateApplicationStatusRequest(string NewStatus);
+
 public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProvider
 {
 	public ApplicationProviderType ProviderType
@@ -63,6 +65,82 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 	{
 		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 	};
+
+	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(int? userId)
+	{
+		var url = "applications";
+
+		if (userId.HasValue)
+		{
+			url += $"?userId={userId.Value}";
+		}
+
+		var responseMessage = await httpClient.GetAsync(url);
+
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception($"List Applications ArdalisBank Error: "
+								+ $"StatusCode: {responseMessage.StatusCode} "
+								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+		}
+
+		var content = await responseMessage.Content.ReadAsStringAsync();
+		var deserialized = JsonSerializer.Deserialize<IEnumerable<ApplicationDto>>(
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
+
+		var result = deserialized.Select(a =>
+		{
+			return new ApplicationWithProviderTypeDto(
+							a.Id,
+							a.OfferId,
+							a.UserId,
+							a.Status,
+							a.ContactInfo,
+							a.ApplicantFinancials,
+							a.PersonalData,
+							a.OfferConditions,
+							a.DocumentId,
+							ProviderType.Value);
+		});
+
+		return result;
+	}
+
+	public async Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(int applicationId, ApplicationStatus newStatus)
+	{
+		var responseMessage = await httpClient.PutAsJsonAsync(
+			$"applications/{applicationId}/status",
+			new UpdateApplicationStatusRequest(newStatus.Value));
+
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception($"Update Application Status ArdalisBank Error: "
+								+ $"StatusCode: {responseMessage.StatusCode} "
+								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+		}
+
+		var content = await responseMessage.Content.ReadAsStringAsync();
+		var deserialized = JsonSerializer.Deserialize<ApplicationDto>(
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
+
+		var result = new ApplicationWithProviderTypeDto(
+			deserialized.Id,
+			deserialized.OfferId,
+			deserialized.UserId,
+			deserialized.Status,
+			deserialized.ContactInfo,
+			deserialized.ApplicantFinancials,
+			deserialized.PersonalData,
+			deserialized.OfferConditions,
+			deserialized.DocumentId,
+			ProviderType.Value);
+
+		return result;
+	}
 
 	public async Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,

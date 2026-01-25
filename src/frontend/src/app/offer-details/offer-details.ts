@@ -7,6 +7,7 @@ import { CalculatedOffer } from '../common/calculated-offer/calculated-offer';
 import { Offer } from '../common/offer/offer';
 import { ApplicationForm, OfferConditions } from './application-form/application-form';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ApplicationProviderType } from '../shared/enum';
 
 @Component({
   selector: 'app-offer-details',
@@ -21,7 +22,7 @@ export class OfferDetails implements OnInit {
   protected monthlyCosts!: number | null;
   protected age!: number | null;
   protected dependants!: number | null;
-  protected providerType!: string | null;
+  protected providerType!: ApplicationProviderType;
   protected offerDto!: OfferDto | null;
   protected calculatedOfferDto!: CalculatedOfferDto | null;
 
@@ -34,8 +35,9 @@ export class OfferDetails implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([params, queryParams]) => {
         const offerIdStr = params.get('offerId');
+        const providerTypeStr = queryParams.get('providerType');
 
-        if (!offerIdStr) {
+        if (!offerIdStr || !providerTypeStr) {
           return;
         }
 
@@ -46,7 +48,7 @@ export class OfferDetails implements OnInit {
         this.monthlyCosts = Number.parseInt(queryParams.get('monthlyCosts') ?? '0', 10);
         this.age = Number.parseInt(queryParams.get('age') ?? '0', 10);
         this.dependants = Number.parseInt(queryParams.get('dependants') ?? '0', 10);
-        this.providerType = queryParams.get('providerType');
+        this.providerType = providerTypeStr as ApplicationProviderType;
 
         this.fetchOffer();
       });

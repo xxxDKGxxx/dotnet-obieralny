@@ -6,8 +6,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Subject } from 'rxjs';
+import { Observable, Subject, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { ApplicationsService } from '../../services/applications/applications-service';
+import { ApplicationWithProviderTypeDto } from '../../services/applications/applications-model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApplicationProviderType } from '../../shared/enum';
 
 export interface OfferConditions {
   amount: number | null;
@@ -31,6 +35,10 @@ export interface OfferConditions {
   templateUrl: './application-form.html',
 })
 export class ApplicationForm implements OnInit {
+  @Input({ required: true })
+  offerId!: number;
+  @Input({ required: true })
+  providerType!: ApplicationProviderType;
   @Input()
   amount!: number;
   @Input()
@@ -56,6 +64,8 @@ export class ApplicationForm implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly auth = inject(AuthService);
+  private readonly applicationsService = inject(ApplicationsService);
+  private readonly snackBar = inject(MatSnackBar);
 
   private inputChangeSubject = new Subject<OfferConditions>();
 
@@ -131,5 +141,73 @@ export class ApplicationForm implements OnInit {
     });
   }
 
-  protected applyForOffer() {}
+  protected applyForOffer() {
+    this.createApplicationBasedOnLoginStatus().subscribe({
+      next: (_) => {
+        this.snackBar.open('Pomyślnie utworzono aplikację!');
+      },
+      error: (e) => {
+        this.snackBar.open('Wystąpił błąd podczas tworzenia aplikacji. Spróbuj ponownie później.');
+        console.error(e);
+      },
+    });
+  }
+
+  private createApplicationBasedOnLoginStatus(): Observable<ApplicationWithProviderTypeDto> {
+    if (this.auth.isAuthenticated()) {
+      return this.auth.getUserProfile().pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap((val) => {
+          return this.applicationsService.createApplication({
+            offerId: this.offerId,
+            userId: val.id,
+            amount: this.amount,
+            duration: this.duration,
+            financials: {
+              income: this.monthlyIncome,
+              costs: this.monthlyCosts,
+              dependents: this.dependants,
+              job: this.job,
+            },
+            contact: {
+              email: this.email,
+              phoneNumber: this.phoneNumber,
+              address: this.address,
+            },
+            personalData: {
+              firstName: this.name,
+              lastName: this.surname,
+              age: this.age,
+            },
+            providerType: this.providerType,
+          });
+        }),
+      );
+    }
+    return this.applicationsService
+      .createApplication({
+        offerId: this.offerId,
+        userId: null,
+        amount: this.amount,
+        duration: this.duration,
+        financials: {
+          income: this.monthlyIncome,
+          costs: this.monthlyCosts,
+          dependents: this.dependants,
+          job: this.job,
+        },
+        contact: {
+          email: this.email,
+          phoneNumber: this.phoneNumber,
+          address: this.address,
+        },
+        personalData: {
+          firstName: this.name,
+          lastName: this.surname,
+          age: this.age,
+        },
+        providerType: this.providerType,
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef));
+  }
 }
