@@ -32,7 +32,7 @@ public static class InfrastructureServicesConfig
 		services.AddScoped<IOfferCalculator, OfferCalculatorService>();
 		services.AddScoped<INotificationService, NotificationService>();
 		services.AddScoped<IEmailSender, SendGridEmailSender>();
-		services.AddScoped<IBlobStorageService, BlobStorageService>();
+		services.AddScoped<IApplicationDocumentService, AzureBlobApplicationDocumentService>();
 
 		services.AddAuthenticationServices(config, logger);
 

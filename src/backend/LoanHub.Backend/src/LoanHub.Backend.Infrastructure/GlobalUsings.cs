@@ -5,6 +5,8 @@ global using System.Text;
 global using Ardalis.GuardClauses;
 global using Ardalis.SharedKernel;
 global using Ardalis.Specification.EntityFrameworkCore;
+global using Azure.Storage.Blobs;
+global using Azure.Storage.Blobs.Models;
 global using Google.Apis.Auth;
 global using LoanHub.Backend.Core;
 global using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
