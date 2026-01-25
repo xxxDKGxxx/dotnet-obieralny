@@ -1,6 +1,6 @@
+using LoanHub.Backend.Infrastructure.ApplicationDocument;
 using LoanHub.Backend.Infrastructure.Data;
 using LoanHub.Backend.Infrastructure.Email;
-using LoanHub.Backend.Infrastructure.Storage;
 
 namespace LoanHub.Backend.Infrastructure.Configs;
 
