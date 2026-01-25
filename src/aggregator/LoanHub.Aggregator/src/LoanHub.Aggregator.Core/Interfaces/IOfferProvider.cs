@@ -9,11 +9,14 @@ public interface IOfferProvider
 		get;
 	}
 
-	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(int? userId);
+	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
+		int? userId,
+		CancellationToken cancellationToken = default);
 	public Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(
 		int applicationId,
 		ApplicationStatus newStatus,
-		string? statusChangeMessage);
+		string? statusChangeMessage,
+		CancellationToken cancellationToken = default);
 	public Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,
 		int? UserId,
@@ -21,16 +24,23 @@ public interface IOfferProvider
 		uint Duration,
 		ApplicantFinancialInfo Financials,
 		ApplicantContactInfo Contact,
-		ApplicantPersonalInfo PersonalData);
-	public Task<IEnumerable<OfferWithProviderTypeDto>> ListOffersAsync(decimal amount, uint duration);
+		ApplicantPersonalInfo PersonalData,
+		CancellationToken cancellationToken = default);
+	public Task<IEnumerable<OfferWithProviderTypeDto>> ListOffersAsync(
+		decimal amount,
+		uint duration,
+		CancellationToken cancellationToken = default);
 	public Task<IEnumerable<CalculatedOfferWithProviderTypeDto>> ListCalculatedOffersAsync(
 		decimal amount,
 		uint duration,
 		decimal monthlyIncome,
 		decimal monthlyCosts,
 		int age,
-		int dependants);
-	public Task<OfferWithProviderTypeDto> GetOfferByIdAsync(int offerId);
+		int dependants,
+		CancellationToken cancellationToken = default);
+	public Task<OfferWithProviderTypeDto> GetOfferByIdAsync(
+		int offerId,
+		CancellationToken cancellationToken = default);
 	public Task<CalculatedOfferWithProviderTypeDto> GetCalculatedOfferByIdAsync(
 		int offerId,
 		decimal amount,
@@ -38,5 +48,6 @@ public interface IOfferProvider
 		decimal monthlyIncome,
 		decimal monthlyCosts,
 		int age,
-		int dependants);
+		int dependants,
+		CancellationToken cancellationToken = default);
 }
