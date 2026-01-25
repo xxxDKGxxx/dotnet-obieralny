@@ -48,4 +48,23 @@ public sealed class BlobStorageService : IBlobStorageService
 
 		return response.Value.Content;
 	}
+
+	public async Task<string> UpdateAsync(Stream content, string documentId, string contentType)
+	{
+		Guard.Against.Null(content);
+		Guard.Against.NullOrEmpty(documentId);
+		Guard.Against.NullOrEmpty(contentType);
+
+		await DeleteAsync(documentId).ConfigureAwait(false);
+
+		return await UploadAsync(content, documentId, contentType).ConfigureAwait(false);
+	}
+
+	public async Task DeleteAsync(string documentId)
+	{
+		Guard.Against.NullOrEmpty(documentId);
+
+		var blobClient = _containerClient.GetBlobClient(documentId);
+		await blobClient.DeleteAsync().ConfigureAwait(false);
+	}
 }
