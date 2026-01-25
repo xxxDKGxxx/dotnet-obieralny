@@ -27,4 +27,5 @@ export const apiEndpoints = {
     providerType: string,
   ) =>
     `${environment.apiBaseUrl}/calculated-offers/${id}?amount=${amount}&duration=${duration}&monthlyIncome=${monthlyIncome}&monthlyCosts=${monthlyCosts}&age=${age}&dependants=${dependants}&providerType=${providerType}`,
+  listApplications: () => `${environment.apiBaseUrl}/applications`,
 };

@@ -1,6 +1,3 @@
-using System.Net.Http.Json;
-using LoanHub.Aggregator.Core.Interfaces.Dtos;
-
 namespace LoanHub.Aggregator.Infrastructure.OfferProviders;
 
 public sealed record OfferDto(
@@ -37,7 +34,8 @@ public sealed record ApplicationDto(
 	ApplicantFinancialInfo ApplicantFinancials,
 	ApplicantPersonalInfo PersonalData,
 	OfferConditions OfferConditions,
-	string? DocumentId);
+	string? DocumentId,
+	string? LastStatusChangeMessage);
 
 public sealed record PostApplicationRequest(
 	int OfferId,
@@ -48,7 +46,7 @@ public sealed record PostApplicationRequest(
 	ApplicantContactInfo Contact,
 	ApplicantPersonalInfo PersonalData);
 
-public record UpdateApplicationStatusRequest(string NewStatus);
+public record UpdateApplicationStatusRequest(string NewStatus, string? StatusChangeMessage);
 
 public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProvider
 {
@@ -65,7 +63,9 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 	};
 
-	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(int? userId)
+	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
+		int? userId,
+		CancellationToken cancellationToken = default)
 	{
 		var url = "applications";
 
@@ -74,16 +74,16 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 			url += $"?userId={userId.Value}";
 		}
 
-		var responseMessage = await httpClient.GetAsync(url);
+		var responseMessage = await httpClient.GetAsync(url, cancellationToken);
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"List Applications ArdalisBank Error: "
 								+ $"StatusCode: {responseMessage.StatusCode} "
-								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
 		}
 
-		var content = await responseMessage.Content.ReadAsStringAsync();
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
 		var deserialized = JsonSerializer.Deserialize<IEnumerable<ApplicationDto>>(
 							   content,
 							   _jsonSerializerOptions)
@@ -101,26 +101,32 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 							a.PersonalData,
 							a.OfferConditions,
 							a.DocumentId,
+							a.LastStatusChangeMessage,
 							ProviderType.Value);
 		});
 
 		return result;
 	}
 
-	public async Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(int applicationId, ApplicationStatus newStatus)
+	public async Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(
+		int applicationId,
+		ApplicationStatus newStatus,
+		string? statusChangeMessage,
+		CancellationToken cancellationToken = default)
 	{
 		var responseMessage = await httpClient.PutAsJsonAsync(
 			$"applications/{applicationId}/status",
-			new UpdateApplicationStatusRequest(newStatus.Value));
+			new UpdateApplicationStatusRequest(newStatus.Value, statusChangeMessage),
+			cancellationToken);
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"Update Application Status ArdalisBank Error: "
 								+ $"StatusCode: {responseMessage.StatusCode} "
-								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
 		}
 
-		var content = await responseMessage.Content.ReadAsStringAsync();
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
 		var deserialized = JsonSerializer.Deserialize<ApplicationDto>(
 							   content,
 							   _jsonSerializerOptions)
@@ -136,6 +142,7 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 			deserialized.PersonalData,
 			deserialized.OfferConditions,
 			deserialized.DocumentId,
+			deserialized.LastStatusChangeMessage,
 			ProviderType.Value);
 
 		return result;
@@ -148,9 +155,11 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		uint Duration,
 		ApplicantFinancialInfo Financials,
 		ApplicantContactInfo Contact,
-		ApplicantPersonalInfo PersonalData)
+		ApplicantPersonalInfo PersonalData,
+		CancellationToken cancellationToken = default)
 	{
-		var responseMessage = await httpClient.PostAsJsonAsync($"applications",
+		var responseMessage = await httpClient.PostAsJsonAsync(
+			"applications",
 			new PostApplicationRequest(
 				OfferId,
 				UserId,
@@ -158,15 +167,17 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 				Duration,
 				Financials,
 				Contact,
-				PersonalData));
+				PersonalData),
+			cancellationToken);
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"Post Application ArdalisBank Error: "
-								+ $"StatusCode: {responseMessage.StatusCode} {await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"StatusCode: {responseMessage.StatusCode} "
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
 		}
 
-		var content = await responseMessage.Content.ReadAsStringAsync();
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
 		var deserialized = JsonSerializer.Deserialize<ApplicationDto>(
 							   content,
 							   _jsonSerializerOptions)
@@ -182,22 +193,29 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 			deserialized.PersonalData,
 			deserialized.OfferConditions,
 			deserialized.DocumentId,
+			deserialized.LastStatusChangeMessage,
 			ProviderType.Value);
 
 		return result;
 	}
 
-	public async Task<IEnumerable<OfferWithProviderTypeDto>> ListOffersAsync(decimal amount, uint duration)
+	public async Task<IEnumerable<OfferWithProviderTypeDto>> ListOffersAsync(
+		decimal amount,
+		uint duration,
+		CancellationToken cancellationToken = default)
 	{
-		var responseMessage = await httpClient.GetAsync($"offers?Amount={amount}&Duration={duration}");
+		var responseMessage = await httpClient.GetAsync(
+			$"offers?Amount={amount}&Duration={duration}",
+			cancellationToken);
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"List Offers ArdalisBank Error: "
-				+ $"StatusCode: {responseMessage.StatusCode} {await responseMessage.Content.ReadAsStringAsync()}");
+				+ $"StatusCode: {responseMessage.StatusCode} "
+				+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
 		}
 
-		var content = await responseMessage.Content.ReadAsStringAsync();
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
 		var deserialized = JsonSerializer.Deserialize<IEnumerable<OfferDto>>(
 		   content,
 		   _jsonSerializerOptions)
@@ -206,18 +224,18 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		var result = deserialized.Select(o =>
 		{
 			return new OfferWithProviderTypeDto(
-						o.Id,
-						o.Title,
-						o.Description,
-						o.MinAmount,
-						o.MaxAmount,
-						o.MinDuration,
-						o.MaxDuration,
-						o.MinInterestRate,
-						o.MaxInterestRate,
-						o.ValidFrom,
-						o.ValidTo,
-						ProviderType.Value);
+							o.Id,
+							o.Title,
+							o.Description,
+							o.MinAmount,
+							o.MaxAmount,
+							o.MinDuration,
+							o.MaxDuration,
+							o.MinInterestRate,
+							o.MaxInterestRate,
+							o.ValidFrom,
+							o.ValidTo,
+							ProviderType.Value);
 		});
 
 		return result;
@@ -229,23 +247,26 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		decimal monthlyIncome,
 		decimal monthlyCosts,
 		int age,
-		int dependants)
+		int dependants,
+		CancellationToken cancellationToken = default)
 	{
-		var responseMessage = await httpClient.GetAsync($"calculated-offers?Amount={amount}"
+		var responseMessage = await httpClient.GetAsync(
+			$"calculated-offers?Amount={amount}"
 			+ $"&Duration={duration}"
 			+ $"&MonthlyIncome={monthlyIncome}"
 			+ $"&MonthlyCosts={monthlyCosts}"
 			+ $"&Age={age}"
-			+ $"&Dependants={dependants}");
+			+ $"&Dependants={dependants}",
+			cancellationToken);
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"List Calculated Offers ArdalisBank Error: "
 								+ $"Status Code: {responseMessage.StatusCode}"
-								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
 		}
 
-		var content = await responseMessage.Content.ReadAsStringAsync();
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
 		var deserialized = JsonSerializer.Deserialize<IEnumerable<CalculatedOfferDto>>(
 							   content,
 							   _jsonSerializerOptions)
@@ -254,32 +275,34 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		var result = deserialized.Select(o =>
 		{
 			return new CalculatedOfferWithProviderTypeDto(
-						o.Id,
-						o.Title,
-						o.Description,
-						o.Amount,
-						o.Duration,
-						o.InterestRate,
-						o.ValidFrom,
-						o.ValidTo,
-						ProviderType.Value);
+							o.Id,
+							o.Title,
+							o.Description,
+							o.Amount,
+							o.Duration,
+							o.InterestRate,
+							o.ValidFrom,
+							o.ValidTo,
+							ProviderType.Value);
 		});
 
 		return result;
 	}
 
-	public async Task<OfferWithProviderTypeDto> GetOfferByIdAsync(int offerId)
+	public async Task<OfferWithProviderTypeDto> GetOfferByIdAsync(
+		int offerId,
+		CancellationToken cancellationToken = default)
 	{
-		var responseMessage = await httpClient.GetAsync($"offers/{offerId}");
+		var responseMessage = await httpClient.GetAsync($"offers/{offerId}", cancellationToken);
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"Get offer by id ArdalisBank Error: "
 								+ $"StatusCode: {responseMessage.StatusCode} "
-								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
 		}
 
-		var content = await responseMessage.Content.ReadAsStringAsync();
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
 		var deserialized = JsonSerializer.Deserialize<OfferDto>(content, _jsonSerializerOptions)
 						   ?? throw new JsonException("Could not deserialize response");
 
@@ -307,23 +330,26 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		decimal monthlyIncome,
 		decimal monthlyCosts,
 		int age,
-		int dependants)
+		int dependants,
+		CancellationToken cancellationToken = default)
 	{
-		var responseMessage = await httpClient.GetAsync($"calculated-offers/{offerId}?Amount={amount}"
-														+ $"&Duration={duration}"
-														+ $"&MonthlyIncome={monthlyIncome}"
-														+ $"&MonthlyCosts={monthlyCosts}"
-														+ $"&Age={age}"
-														+ $"&Dependants={dependants}");
+		var responseMessage = await httpClient.GetAsync(
+			$"calculated-offers/{offerId}?Amount={amount}"
+						+ $"&Duration={duration}"
+						+ $"&MonthlyIncome={monthlyIncome}"
+						+ $"&MonthlyCosts={monthlyCosts}"
+						+ $"&Age={age}"
+						+ $"&Dependants={dependants}",
+			cancellationToken);
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
 			throw new Exception($"Get Calculated Offers by id ArdalisBank Error: "
 								+ $"Status Code: {responseMessage.StatusCode}"
-								+ $"{await responseMessage.Content.ReadAsStringAsync()}");
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
 		}
 
-		var content = await responseMessage.Content.ReadAsStringAsync();
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
 		var deserialized = JsonSerializer.Deserialize<CalculatedOfferDto>(
 							   content,
 							   _jsonSerializerOptions)
@@ -338,6 +364,41 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 			deserialized.InterestRate,
 			deserialized.ValidFrom,
 			deserialized.ValidTo,
+			ProviderType.Value);
+
+		return result;
+	}
+
+	public async Task<ApplicationWithProviderTypeDto> GetApplicationByIdAsync(
+		int applicationId,
+		CancellationToken cancellationToken = default)
+	{
+		var responseMessage = await httpClient.GetAsync($"applications/{applicationId}", cancellationToken);
+
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception($"Get Application by id ArdalisBank Error: "
+								+ $"Status Code: {responseMessage.StatusCode}"
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
+		}
+
+		var content = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+		var deserialized = JsonSerializer.Deserialize<ApplicationDto>(
+							   content,
+							   _jsonSerializerOptions)
+						   ?? throw new JsonException("Could not deserialize response");
+
+		var result = new ApplicationWithProviderTypeDto(
+			deserialized.Id,
+			deserialized.OfferId,
+			deserialized.UserId,
+			deserialized.Status,
+			deserialized.ContactInfo,
+			deserialized.ApplicantFinancials,
+			deserialized.PersonalData,
+			deserialized.OfferConditions,
+			deserialized.DocumentId,
+			deserialized.LastStatusChangeMessage,
 			ProviderType.Value);
 
 		return result;

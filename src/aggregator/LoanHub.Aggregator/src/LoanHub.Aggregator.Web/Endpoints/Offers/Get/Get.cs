@@ -10,13 +10,12 @@ public class Get(IEnumerable<IOfferProvider> offerProviders) : Endpoint<GetOffer
 
 	public override async Task HandleAsync(GetOfferRequest req, CancellationToken ct)
 	{
-		var headers = HttpContext.Request.Headers;
-
-		var provider = offerProviders.Single(op =>
-		{
-			return op.ProviderType == ApplicationProviderType.FromValue(req.ProviderType);
-		});
-		var offer = await provider.GetOfferByIdAsync(req.OfferId);
+		var provider = offerProviders.Single(
+			op =>
+			{
+				return op.ProviderType == ApplicationProviderType.FromValue(req.ProviderType);
+			});
+		var offer = await provider.GetOfferByIdAsync(req.OfferId, ct);
 
 		Response = offer;
 	}

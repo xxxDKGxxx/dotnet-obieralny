@@ -36,5 +36,12 @@ public class UpdateApplicationStatusValidator : Validator<UpdateApplicationStatu
 						"Not a valid ProviderType");
 				}
 			});
+
+		RuleFor(x => x.StatusChangeMessage)
+			.NotEmpty()
+			.When(x =>
+			{
+				return ApplicationStatus.FromValue(x.NewStatus) == ApplicationStatus.AwaitingAmendments;
+			});
 	}
 }

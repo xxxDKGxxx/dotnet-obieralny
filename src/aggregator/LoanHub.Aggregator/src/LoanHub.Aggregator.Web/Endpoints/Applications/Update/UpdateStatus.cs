@@ -20,7 +20,9 @@ public class UpdateStatus(IEnumerable<IOfferProvider> offerProviders) :
 		var newStatusEnum = ApplicationStatus.FromValue(req.NewStatus);
 		var newApplication = await offerProvider.UpdateStatusAsync(
 			req.ApplicationId,
-			newStatusEnum);
+			newStatusEnum,
+			req.StatusChangeMessage,
+			ct);
 
 		Response = newApplication;
 	}
