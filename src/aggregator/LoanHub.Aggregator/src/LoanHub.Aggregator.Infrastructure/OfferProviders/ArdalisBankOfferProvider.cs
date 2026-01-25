@@ -37,7 +37,8 @@ public sealed record ApplicationDto(
 	ApplicantFinancialInfo ApplicantFinancials,
 	ApplicantPersonalInfo PersonalData,
 	OfferConditions OfferConditions,
-	string? DocumentId);
+	string? DocumentId,
+	string? LastStatusChangeMessage);
 
 public sealed record PostApplicationRequest(
 	int OfferId,
@@ -48,7 +49,7 @@ public sealed record PostApplicationRequest(
 	ApplicantContactInfo Contact,
 	ApplicantPersonalInfo PersonalData);
 
-public record UpdateApplicationStatusRequest(string NewStatus);
+public record UpdateApplicationStatusRequest(string NewStatus, string? StatusChangeMessage);
 
 public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProvider
 {
@@ -101,17 +102,21 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 							a.PersonalData,
 							a.OfferConditions,
 							a.DocumentId,
+							a.LastStatusChangeMessage,
 							ProviderType.Value);
 		});
 
 		return result;
 	}
 
-	public async Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(int applicationId, ApplicationStatus newStatus)
+	public async Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(
+		int applicationId,
+		ApplicationStatus newStatus,
+		string? statusChangeMessage)
 	{
 		var responseMessage = await httpClient.PutAsJsonAsync(
 			$"applications/{applicationId}/status",
-			new UpdateApplicationStatusRequest(newStatus.Value));
+			new UpdateApplicationStatusRequest(newStatus.Value, statusChangeMessage));
 
 		if (!responseMessage.IsSuccessStatusCode)
 		{
@@ -136,6 +141,7 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 			deserialized.PersonalData,
 			deserialized.OfferConditions,
 			deserialized.DocumentId,
+			deserialized.LastStatusChangeMessage,
 			ProviderType.Value);
 
 		return result;
@@ -182,6 +188,7 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 			deserialized.PersonalData,
 			deserialized.OfferConditions,
 			deserialized.DocumentId,
+			deserialized.LastStatusChangeMessage,
 			ProviderType.Value);
 
 		return result;

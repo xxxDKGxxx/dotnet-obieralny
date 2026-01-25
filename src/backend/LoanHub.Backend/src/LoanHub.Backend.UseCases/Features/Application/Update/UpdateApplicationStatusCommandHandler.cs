@@ -11,6 +11,16 @@ public class UpdateApplicationStatusCommandHandler(
 		UpdateApplicationStatusCommand request,
 		CancellationToken cancellationToken)
 	{
+		if (request.NewStatus == ApplicationStatus.AwaitingAmendments
+			&& string.IsNullOrWhiteSpace(request.StatusChangeMessage))
+		{
+			return Result.Invalid(
+				new ValidationError(
+					"StatusChangeMessage",
+					$"StatusChangeMessage is required when changing to "
+					+ $"{ApplicationStatus.AwaitingAmendments.Value}"));
+		}
+
 		var application = await applicationsRepository.GetByIdAsync(request.ApplicationId, cancellationToken);
 
 		if (application is null)
@@ -25,9 +35,17 @@ public class UpdateApplicationStatusCommandHandler(
 			return Result.NotFound($"User with {request.RequestingUserId} id not found");
 		}
 
+		var statusChangeMessage = request.StatusChangeMessage;
+
+		if (requestingUser.Role != UserRole.Employee)
+		{
+			statusChangeMessage = null;
+		}
+
 		try
 		{
 			application.SetStatus(request.NewStatus, requestingUser.Role);
+			application.SetStatusChangeMessage(statusChangeMessage);
 		}
 		catch (InvalidOperationException e)
 		{
@@ -35,9 +53,7 @@ public class UpdateApplicationStatusCommandHandler(
 		}
 
 		await applicationsRepository.UpdateAsync(application, cancellationToken);
-
-		// TODO add message handling in the future
-		await notificationService.NotifyApplicationStatusChangedAsync(application, null);
+		await notificationService.NotifyApplicationStatusChangedAsync(application, statusChangeMessage);
 
 		return Result.Success(mapper.Map<ApplicationDto>(application));
 	}

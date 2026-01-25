@@ -10,6 +10,7 @@ public record ApplicationWithProviderTypeDto(
 	ApplicantPersonalInfo PersonalData,
 	OfferConditions OfferConditions,
 	string? DocumentId,
+	string? LastStatusChangeMessage,
 	string ProviderType);
 
 public sealed record ApplicantContactInfo(string Email, string PhoneNumber, string Address);
