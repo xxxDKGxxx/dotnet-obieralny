@@ -1,6 +1,4 @@
-using FluentValidation;
-
-namespace LoanHub.Aggregator.Web.Endpoints.Applications;
+namespace LoanHub.Aggregator.Web.Endpoints.Applications.Get;
 
 public sealed class GetApplicationByIdValidator : Validator<GetApplicationByIdRequest>
 {
