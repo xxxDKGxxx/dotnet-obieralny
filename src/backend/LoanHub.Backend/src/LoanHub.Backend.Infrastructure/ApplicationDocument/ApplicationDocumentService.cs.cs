@@ -4,7 +4,7 @@ using Azure.Storage.Blobs.Models;
 using LoanHub.Backend.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-namespace LoanHub.Backend.Infrastructure.Storage;
+namespace LoanHub.Backend.Infrastructure.ApplicationDocument;
 
 public sealed class BlobStorageService : IBlobStorageService
 {
