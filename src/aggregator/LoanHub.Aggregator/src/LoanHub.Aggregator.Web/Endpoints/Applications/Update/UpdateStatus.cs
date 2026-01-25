@@ -21,6 +21,7 @@ public class UpdateStatus(IEnumerable<IOfferProvider> offerProviders) :
 		var newApplication = await offerProvider.UpdateStatusAsync(
 			req.ApplicationId,
 			newStatusEnum,
+			req.StatusChangeMessage,
 			ct);
 
 		Response = newApplication;

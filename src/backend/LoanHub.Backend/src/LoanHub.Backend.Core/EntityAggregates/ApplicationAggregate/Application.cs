@@ -14,6 +14,7 @@ public sealed class Application :
 	public ApplicantPersonalInfo PersonalData { get; private set; }
 	public OfferConditions OfferConditions { get; private set; }
 	public string? DocumentId { get; private set; } = null;
+	public string? LastStatusChangeMessage { get; private set; } = null;
 
 	public Application(
 		int offerId,
@@ -44,6 +45,11 @@ public sealed class Application :
 		}
 
 		Status = status;
+	}
+
+	public void SetStatusChangeMessage(string? message)
+	{
+		LastStatusChangeMessage = message;
 	}
 }
 

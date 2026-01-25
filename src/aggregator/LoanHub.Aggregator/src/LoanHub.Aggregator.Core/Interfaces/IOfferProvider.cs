@@ -15,6 +15,7 @@ public interface IOfferProvider
 	public Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(
 		int applicationId,
 		ApplicationStatus newStatus,
+		string? statusChangeMessage,
 		CancellationToken cancellationToken = default);
 	public Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,
