@@ -1,9 +1,10 @@
 namespace LoanHub.Backend.UseCases.Features.Application.Update;
 
-public class UpdateApplicationCommandHandler(
+public class UpdateApplicationStatusCommandHandler(
 	IRepository<ApplicationEntity> applicationsRepository,
 	IReadRepository<UserEntity> usersRepository,
-	IMapper mapper) :
+	IMapper mapper,
+	INotificationService notificationService) :
 	ICommandHandler<UpdateApplicationStatusCommand, Result<ApplicationDto>>
 {
 	public async Task<Result<ApplicationDto>> Handle(
@@ -34,6 +35,9 @@ public class UpdateApplicationCommandHandler(
 		}
 
 		await applicationsRepository.UpdateAsync(application, cancellationToken);
+
+		// TODO add message handling in the future
+		await notificationService.NotifyApplicationStatusChangedAsync(application, null);
 
 		return Result.Success(mapper.Map<ApplicationDto>(application));
 	}
