@@ -50,4 +50,8 @@ public interface IOfferProvider
 		int age,
 		int dependants,
 		CancellationToken cancellationToken = default);
+
+	public Task<ApplicationWithProviderTypeDto> GetApplicationByIdAsync(
+		int applicationId,
+		CancellationToken cancellationToken = default);
 }
