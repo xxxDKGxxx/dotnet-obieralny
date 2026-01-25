@@ -9,4 +9,5 @@ public sealed record ApplicationDto(
 	ApplicantFinancialInfo ApplicantFinancials,
 	ApplicantPersonalInfo PersonalData,
 	OfferConditions OfferConditions,
-	string? DocumentId);
+	string? DocumentId,
+	string? LastStatusChangeMessage);

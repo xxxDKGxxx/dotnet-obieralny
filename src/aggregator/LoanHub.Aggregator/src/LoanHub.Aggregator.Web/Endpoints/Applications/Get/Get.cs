@@ -15,7 +15,7 @@ public class Get(IEnumerable<IOfferProvider> offerProviders) :
 		{
 			return op.ProviderType == ApplicationProviderType.FromValue(req.ProviderType);
 		});
-		var application = await provider.GetApplicationByIdAsync(req.ApplicationId);
+		var application = await provider.GetApplicationByIdAsync(req.ApplicationId, ct);
 
 		Response = application;
 	}

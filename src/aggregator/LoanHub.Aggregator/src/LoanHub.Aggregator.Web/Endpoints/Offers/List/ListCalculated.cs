@@ -21,7 +21,8 @@ public sealed class ListCalculated(IEnumerable<IOfferProvider> offerProviders) :
 					req.MonthlyIncome,
 					req.MonthlyCosts,
 					req.Age,
-					req.Dependants);
+					req.Dependants,
+					ct);
 
 				return offers;
 			}

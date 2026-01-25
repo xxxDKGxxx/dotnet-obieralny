@@ -65,12 +65,18 @@ public sealed class ApplicationConfiguration : LoanHubBaseEntityConfiguration<Ap
 
 		var conditions = builder.OwnsOne(a => a.OfferConditions);
 
-		conditions.Property(c => c.Amount).IsRequired();
-		conditions.Property(c => c.InterestRate).IsRequired();
-		conditions.Property(c => c.Duration).IsRequired();
+		conditions.Property(c => c.Amount)
+			.IsRequired();
+		conditions.Property(c => c.InterestRate)
+			.IsRequired();
+		conditions.Property(c => c.Duration)
+			.IsRequired();
 
 		builder.Property(a => a.DocumentId)
 			.IsRequired(false);
+
+		builder.Property(a => a.LastStatusChangeMessage).
+			IsRequired(false);
 
 		builder.HasIndex(a => a.UserId);
 		builder.HasIndex(a => a.OfferId);

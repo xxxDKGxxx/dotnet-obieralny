@@ -24,7 +24,8 @@ public class UpdateStatus(IMediator mediator) : Endpoint<UpdateApplicationStatus
 		var command = new UpdateApplicationStatusCommand(
 			req.ApplicationId,
 			ApplicationStatus.FromValue(req.NewStatus),
-			userId);
+			userId,
+			req.StatusChangeMessage);
 
 		var result = await mediator.Send(command, ct);
 		await result.SendResult(this, ct: ct);
