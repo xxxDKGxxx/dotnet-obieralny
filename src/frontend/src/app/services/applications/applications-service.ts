@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ApplicationWithProviderTypeDto, PostApplicationRequest } from './applications-model';
 import { apiEndpoints } from '../../api-endpoints';
-import { Observable, of } from 'rxjs';
-import { allApplications, userMockApplications } from './applications-mock';
+import { Observable } from 'rxjs';
 import { ApplicationProviderType } from '../../shared/enum';
 
 @Injectable({
@@ -20,12 +19,18 @@ export class ApplicationsService {
     userId: number | null,
     providerType: ApplicationProviderType | null,
   ): Observable<ApplicationWithProviderTypeDto[]> {
-    void providerType;
+    let params = new HttpParams();
 
-    if (userId) {
-      return of(userMockApplications);
+    if (userId != null) {
+      params = params.set('userId', userId);
     }
 
-    return of(allApplications);
+    if (providerType != null) {
+      params = params.set('providerType', providerType);
+    }
+
+    return this.http.get<ApplicationWithProviderTypeDto[]>(apiEndpoints.listApplications(), {
+      params: params,
+    });
   }
 }
