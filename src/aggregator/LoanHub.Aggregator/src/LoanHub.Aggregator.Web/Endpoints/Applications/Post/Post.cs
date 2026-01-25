@@ -25,7 +25,8 @@ public sealed class Post(IEnumerable<IOfferProvider> offerProviders) :
 			req.Duration,
 			req.Financials,
 			req.Contact,
-			req.PersonalData);
+			req.PersonalData,
+			ct);
 
 		Response = result;
 	}

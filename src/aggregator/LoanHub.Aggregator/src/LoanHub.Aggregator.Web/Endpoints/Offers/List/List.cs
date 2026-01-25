@@ -15,7 +15,10 @@ public class List(IEnumerable<IOfferProvider> offerProviders) :
 		{
 			try
 			{
-				var offers = await provider.ListOffersAsync(req.Amount, req.Duration);
+				var offers = await provider.ListOffersAsync(
+					req.Amount,
+					req.Duration,
+					ct);
 				return offers;
 			}
 			catch (Exception ex)
