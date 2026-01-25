@@ -1,7 +1,3 @@
-using System.Net.Http.Json;
-using Azure;
-using LoanHub.Aggregator.Core.Interfaces.Dtos;
-
 namespace LoanHub.Aggregator.Infrastructure.OfferProviders;
 
 public sealed record OfferDto(
