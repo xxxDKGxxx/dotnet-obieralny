@@ -34,12 +34,16 @@ public class ApplicationStatusTests
 		var data = new TheoryData<string, string, bool>
 		{
 			{ ApplicationStatus.AwaitingSignature.Name, UserRole.Employee.Name, true },
+			{ ApplicationStatus.Rejected.Name, UserRole.Employee.Name, true },
 			{ ApplicationStatus.Withdrawn.Name, UserRole.User.Name, true },
 			{ ApplicationStatus.AwaitingSignature.Name, UserRole.User.Name, false },
+			{ ApplicationStatus.Rejected.Name, UserRole.User.Name, false },
 			{ ApplicationStatus.Withdrawn.Name, UserRole.Employee.Name, false }
 		};
 
-		foreach (var status in _allStatuses.Except([ApplicationStatus.AwaitingSignature, ApplicationStatus.Withdrawn]))
+		foreach (var status in _allStatuses.Except([
+			         ApplicationStatus.AwaitingSignature, ApplicationStatus.Rejected, ApplicationStatus.Withdrawn
+		         ]))
 		{
 			data.Add(status.Name, UserRole.Employee.Name, false);
 			data.Add(status.Name, UserRole.User.Name, false);
