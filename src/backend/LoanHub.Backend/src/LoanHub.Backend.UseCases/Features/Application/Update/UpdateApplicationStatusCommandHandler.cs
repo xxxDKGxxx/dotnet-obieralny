@@ -4,7 +4,7 @@ public class UpdateApplicationStatusCommandHandler(
 	IRepository<ApplicationEntity> applicationsRepository,
 	IReadRepository<UserEntity> usersRepository,
 	IMapper mapper,
-	INotificationService notificationService) :
+	IUpdateApplicationStatusService updateApplicationStatusService) :
 	ICommandHandler<UpdateApplicationStatusCommand, Result<ApplicationDto>>
 {
 	public async Task<Result<ApplicationDto>> Handle(
@@ -37,24 +37,20 @@ public class UpdateApplicationStatusCommandHandler(
 
 		var statusChangeMessage = request.StatusChangeMessage;
 
-		if (requestingUser.Role != UserRole.Employee)
-		{
-			statusChangeMessage = null;
-		}
-
 		try
 		{
-			application.SetStatus(request.NewStatus, requestingUser.Role);
-			application.SetStatusChangeMessage(statusChangeMessage);
+			application = await updateApplicationStatusService.UpdateStatusAsync(
+				application,
+				requestingUser,
+				request.NewStatus,
+				statusChangeMessage,
+				cancellationToken);
+
+			return Result.Success(mapper.Map<ApplicationDto>(application));
 		}
 		catch (InvalidOperationException e)
 		{
 			return Result.Conflict(e.Message);
 		}
-
-		await applicationsRepository.UpdateAsync(application, cancellationToken);
-		await notificationService.NotifyApplicationStatusChangedAsync(application, statusChangeMessage);
-
-		return Result.Success(mapper.Map<ApplicationDto>(application));
 	}
 }

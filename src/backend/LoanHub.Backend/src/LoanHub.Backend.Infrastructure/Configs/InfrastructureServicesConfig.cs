@@ -31,6 +31,7 @@ public static class InfrastructureServicesConfig
 		services.AddScoped<IOfferCalculator, OfferCalculatorService>();
 		services.AddScoped<INotificationService, NotificationService>();
 		services.AddScoped<IEmailSender, SendGridEmailSender>();
+		services.AddScoped<IUpdateApplicationStatusService, UpdateApplicationStatusService>();
 
 		services.AddAuthenticationServices(config, logger);
 
