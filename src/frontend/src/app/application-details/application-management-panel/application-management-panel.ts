@@ -25,6 +25,7 @@ export class ApplicationManagementPanel implements OnInit {
 
   protected user!: UserDto;
   protected userRoles = UserRoles;
+  protected applicationStatus = ApplicationStatus;
   protected statusStateMachine = ApplicationStatusStateMachine;
   protected statusChangeMessage = '';
 
@@ -40,6 +41,8 @@ export class ApplicationManagementPanel implements OnInit {
       .subscribe((user) => {
         this.user = user;
       });
+    
+    this.statusChangeMessage = 
   }
 
   protected doesEmployeeHaveAnyActions() {
