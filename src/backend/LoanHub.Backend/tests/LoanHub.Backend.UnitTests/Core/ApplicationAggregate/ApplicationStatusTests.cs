@@ -42,8 +42,8 @@ public class ApplicationStatusTests
 		};
 
 		foreach (var status in _allStatuses.Except([
-			         ApplicationStatus.AwaitingSignature, ApplicationStatus.Rejected, ApplicationStatus.Withdrawn
-		         ]))
+					 ApplicationStatus.AwaitingSignature, ApplicationStatus.Rejected, ApplicationStatus.Withdrawn
+				 ]))
 		{
 			data.Add(status.Name, UserRole.Employee.Name, false);
 			data.Add(status.Name, UserRole.User.Name, false);
