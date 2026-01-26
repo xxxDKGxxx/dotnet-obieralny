@@ -1,4 +1,13 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  inject,
+  INJECTOR,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -54,15 +63,29 @@ export class ApplicationForm implements OnInit {
   @Input()
   dependants!: number;
 
+  @Input()
+  readonly: boolean = false;
+
   @Output()
   conditionsChange = new EventEmitter<OfferConditions>();
 
-  protected name!: string;
-  protected surname!: string;
-  protected email!: string;
-  protected address!: string;
-  protected phoneNumber!: string;
-  protected job!: string;
+  @Input()
+  name!: string;
+
+  @Input()
+  surname!: string;
+
+  @Input()
+  email!: string;
+
+  @Input()
+  address!: string;
+
+  @Input()
+  phoneNumber!: string;
+
+  @Input()
+  job!: string;
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly auth = inject(AuthService);
@@ -145,6 +168,10 @@ export class ApplicationForm implements OnInit {
   }
 
   protected applyForOffer() {
+    if (this.readonly) {
+      return;
+    }
+
     this.createApplicationBasedOnLoginStatus().subscribe({
       next: (_) => {
         this.snackBar.open('Pomyślnie utworzono aplikację!');

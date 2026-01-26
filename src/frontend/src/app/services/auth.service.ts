@@ -92,8 +92,11 @@ export class AuthService {
       globalThis.localStorage?.removeItem(this.tokenKey);
     }
     this.isAuthenticated.set(false);
-    this.router.navigate(['/']);
-    globalThis.window.location.reload();
+    this.router.navigate(['/']).then((val) => {
+      if (val) {
+        globalThis.window.location.reload();
+      }
+    });
   }
 
   getToken(): string | null {

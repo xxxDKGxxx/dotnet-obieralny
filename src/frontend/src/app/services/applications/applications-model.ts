@@ -48,6 +48,12 @@ export interface PostApplicationRequest {
   providerType: ApplicationProviderType;
 }
 
+export interface PutApplicationStatusRequest {
+  newStatus: string;
+  providerType: string;
+  statusChangeMessage: string | null;
+}
+
 export enum ApplicationStatus {
   Created = 'Created',
   AwaitingSignature = 'AwaitingSignature',

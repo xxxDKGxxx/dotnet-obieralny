@@ -1,0 +1,56 @@
+@if (user) {
+  <mat-card class="my-4 text-white!">
+    <mat-card-header> Zarządzaj aplikacją </mat-card-header>
+    <mat-card-content>
+      Status aplikacji: <span class="font-bold">{{ application.status }}</span>
+      <div class="flex flex-col justify-between gap-4">
+        @if (user.role === userRoles.User) {
+          @if (statusStateMachine.canUserWithdraw(application.status)) {
+            <button matButton="elevated" type="button" (click)="userWithdraw()">
+              Zrezygnuj z oferty
+            </button>
+          }
+          @if (statusStateMachine.canUserUploadDocument(application.status)) {
+            <button matButton="elevated" type="button" (click)="userUploadDocument()">
+              Prześlij dokument
+            </button>
+          }
+        }
+
+        @if (user.role === userRoles.Employee && doesEmployeeHaveAnyActions()) {
+          <mat-form-field class="w-full my-2">
+            <mat-label>Powód decyzji / Uwagi dla klienta</mat-label>
+            <input
+              [(ngModel)]="statusChangeMessage"
+              class="w-full"
+              type="text"
+              #statusChangeMessageInput
+              matInput
+              placeholder="np. Brakuje podpisu na stronie 3..."
+              (input)="(0)"
+            />
+            <mat-hint>Wiadomość zostanie przesłana do użytkownika</mat-hint>
+          </mat-form-field>
+          @if (statusStateMachine.canEmployeeApprove(application.status)) {
+            <button matButton="elevated" type="button" (click)="employeeApprove()">
+              Zatwierdź
+            </button>
+          }
+          @if (statusStateMachine.canEmployeeReject(application.status)) {
+            <button matButton="elevated" type="button" (click)="employeeReject()">Odrzuć</button>
+          }
+          @if (statusStateMachine.canEmployeeRequestChanges(application.status)) {
+            <button
+              matButton="elevated"
+              type="button"
+              [disabled]="!statusChangeMessageInput.value.trim()"
+              (click)="employeeRequestChanges()"
+            >
+              Poproś o zmiany
+            </button>
+          }
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+}
