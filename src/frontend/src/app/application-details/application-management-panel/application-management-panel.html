@@ -4,6 +4,9 @@
     <mat-card-content>
       Status aplikacji: <span class="font-bold">{{ application.status }}</span>
       <div class="flex flex-col justify-between gap-4">
+        @if (application.documentId !== null) {
+          <button matButton="elevated" type="button">Pobierz przesłany dokument</button>
+        }
         @if (user.role === userRoles.User) {
           @if (statusStateMachine.canUserWithdraw(application.status)) {
             <button matButton="elevated" type="button" (click)="userWithdraw()">
@@ -11,6 +14,7 @@
             </button>
           }
           @if (statusStateMachine.canUserUploadDocument(application.status)) {
+            <button matButton="elevated" type="button">Pobierz wzór dokumentu</button>
             <button matButton="elevated" type="button" (click)="userUploadDocument()">
               Prześlij dokument
             </button>
