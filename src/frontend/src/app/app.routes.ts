@@ -6,6 +6,7 @@ import { OfferDetails } from './offer-details/offer-details';
 import { MyApplicationsList } from './my-applications-list/my-applications-list';
 import { isBankEmployeeGuard, isRegularUserGuard } from './common/route-guards/guards';
 import { AllApplicationsList } from './all-applications-list/all-applications-list';
+import { DocumentUpload } from './document-upload/document-upload';
 
 export const ApplicationRoutes = {
   search: 'search',
@@ -13,6 +14,7 @@ export const ApplicationRoutes = {
   offer: 'offer',
   myApplications: 'my-applications',
   applications: 'applications',
+  documentUpload: 'upload-document',
 };
 
 export const routes: Routes = [
@@ -30,4 +32,5 @@ export const routes: Routes = [
     component: AllApplicationsList,
     canActivate: [isBankEmployeeGuard],
   },
+  { path: ApplicationRoutes.documentUpload, component: DocumentUpload },
 ];

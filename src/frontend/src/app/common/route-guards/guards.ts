@@ -37,3 +37,23 @@ export const isBankEmployeeGuard: CanActivateFn = () => {
     }),
   );
 };
+
+// TODO Implememnt when getApplicationById is available
+// export const documentUploadGuard: CanActivateFn = (r, s) => {
+//   const auth = inject(AuthService);
+//   const applicationsService = inject(ApplicationsService);
+//   const router = inject(Router);
+
+//   const applicationId = r.queryParams['applicationId'];
+//   const documentId = r.queryParams['documentId'];
+
+//   if (!applicationId || !documentId) {
+//     return router.parseUrl('/');
+//   }
+
+//   const applicationIdAsNumber = Number.parseInt(applicationId);
+
+//   if (!applicationIdAsNumber) {
+//     return router.parseUrl('/');
+//   }
+// };
