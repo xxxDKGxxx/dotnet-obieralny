@@ -38,6 +38,17 @@ export const isBankEmployeeGuard: CanActivateFn = () => {
   );
 };
 
+export const isLoggedIn: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  if (!auth.isAuthenticated()) {
+    return router.parseUrl('/');
+  }
+
+  return true;
+};
+
 // TODO Implememnt when getApplicationById is available
 // export const documentUploadGuard: CanActivateFn = (r, s) => {
 //   const auth = inject(AuthService);

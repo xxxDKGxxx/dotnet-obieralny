@@ -51,7 +51,7 @@ public abstract class ApplicationStatus(
 		{
 			return newStatus switch
 			{
-				_ when newStatus == AwaitingSignature && byWho == UserRole.Employee => true,
+				_ when (newStatus == AwaitingSignature || newStatus == Rejected) && byWho == UserRole.Employee => true,
 				_ when newStatus == Withdrawn && byWho == UserRole.User => true,
 				_ => false
 			};

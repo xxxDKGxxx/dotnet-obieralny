@@ -28,4 +28,6 @@ export const apiEndpoints = {
   ) =>
     `${environment.apiBaseUrl}/calculated-offers/${id}?amount=${amount}&duration=${duration}&monthlyIncome=${monthlyIncome}&monthlyCosts=${monthlyCosts}&age=${age}&dependants=${dependants}&providerType=${providerType}`,
   listApplications: () => `${environment.apiBaseUrl}/applications`,
+  applicationById: (id: number) => `${environment.apiBaseUrl}/applications/${id}`,
+  applicationStatusById: (id: number) => `${environment.apiBaseUrl}/applications/${id}/status`,
 };

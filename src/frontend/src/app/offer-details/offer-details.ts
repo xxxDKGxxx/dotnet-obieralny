@@ -5,7 +5,7 @@ import { OffersService } from '../services/offers/offers-service';
 import { CalculatedOfferDto, OfferDto } from '../services/offers/offer-model';
 import { CalculatedOffer } from '../common/calculated-offer/calculated-offer';
 import { Offer } from '../common/offer/offer';
-import { ApplicationForm, OfferConditions } from './application-form/application-form';
+import { ApplicationForm, OfferConditions } from '../common/application-form/application-form';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ApplicationProviderType } from '../shared/enum';
 
