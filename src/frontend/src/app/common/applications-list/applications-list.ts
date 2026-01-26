@@ -5,6 +5,9 @@ import { OfferDto } from '../../services/offers/offer-model';
 import { OffersService } from '../../services/offers/offers-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { forkJoin, map } from 'rxjs';
+import { ApplicationProviderType } from '../../shared/enum';
+import { Router } from '@angular/router';
+import { ApplicationRoutes } from '../../app.routes';
 
 interface ApplicationWithOffer {
   application: ApplicationWithProviderTypeDto;
@@ -37,6 +40,7 @@ export class ApplicationsList implements OnInit {
 
   private readonly offersService = inject(OffersService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     const requests = this.applications.map((app) =>
@@ -51,8 +55,11 @@ export class ApplicationsList implements OnInit {
         this.applicationsWithOffers = data;
       });
   }
-  protected redirectToAppDetails(id: number) {
-    void id;
-    // console.log('In the future this will redirect to application id', id);
+  protected redirectToAppDetails(id: number, providerType: ApplicationProviderType) {
+    this.router.navigate([ApplicationRoutes.applicationDetails, id], {
+      queryParams: {
+        providerType: providerType,
+      },
+    });
   }
 }

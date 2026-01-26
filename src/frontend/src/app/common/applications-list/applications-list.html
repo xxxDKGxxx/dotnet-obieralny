@@ -56,7 +56,7 @@
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr
     class="hover:cursor-pointer"
-    (click)="redirectToAppDetails(row.application.id)"
+    (click)="redirectToAppDetails(row.application.id, row.application.providerType)"
     mat-row
     *matRowDef="let row; columns: columnsToDisplay"
   ></tr>

@@ -1,25 +1,27 @@
 <mat-card>
-  <mat-card-header>Aplikuj</mat-card-header>
+  <mat-card-header>{{ readonly ? 'Aplikacja' : 'Aplikuj' }} </mat-card-header>
   <mat-card-content>
     <form #applicationForm="ngForm" class="flex flex-col py-3" (ngSubmit)="applyForOffer()">
       <div class="grid-cols-2 grid gap-x-8">
-        <mat-form-field>
-          <mat-label> Kwota (PLN) </mat-label>
-          <input
-            name="amount"
-            [(ngModel)]="amount"
-            type="number"
-            matInput
-            required
-            min="0"
-            step="1000"
-            (change)="outputChangedOfferConditions()"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label> Okres spłaty (Miesiące) </mat-label>
-          <input name="duration" [(ngModel)]="duration" type="number" matInput required min="0" />
-        </mat-form-field>
+        @if (!readonly) {
+          <mat-form-field>
+            <mat-label> Kwota (PLN) </mat-label>
+            <input
+              name="amount"
+              [(ngModel)]="amount"
+              type="number"
+              matInput
+              required
+              min="0"
+              step="1000"
+              (change)="outputChangedOfferConditions()"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Okres spłaty (Miesiące) </mat-label>
+            <input name="duration" [(ngModel)]="duration" type="number" matInput required min="0" />
+          </mat-form-field>
+        }
         <mat-form-field>
           <mat-label> Miesięczny dochód (PLN) </mat-label>
           <input
@@ -31,6 +33,7 @@
             step="100"
             [required]="true"
             (change)="outputChangedOfferConditions()"
+            [readonly]="readonly"
           />
         </mat-form-field>
         <mat-form-field>
@@ -45,6 +48,7 @@
             step="100"
             [required]="true"
             (change)="outputChangedOfferConditions()"
+            [readonly]="readonly"
           />
         </mat-form-field>
         <mat-form-field>
@@ -58,6 +62,7 @@
             max="150"
             [required]="true"
             (change)="outputChangedOfferConditions()"
+            [readonly]="readonly"
           />
         </mat-form-field>
         <mat-form-field>
@@ -70,6 +75,7 @@
             min="0"
             [required]="true"
             (change)="outputChangedOfferConditions()"
+            [readonly]="readonly"
           />
         </mat-form-field>
       </div>
@@ -78,32 +84,76 @@
       <div class="grid-cols-2 grid gap-x-8">
         <mat-form-field>
           <mat-label> Imię </mat-label>
-          <input name="name" [(ngModel)]="name" type="text" matInput [required]="true" />
+          <input
+            name="name"
+            [(ngModel)]="name"
+            type="text"
+            matInput
+            [required]="true"
+            [readonly]="readonly"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label> Nazwisko </mat-label>
-          <input name="surname" [(ngModel)]="surname" type="text" matInput [required]="true" />
+          <input
+            name="surname"
+            [(ngModel)]="surname"
+            type="text"
+            matInput
+            [required]="true"
+            [readonly]="readonly"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label> E-mail </mat-label>
-          <input name="email" [(ngModel)]="email" type="email" matInput [required]="true" />
+          <input
+            name="email"
+            [(ngModel)]="email"
+            type="email"
+            matInput
+            [required]="true"
+            [readonly]="readonly"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label> Adres </mat-label>
-          <input name="address" [(ngModel)]="address" type="text" matInput [required]="true" />
+          <input
+            name="address"
+            [(ngModel)]="address"
+            type="text"
+            matInput
+            [required]="true"
+            [readonly]="readonly"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label> Nr telefonu </mat-label>
-          <input name="phone" [(ngModel)]="phoneNumber" type="tel" matInput [required]="true" />
+          <input
+            name="phone"
+            [(ngModel)]="phoneNumber"
+            type="tel"
+            matInput
+            [required]="true"
+            [readonly]="readonly"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label> Zawód </mat-label>
-          <input name="job" [(ngModel)]="job" type="text" matInput [required]="true" />
+          <input
+            name="job"
+            [(ngModel)]="job"
+            type="text"
+            matInput
+            [required]="true"
+            [readonly]="readonly"
+          />
         </mat-form-field>
       </div>
-      <button matButton="elevated" type="submit" [disabled]="!applicationForm.valid">
-        Aplikuj
-      </button>
+      @if (!readonly) {
+        <button matButton="elevated" type="submit" [disabled]="!applicationForm.valid">
+          Aplikuj
+        </button>
+      }
     </form>
   </mat-card-content>
 </mat-card>
