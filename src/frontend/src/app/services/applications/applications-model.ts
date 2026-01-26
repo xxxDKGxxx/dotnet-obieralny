@@ -35,6 +35,7 @@ export interface ApplicationWithProviderTypeDto {
   personalData: ApplicantPersonalInfo;
   offerConditions: OfferConditions;
   documentId: string | null;
+  lastStatusChangeMessage: string | null;
   providerType: ApplicationProviderType;
 }
 export interface PostApplicationRequest {

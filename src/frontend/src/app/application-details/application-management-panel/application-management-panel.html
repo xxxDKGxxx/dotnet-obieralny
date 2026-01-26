@@ -8,19 +8,19 @@
           <button matButton="elevated" type="button">Pobierz przesłany dokument</button>
         }
         @if (user.role === userRoles.User) {
-          <mat-form-field class="w-full my-2">
-            <mat-label>Powód ostatniej zmiany statusu:</mat-label>
-            <input
-              [(ngModel)]="statusChangeMessage"
-              class="w-full"
-              type="text"
-              #statusChangeMessageInput
-              matInput
-              placeholder="np. Brakuje podpisu na stronie 3..."
-              (input)="(0)"
-            />
-            <mat-hint>Wiadomość zostanie przesłana do użytkownika</mat-hint>
-          </mat-form-field>
+          @if (statusChangeMessage !== null) {
+            <mat-form-field class="w-full my-2">
+              <mat-label>Powód ostatniej zmiany statusu:</mat-label>
+              <input
+                [(ngModel)]="statusChangeMessage"
+                class="w-full"
+                type="text"
+                matInput
+                [readonly]="true"
+                (input)="(0)"
+              />
+            </mat-form-field>
+          }
           @if (statusStateMachine.canUserWithdraw(application.status)) {
             <button matButton="elevated" type="button" (click)="userWithdraw()">
               Zrezygnuj z oferty

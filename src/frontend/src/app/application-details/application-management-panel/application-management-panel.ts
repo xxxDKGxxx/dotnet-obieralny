@@ -27,7 +27,7 @@ export class ApplicationManagementPanel implements OnInit {
   protected userRoles = UserRoles;
   protected applicationStatus = ApplicationStatus;
   protected statusStateMachine = ApplicationStatusStateMachine;
-  protected statusChangeMessage = '';
+  protected statusChangeMessage: string | null = null;
 
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
@@ -41,8 +41,8 @@ export class ApplicationManagementPanel implements OnInit {
       .subscribe((user) => {
         this.user = user;
       });
-    
-    this.statusChangeMessage = 
+
+    this.statusChangeMessage = this.application.lastStatusChangeMessage;
   }
 
   protected doesEmployeeHaveAnyActions() {
