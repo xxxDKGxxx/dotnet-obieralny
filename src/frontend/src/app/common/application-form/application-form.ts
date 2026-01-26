@@ -1,13 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  EventEmitter,
-  inject,
-  INJECTOR,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
