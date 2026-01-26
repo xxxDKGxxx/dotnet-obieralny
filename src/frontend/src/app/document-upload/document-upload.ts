@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ApplicationProviderType } from '../shared/enum';
 
 @Component({
   selector: 'app-document-upload',
@@ -15,6 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 export class DocumentUpload implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
+  protected selectedFile: File | null = null;
+  protected isDragging = false;
+  protected errorMessage: string | null = null;
   protected applicationId!: number;
 
   private readonly activatedRoute = inject(ActivatedRoute);
@@ -22,10 +26,7 @@ export class DocumentUpload implements OnInit {
   private readonly router = inject(Router);
 
   private documentId!: string;
-
-  selectedFile: File | null = null;
-  isDragging = false;
-  errorMessage: string | null = null;
+  private providerType!: ApplicationProviderType;
 
   protected onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -85,8 +86,9 @@ export class DocumentUpload implements OnInit {
       next: (params) => {
         const applicationId = params['applicationId'];
         const documentId = params['documentId'];
+        const providerType = params['providerType'];
 
-        if (!applicationId || !documentId) {
+        if (!applicationId || !documentId || !providerType) {
           this.router.navigateByUrl('/');
           return;
         }
@@ -99,6 +101,7 @@ export class DocumentUpload implements OnInit {
         }
         this.applicationId = applicationIdAsNumber;
         this.documentId = documentId;
+        this.providerType = providerType as ApplicationProviderType;
       },
     });
   }
