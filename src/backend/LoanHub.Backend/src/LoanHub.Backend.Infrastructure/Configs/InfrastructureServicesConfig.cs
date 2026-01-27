@@ -1,3 +1,4 @@
+using LoanHub.Backend.Core.Interfaces.ApplicationDocumentService;
 using LoanHub.Backend.Infrastructure.ApplicationDocument;
 using LoanHub.Backend.Infrastructure.Data;
 using LoanHub.Backend.Infrastructure.Email;

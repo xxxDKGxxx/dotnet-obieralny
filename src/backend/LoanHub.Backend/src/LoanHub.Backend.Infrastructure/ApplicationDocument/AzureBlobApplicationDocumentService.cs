@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core.Interfaces.ApplicationDocumentService;
+
 namespace LoanHub.Backend.Infrastructure.ApplicationDocument;
 
 public sealed class AzureBlobApplicationDocumentService : IApplicationDocumentService
@@ -15,21 +17,9 @@ public sealed class AzureBlobApplicationDocumentService : IApplicationDocumentSe
 		_containerClient = new BlobContainerClient(connectionString, containerName);
 	}
 
-	public async Task<string> UploadNewAsync(
-		Stream content,
-		int applicationId,
-		string contentType,
-		string fileExtension,
-		CancellationToken cancellationToken = default)
+	public string ReserveNew(int applicationId)
 	{
-		if (!fileExtension.StartsWith('.'))
-		{
-			fileExtension = "." + fileExtension;
-		}
-
-		var fileName = $"{applicationId}_{Guid.NewGuid()}{fileExtension}";
-
-		return await UploadAsync(content, fileName, contentType, cancellationToken);
+		return $"{applicationId}_{Guid.NewGuid()}.docx";
 	}
 
 	public async Task<string> UploadAsync(
@@ -40,6 +30,15 @@ public sealed class AzureBlobApplicationDocumentService : IApplicationDocumentSe
 	{
 		Guard.Against.Null(content);
 		Guard.Against.NullOrEmpty(contentType);
+		Guard.Against.NullOrEmpty(documentId);
+
+		var extension = Path.GetExtension(documentId);
+
+		if (extension is null || !extension.Equals(".docx", StringComparison.InvariantCultureIgnoreCase))
+		{
+			throw new ArgumentException($"The document id '{documentId}' is not a valid document format. "
+										+ $"Expected docx");
+		}
 
 		var blobClient = _containerClient.GetBlobClient(documentId);
 
@@ -48,18 +47,26 @@ public sealed class AzureBlobApplicationDocumentService : IApplicationDocumentSe
 			HttpHeaders = new BlobHttpHeaders { ContentType = contentType }
 		};
 
-		await blobClient.UploadAsync(content, uploadOptions, cancellationToken);
+		await blobClient.UploadAsync(
+			content,
+			uploadOptions,
+			cancellationToken);
 
 		return documentId;
 	}
 
-	public async Task<Stream> DownloadAsync(string documentId, CancellationToken cancellationToken = default)
+	public async Task<ApplicationDocumentDto> DownloadAsync(
+		string documentId,
+		CancellationToken cancellationToken = default)
 	{
 		Guard.Against.NullOrEmpty(documentId);
 
 		var blobClient = _containerClient.GetBlobClient(documentId);
 		var response = await blobClient.DownloadStreamingAsync(cancellationToken: cancellationToken);
 
-		return response.Value.Content;
+		return new ApplicationDocumentDto(
+			response.Value.Content,
+			response.Value.Details.ContentType,
+			documentId);
 	}
 }
