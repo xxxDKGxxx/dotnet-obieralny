@@ -82,6 +82,7 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.saveToken(response.accessToken);
+          globalThis.window.location.reload();
         }),
       );
   }
@@ -91,7 +92,11 @@ export class AuthService {
       globalThis.localStorage?.removeItem(this.tokenKey);
     }
     this.isAuthenticated.set(false);
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).then((val) => {
+      if (val) {
+        globalThis.window.location.reload();
+      }
+    });
   }
 
   getToken(): string | null {

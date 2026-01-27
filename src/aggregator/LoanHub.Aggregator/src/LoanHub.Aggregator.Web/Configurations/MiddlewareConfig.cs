@@ -16,6 +16,8 @@ public static class MiddlewareConfig
 			app.UseHsts();
 		}
 
+		app.UseHeaderPropagation();
+
 		app.UseFastEndpoints()
 			.UseSwaggerGen();
 
@@ -33,8 +35,8 @@ public static class MiddlewareConfig
 		try
 		{
 			var context = services.GetRequiredService<AppDbContext>();
-			await context.Database.MigrateAsync();
 			_ = await context.Database.EnsureCreatedAsync();
+			await context.Database.MigrateAsync();
 			await SeedData.InitializeAsync(context);
 		}
 		catch (Exception ex)

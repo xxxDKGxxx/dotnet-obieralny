@@ -1,5 +1,3 @@
-using LoanHub.Backend.Core.Interfaces.ApplicationDocumentService;
-
 namespace LoanHub.Backend.Infrastructure.ApplicationDocument;
 
 public sealed class AzureBlobApplicationDocumentService : IApplicationDocumentService

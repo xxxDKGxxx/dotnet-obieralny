@@ -1,4 +1,5 @@
 using LoanHub.Backend.Web.Configurations;
+using LoanHub.Backend.Web.Middleware;
 
 namespace LoanHub.Backend.Web;
 
@@ -53,6 +54,8 @@ public sealed class Program
 						AllowCredentials();
 				});
 			});
+
+			builder.Services.AddTransient<AuditMiddleware>();
 
 			var app = builder.Build();
 

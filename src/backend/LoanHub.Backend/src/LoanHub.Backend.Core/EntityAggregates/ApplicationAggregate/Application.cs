@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
+
 namespace LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 
 public sealed class Application :
@@ -12,6 +14,7 @@ public sealed class Application :
 	public ApplicantPersonalInfo PersonalData { get; private set; }
 	public OfferConditions OfferConditions { get; private set; }
 	public string? DocumentId { get; private set; } = null;
+	public string? LastStatusChangeMessage { get; private set; } = null;
 
 	public Application(
 		int offerId,
@@ -34,11 +37,20 @@ public sealed class Application :
 	private Application() { /* EF */ }
 #pragma warning restore CS8618
 
-	private void SetStatus(ApplicationStatus status)
+	public void SetStatus(ApplicationStatus status, UserRole byWho)
 	{
+		if (!Status.CanTransitionTo(status, byWho))
+		{
+			throw new InvalidOperationException($"Cannot transition from {Status.Value} to {status.Value}.");
+		}
+
 		Status = status;
 	}
 
+	public void SetStatusChangeMessage(string? message)
+	{
+		LastStatusChangeMessage = message;
+	}
 }
 
 public sealed record ApplicantContactInfo(string Email, string PhoneNumber, string Address);

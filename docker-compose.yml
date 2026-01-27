@@ -43,8 +43,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:100
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LoanHubAggregator;User Id=sa;Password=Password1!;TrustServerCertificate=True;
-      - DefaultBankUrl=http://backend:90/api/v1
-      - ArdalisBankUrl=http://backend:90/api/v1
+      - DefaultBankUrl=http://backend:90/api/v1/
+      - ArdalisBankUrl=http://backend:90/api/v1/
     ports:
       - "5001:100"
     networks:
