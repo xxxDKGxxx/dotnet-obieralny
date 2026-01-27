@@ -4,9 +4,15 @@ import { FullSearch } from './full-search/full-search';
 import { UserProfileComponent } from './user-profile/user-profile';
 import { OfferDetails } from './offer-details/offer-details';
 import { MyApplicationsList } from './my-applications-list/my-applications-list';
-import { isBankEmployeeGuard, isLoggedIn, isRegularUserGuard } from './common/route-guards/guards';
+import {
+  documentUploadGuard,
+  isBankEmployeeGuard,
+  isLoggedIn,
+  isRegularUserGuard,
+} from './common/route-guards/guards';
 import { AllApplicationsList } from './all-applications-list/all-applications-list';
 import { ApplicationDetails } from './application-details/application-details';
+import { DocumentUpload } from './document-upload/document-upload';
 
 export const ApplicationRoutes = {
   search: 'search',
@@ -15,6 +21,7 @@ export const ApplicationRoutes = {
   myApplications: 'my-applications',
   applications: 'applications',
   applicationDetails: 'application',
+  documentUpload: 'upload-document',
 };
 
 export const routes: Routes = [
@@ -36,5 +43,10 @@ export const routes: Routes = [
     path: `${ApplicationRoutes.applicationDetails}/:applicationId`,
     component: ApplicationDetails,
     canActivate: [isLoggedIn],
+  },
+  {
+    path: ApplicationRoutes.documentUpload,
+    component: DocumentUpload,
+    canActivate: [documentUploadGuard],
   },
 ];
