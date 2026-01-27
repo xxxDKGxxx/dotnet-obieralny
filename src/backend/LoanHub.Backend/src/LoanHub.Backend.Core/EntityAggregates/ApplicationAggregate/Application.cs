@@ -51,6 +51,12 @@ public sealed class Application :
 	{
 		LastStatusChangeMessage = message;
 	}
+
+	public void SetDocumentId(string? documentId)
+	{
+		Guard.Against.NullOrWhiteSpace(documentId);
+		DocumentId = documentId;
+	}
 }
 
 public sealed record ApplicantContactInfo(string Email, string PhoneNumber, string Address);

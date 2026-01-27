@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices.ComTypes;
 using Ardalis.GuardClauses;
+using LoanHub.Backend.Core.Interfaces.ApplicationDocumentService;
 
 namespace LoanHub.Backend.UseCases.Features.Application.Create;
 
@@ -9,7 +10,8 @@ public sealed class CreateApplicationCommandHandler(
 	IReadRepository<UserEntity> usersRepository,
 	IOfferCalculator offerCalculator,
 	IMapper mapper,
-	INotificationService notificationService) :
+	INotificationService notificationService,
+	IApplicationDocumentService applicationDocumentService) :
 	ICommandHandler<CreateApplicationCommand, Result<ApplicationDto>>
 {
 	public async Task<Result<ApplicationDto>> Handle(
@@ -65,7 +67,9 @@ public sealed class CreateApplicationCommandHandler(
 			offerConditions);
 
 		newApplication = await applicationsRepository.AddAsync(newApplication, cancellationToken);
+		newApplication.SetDocumentId(applicationDocumentService.ReserveNew(newApplication.Id));
 
+		await applicationsRepository.UpdateAsync(newApplication, cancellationToken);
 		await notificationService.NotifyApplicationCreatedAsync(newApplication);
 
 		return Result.Success(mapper.Map<ApplicationDto>(newApplication));
