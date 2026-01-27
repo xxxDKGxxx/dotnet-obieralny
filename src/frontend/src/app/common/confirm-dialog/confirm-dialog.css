@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+
+.text-warn {
+  @apply text-xs! text-gray-400!;
+}
