@@ -1,0 +1,11 @@
+<h2 mat-dialog-title class="text-white!">Potwierdzenie</h2>
+<mat-dialog-content>
+  <p class="text-white!">{{ data.message }}</p>
+  <p class="text-xs! text-gray-400!">Tej operacji nie można cofnąć.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false" class="text-white!">Anuluj</button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" class="text-white!">
+    Potwierdź
+  </button>
+</mat-dialog-actions>

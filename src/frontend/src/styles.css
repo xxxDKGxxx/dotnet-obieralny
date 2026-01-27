@@ -60,3 +60,7 @@ input {
 .user-dropdown-menu .mat-mdc-menu-item:hover {
   background-color: #2a4a6f !important;
 }
+
+.mat-mdc-dialog-surface {
+  @apply bg-card!;
+}

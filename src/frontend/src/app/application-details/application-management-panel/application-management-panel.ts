@@ -13,10 +13,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ApplicationsService } from '../../services/applications/applications-service';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialog } from '../../common/confirm-dialog/confirm-dialog';
+import { filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-application-management-panel',
-  imports: [MatCardModule, MatButtonModule, MatInputModule, MatFormFieldModule, FormsModule],
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatDialogModule,
+  ],
   templateUrl: './application-management-panel.html',
 })
 export class ApplicationManagementPanel implements OnInit {
@@ -33,6 +43,7 @@ export class ApplicationManagementPanel implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly applicationsService = inject(ApplicationsService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.authService
@@ -54,15 +65,25 @@ export class ApplicationManagementPanel implements OnInit {
   }
 
   protected updateStatus(newStatus: ApplicationStatus) {
-    this.applicationsService
-      .updateApplicationStatus(this.application.id, {
-        newStatus: newStatus,
-        providerType: this.application.providerType,
-        statusChangeMessage: this.statusChangeMessage,
-      })
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        message: `Czy na pewno chcesz zmienić status na "${newStatus}"?`,
+      },
+      width: '400px',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((result) => result === true),
+        switchMap(() => {
+          return this.performStatusUpdate(newStatus);
+        }),
+      )
       .subscribe({
-        next: () => {
-          globalThis.window.location.reload();
+        next: (val) => {
+          this.application = val;
+          this.statusChangeMessage = this.application.lastStatusChangeMessage;
         },
         error: () => {
           this.snackBar.open('Wystąpił błąd podczas zmieniania statusu');
@@ -108,6 +129,14 @@ export class ApplicationManagementPanel implements OnInit {
     }
 
     this.updateStatus(ApplicationStatus.Signed);
+  }
+
+  private performStatusUpdate(newStatus: ApplicationStatus) {
+    return this.applicationsService.updateApplicationStatus(this.application.id, {
+      newStatus: newStatus,
+      providerType: this.application.providerType,
+      statusChangeMessage: this.statusChangeMessage,
+    });
   }
 }
 

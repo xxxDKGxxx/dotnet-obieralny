@@ -23,7 +23,7 @@
           }
           @if (statusStateMachine.canUserWithdraw(application.status)) {
             <button matButton="elevated" type="button" (click)="userWithdraw()">
-              Zrezygnuj z oferty
+              Zrezygnuj z aplikacji
             </button>
           }
           @if (statusStateMachine.canUserUploadDocument(application.status)) {
