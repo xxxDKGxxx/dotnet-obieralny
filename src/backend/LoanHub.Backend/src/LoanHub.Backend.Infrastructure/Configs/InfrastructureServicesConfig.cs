@@ -1,3 +1,4 @@
+using LoanHub.Backend.Infrastructure.ApplicationDocument;
 using LoanHub.Backend.Infrastructure.Data;
 using LoanHub.Backend.Infrastructure.Email;
 
@@ -31,6 +32,7 @@ public static class InfrastructureServicesConfig
 		services.AddScoped<IOfferCalculator, OfferCalculatorService>();
 		services.AddScoped<INotificationService, NotificationService>();
 		services.AddScoped<IEmailSender, SendGridEmailSender>();
+		services.AddScoped<IApplicationDocumentService, AzureBlobApplicationDocumentService>();
 		services.AddScoped<IUpdateApplicationStatusService, UpdateApplicationStatusService>();
 
 		services.AddAuthenticationServices(config, logger);
