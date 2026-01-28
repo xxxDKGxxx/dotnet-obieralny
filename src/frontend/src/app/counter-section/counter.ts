@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -9,7 +9,6 @@ import { CounterService } from '../services/counter/counter.service';
   standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './counter.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Counter implements OnInit {
   private readonly counterService = inject(CounterService);

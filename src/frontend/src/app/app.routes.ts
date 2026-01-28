@@ -5,6 +5,7 @@ import { UserProfileComponent } from './user-profile/user-profile';
 import { OfferDetails } from './offer-details/offer-details';
 import { MyApplicationsList } from './my-applications-list/my-applications-list';
 import {
+  applicationDetailsGuard,
   documentUploadGuard,
   isBankEmployeeGuard,
   isLoggedIn,
@@ -42,7 +43,7 @@ export const routes: Routes = [
   {
     path: `${ApplicationRoutes.applicationDetails}/:applicationId`,
     component: ApplicationDetails,
-    canActivate: [isLoggedIn],
+    canActivate: [applicationDetailsGuard],
   },
   {
     path: ApplicationRoutes.documentUpload,

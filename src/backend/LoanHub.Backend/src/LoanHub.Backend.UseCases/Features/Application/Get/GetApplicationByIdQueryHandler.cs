@@ -24,13 +24,12 @@ public sealed class GetApplicationByIdQueryHandler(
 			return Result.Unauthorized();
 		}
 
-		if (application.UserId is not null
-			 && application.UserId != user.Id
-			 && user.Role != UserRole.Admin
-			 && user.Role != UserRole.Employee)
+		if ((application.UserId is null
+			    || (application.UserId is not null
+			        && application.UserId != user.Id))
+		    && user.Role == UserRole.User)
 		{
 			return Result.Forbidden();
-
 		}
 
 		return Result.Success(mapper.Map<ApplicationDto>(application));

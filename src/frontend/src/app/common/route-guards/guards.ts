@@ -19,6 +19,9 @@ export const isRegularUserGuard: CanActivateFn = () => {
       }
       return router.parseUrl('/');
     }),
+    catchError(() => {
+      return of(router.parseUrl('/'));
+    }),
   );
 };
 
@@ -36,6 +39,9 @@ export const isBankEmployeeGuard: CanActivateFn = () => {
       }
       return router.parseUrl('/');
     }),
+    catchError(() => {
+      return of(router.parseUrl('/'));
+    }),
   );
 };
 
@@ -50,7 +56,50 @@ export const isLoggedIn: CanActivateFn = () => {
   return true;
 };
 
-// TODO Implememnt when getApplicationById is available
+export const applicationDetailsGuard: CanActivateFn = (r) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  if (!auth.isAuthenticated()) {
+    return router.parseUrl('/');
+  }
+
+  const applicationsService = inject(ApplicationsService);
+
+  const applicationId = r.params['applicationId'];
+  const providerType = r.queryParams['providerType'];
+
+  if (!applicationId || !providerType) {
+    return router.parseUrl('/');
+  }
+
+  const appIdAsNumber = Number.parseInt(applicationId);
+
+  if (isNaN(appIdAsNumber)) {
+    return router.parseUrl('/');
+  }
+
+  return combineLatest([
+    applicationsService.getById(appIdAsNumber, providerType),
+    auth.getUserProfile(),
+  ]).pipe(
+    map(([appDto, userDto]) => {
+      if (userDto.role === UserRoles.Employee) {
+        return true;
+      }
+
+      if (appDto.userId === userDto.id) {
+        return true;
+      }
+
+      return false;
+    }),
+    catchError(() => {
+      return of(router.parseUrl('/'));
+    }),
+  );
+};
+
 export const documentUploadGuard: CanActivateFn = (r) => {
   const auth = inject(AuthService);
   const applicationsService = inject(ApplicationsService);
