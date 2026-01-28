@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
 using LoanHub.Backend.Core.Interfaces;
@@ -9,6 +10,17 @@ public sealed class NotificationService(
 	IReadRepository<Offer> offersRepository,
 	ILogger<NotificationService> logger) : INotificationService
 {
+	private static readonly Dictionary<ApplicationStatus, string> _applicationStatusMap = new()
+	{
+		{ ApplicationStatus.Created, "Utworzona" },
+		{ ApplicationStatus.AwaitingSignature, "Czeka na podpis" },
+		{ ApplicationStatus.Signed, "Podpisana" },
+		{ ApplicationStatus.Granted, "Zaakceptowana" },
+		{ ApplicationStatus.AwaitingAmendments, "Czeka na poprawki" },
+		{ ApplicationStatus.Rejected, "Odrzucona" },
+		{ ApplicationStatus.Withdrawn, "Wycofana" }
+	};
+
 	public async Task NotifyApplicationCreatedAsync(Application application)
 	{
 		var offer = await offersRepository.GetByIdAsync(application.OfferId);
@@ -58,8 +70,8 @@ public sealed class NotificationService(
 		string? message)
 	{
 		var emailContent = $"Cześć {applicantName},<br>"
-						   + $"status twojej aplikacji o id {applicationId} na ofertę {offerTitle} został zmieniony"
-						   + $"na {newStatus.Value}. <br><br>";
+						   + $"status twojej aplikacji o id {applicationId} na ofertę {offerTitle} został zmieniony "
+						   + $"na {_applicationStatusMap[newStatus]}. <br><br>";
 
 		if (message is not null)
 		{

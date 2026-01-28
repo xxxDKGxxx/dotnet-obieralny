@@ -8,6 +8,7 @@ import { forkJoin, map } from 'rxjs';
 import { ApplicationProviderType } from '../../shared/enum';
 import { Router } from '@angular/router';
 import { ApplicationRoutes } from '../../app.routes';
+import { AppStatusPipe } from '../app-status-pipe';
 
 interface ApplicationWithOffer {
   application: ApplicationWithProviderTypeDto;
@@ -16,7 +17,7 @@ interface ApplicationWithOffer {
 
 @Component({
   selector: 'app-applications-list',
-  imports: [MatTableModule],
+  imports: [MatTableModule, AppStatusPipe],
   templateUrl: './applications-list.html',
   styleUrl: './applications-list.css',
 })

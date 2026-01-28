@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialog } from '../../common/confirm-dialog/confirm-dialog';
 import { filter, switchMap } from 'rxjs';
+import { AppStatusPipe } from '../../common/app-status-pipe';
 
 @Component({
   selector: 'app-application-management-panel',
@@ -26,6 +27,7 @@ import { filter, switchMap } from 'rxjs';
     MatFormFieldModule,
     FormsModule,
     MatDialogModule,
+    AppStatusPipe,
   ],
   templateUrl: './application-management-panel.html',
 })
@@ -44,6 +46,7 @@ export class ApplicationManagementPanel implements OnInit {
   private readonly applicationsService = inject(ApplicationsService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
+  private readonly appStatusPipe = new AppStatusPipe();
 
   ngOnInit(): void {
     this.authService
@@ -67,7 +70,7 @@ export class ApplicationManagementPanel implements OnInit {
   protected updateStatus(newStatus: ApplicationStatus) {
     const dialogRef = this.dialog.open(ConfirmDialog, {
       data: {
-        message: `Czy na pewno chcesz zmienić status na "${newStatus}"?`,
+        message: `Czy na pewno chcesz zmienić status na "${this.appStatusPipe.transform(newStatus)}"?`,
       },
       width: '400px',
     });
