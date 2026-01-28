@@ -2,7 +2,7 @@
   <mat-card class="my-4 text-white!">
     <mat-card-header> Zarządzaj aplikacją </mat-card-header>
     <mat-card-content>
-      Status aplikacji: <span class="font-bold">{{ application.status }}</span>
+      Status aplikacji: <span class="font-bold">{{ application.status | appStatus }}</span>
       <div class="flex flex-col justify-between gap-4">
         @if (application.status === applicationStatus.Signed) {
           <button matButton="elevated" type="button">Pobierz przesłany dokument</button>
