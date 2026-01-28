@@ -1,5 +1,3 @@
-using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
-
 namespace LoanHub.Aggregator.Infrastructure.Data.DbContextFactories;
 
 public sealed class DesignTimeAppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>

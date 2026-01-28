@@ -1,6 +1,6 @@
 namespace LoanHub.Aggregator.Web.Endpoints.Applications.Post;
 
-public sealed class Post(IEnumerable<IOfferProvider> offerProviders) :
+public sealed class Post(IEnumerable<IOfferProvider> offerProviders, ICounterRepository counterRepository) :
 	Endpoint<PostApplicationRequest, ApplicationWithProviderTypeDto>
 {
 	public override void Configure()
@@ -27,6 +27,8 @@ public sealed class Post(IEnumerable<IOfferProvider> offerProviders) :
 			req.Contact,
 			req.PersonalData,
 			ct);
+
+		await counterRepository.IncrementAtomicAsync(ct);
 
 		Response = result;
 	}

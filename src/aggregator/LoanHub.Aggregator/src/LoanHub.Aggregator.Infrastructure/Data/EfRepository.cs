@@ -1,5 +1,3 @@
-using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
-
 namespace LoanHub.Aggregator.Infrastructure.Data;
 
 // inherit from Ardalis.Specification type

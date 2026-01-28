@@ -1,4 +1,5 @@
 using LoanHub.Aggregator.Infrastructure.Data;
+using LoanHub.Aggregator.Infrastructure.Data.Repositories;
 using LoanHub.Aggregator.Infrastructure.OfferProviders;
 
 namespace LoanHub.Aggregator.Infrastructure.Configs;
@@ -17,7 +18,8 @@ public static class InfrastructureServicesConfig
 		}
 
 		services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
-			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
+			   .AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>))
+			   .AddScoped<ICounterRepository, EfCounterRepository>();
 
 		logger.LogInformation("{Project} services registered", "Infrastructure");
 

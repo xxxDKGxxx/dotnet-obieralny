@@ -20,7 +20,7 @@ export class Counter implements OnInit {
       .getCounterData()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => {
-        this.counterCount = data.count;
+        this.counterCount = data.value;
       });
   }
 }
