@@ -1,3 +1,4 @@
+global using Ardalis.GuardClauses;
 global using Ardalis.Result;
 global using Ardalis.SharedKernel;
 global using AutoMapper;
@@ -12,6 +13,7 @@ global using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Dto;
 global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Specifications;
 global using LoanHub.Backend.Core.Interfaces;
+global using LoanHub.Backend.Core.Interfaces.ApplicationDocumentService;
 global using MediatR;
 global using Microsoft.Extensions.Logging;
 global using ApplicationEntity = LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Application;

@@ -1,7 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
-using Ardalis.GuardClauses;
-using LoanHub.Backend.Core.Interfaces.ApplicationDocumentService;
-
 namespace LoanHub.Backend.UseCases.Features.Application.Create;
 
 public sealed class CreateApplicationCommandHandler(

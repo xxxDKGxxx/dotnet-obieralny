@@ -1,5 +1,4 @@
 using LoanHub.Aggregator.Infrastructure.Data;
-using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
 using LoanHub.Aggregator.Infrastructure.Data.Interceptors;
 
 namespace LoanHub.Aggregator.Infrastructure.Configs;
