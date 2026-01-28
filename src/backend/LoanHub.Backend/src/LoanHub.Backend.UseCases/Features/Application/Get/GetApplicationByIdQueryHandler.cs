@@ -25,9 +25,9 @@ public sealed class GetApplicationByIdQueryHandler(
 		}
 
 		if ((application.UserId is null
-			    || (application.UserId is not null
-			        && application.UserId != user.Id))
-		    && user.Role == UserRole.User)
+				|| (application.UserId is not null
+					&& application.UserId != user.Id))
+			&& user.Role == UserRole.User)
 		{
 			return Result.Forbidden();
 		}

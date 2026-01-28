@@ -8,7 +8,6 @@ import {
   applicationDetailsGuard,
   documentUploadGuard,
   isBankEmployeeGuard,
-  isLoggedIn,
   isRegularUserGuard,
 } from './common/route-guards/guards';
 import { AllApplicationsList } from './all-applications-list/all-applications-list';
