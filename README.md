@@ -2,7 +2,7 @@
 
 Student project for course 'Web applications utilising .NET framework' at WUT MiNI.
 
-![Alt](https://repobeats.axiom.co/api/embed/xxxDKGxxx/LoanHub.svg)
+![Alt](https://repobeats.axiom.co/api/embed/xxxDKGxxx/LoanHub.svg?branch=develop)
 
 # Authors
 
