@@ -7,7 +7,7 @@ public interface IUpdateApplicationStatusService
 {
 	public Task<Application> UpdateStatusAsync(
 		Application application,
-		User requestingUser,
+		UserRole requestingUserRole,
 		ApplicationStatus newStatus,
 		string? statusChangeMessage = null,
 		CancellationToken cancellationToken = default);

@@ -92,10 +92,8 @@ export class AuthService {
       globalThis.localStorage?.removeItem(this.tokenKey);
     }
     this.isAuthenticated.set(false);
-    this.router.navigate(['/']).then((val) => {
-      if (val) {
-        globalThis.window.location.reload();
-      }
+    this.router.navigate(['/']).then(() => {
+      globalThis.window.location.reload();
     });
   }
 
