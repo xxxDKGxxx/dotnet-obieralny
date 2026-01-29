@@ -44,5 +44,5 @@ Thumbs.db
 .angular/
 
 .env
-.reports/
-.test-results/
+reports/
+test-results/
