@@ -63,6 +63,29 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 	};
 
+	public async Task<ApplicationDocumentDto> DownloadDocumentTemplateAsync(
+		CancellationToken cancellationToken = default)
+	{
+		var responseMessage = await httpClient.GetAsync(
+			"documents/template",
+			HttpCompletionOption.ResponseHeadersRead,
+			cancellationToken);
+
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception($"List Applications ArdalisBank Error: "
+								+ $"StatusCode: {responseMessage.StatusCode} "
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
+		}
+
+		var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationToken);
+
+		var contentType = responseMessage.Content.Headers.ContentType?.ToString() ?? "application/octet-stream";
+		var fileName = responseMessage.Content.Headers.ContentDisposition?.FileName?.Trim('"') ?? "plik";
+
+		return new ApplicationDocumentDto(stream, contentType, fileName);
+	}
+
 	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
 		int? userId,
 		CancellationToken cancellationToken = default)
