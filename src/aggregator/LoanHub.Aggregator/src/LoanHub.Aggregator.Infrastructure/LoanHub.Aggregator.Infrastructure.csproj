@@ -29,4 +29,10 @@
     <ProjectReference Include="..\LoanHub.Aggregator.Core\LoanHub.Aggregator.Core.csproj" />
   </ItemGroup>
   
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http.Features">
+      <HintPath>..\..\..\..\..\..\..\..\..\home\xxxdkgxxx\.nuget\packages\microsoft.aspnetcore.app.ref\9.0.11\ref\net9.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
 </Project>
