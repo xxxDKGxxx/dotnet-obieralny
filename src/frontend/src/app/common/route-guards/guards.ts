@@ -119,13 +119,7 @@ export const documentUploadGuard: CanActivateFn = (r) => {
   }
 
   if (!auth.isAuthenticated()) {
-    return applicationsService.getById(appIdAsNumber, providerType).pipe(
-      map((app) => {
-        const isValid = app.userId === null && app.documentId === documentId;
-        return isValid ? true : router.parseUrl('/');
-      }),
-      catchError(() => of(router.parseUrl('/'))),
-    );
+    return true;
   }
 
   return combineLatest([

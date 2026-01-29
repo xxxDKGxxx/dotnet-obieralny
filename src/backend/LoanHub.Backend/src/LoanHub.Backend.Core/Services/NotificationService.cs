@@ -1,11 +1,13 @@
-using System.Runtime.CompilerServices;
 using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate;
 using LoanHub.Backend.Core.EntityAggregates.OfferAggregate;
 using LoanHub.Backend.Core.Interfaces;
 
 namespace LoanHub.Backend.Core.Services;
 
+public sealed record NotificationSettings(string FrontendOrigin);
+
 public sealed class NotificationService(
+	NotificationSettings settings,
 	IEmailSender emailSender,
 	IReadRepository<Offer> offersRepository,
 	ILogger<NotificationService> logger) : INotificationService
@@ -20,6 +22,8 @@ public sealed class NotificationService(
 		{ ApplicationStatus.Rejected, "Odrzucona" },
 		{ ApplicationStatus.Withdrawn, "Wycofana" }
 	};
+
+	private readonly string _frontendOrigin = settings.FrontendOrigin;
 
 	public async Task NotifyApplicationCreatedAsync(Application application)
 	{
@@ -59,15 +63,17 @@ public sealed class NotificationService(
 				offer.Title,
 				application.PersonalData.FirstName,
 				application.Status,
-				message));
+				message,
+				application.DocumentId));
 	}
 
-	private static string NotifyStatusChangedEmail(
+	private string NotifyStatusChangedEmail(
 		int applicationId,
 		string offerTitle,
 		string applicantName,
 		ApplicationStatus newStatus,
-		string? message)
+		string? message,
+		string? documentId)
 	{
 		var emailContent = $"Cześć {applicantName},<br>"
 						   + $"status twojej aplikacji o id {applicationId} na ofertę {offerTitle} został zmieniony "
@@ -76,6 +82,17 @@ public sealed class NotificationService(
 		if (message is not null)
 		{
 			emailContent += $"Wiadomość dołączona do zmiany statusu:<br>{message}<br><br>";
+		}
+
+		if (newStatus.AcceptsDocumentUploads() && documentId is not null)
+		{
+			var uploadLink = $"{_frontendOrigin}/upload-document"
+			                 + $"?applicationId={applicationId}"
+			                 + $"&documentId={documentId}"
+			                 + $"&providerType=ArdalisBank";
+
+			emailContent += "Nowy status wymaga załączenia dokumentu. Dokument możesz przesłać pod adresem:<br>" +
+			                $"<a href=\"{uploadLink}\">{uploadLink}</a><br><br>";
 		}
 
 		emailContent += "Pozdrawiamy, zespół ArdalisBank";
