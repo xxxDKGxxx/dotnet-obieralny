@@ -44,6 +44,8 @@ public abstract class ApplicationStatus(
 
 	public abstract bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho);
 
+	public abstract bool AcceptsDocumentUploads();
+
 	private sealed class CreatedApplicationStatus() :
 		ApplicationStatus(nameof(CreatedApplicationStatus), nameof(Created))
 	{
@@ -55,6 +57,11 @@ public abstract class ApplicationStatus(
 				_ when newStatus == Withdrawn && byWho == UserRole.User => true,
 				_ => false
 			};
+		}
+
+		public override bool AcceptsDocumentUploads()
+		{
+			return false;
 		}
 	}
 
@@ -68,6 +75,11 @@ public abstract class ApplicationStatus(
 				_ when (newStatus == Signed || newStatus == Withdrawn) && byWho == UserRole.User => true,
 				_ => false
 			};
+		}
+
+		public override bool AcceptsDocumentUploads()
+		{
+			return true;
 		}
 	}
 
@@ -86,12 +98,22 @@ public abstract class ApplicationStatus(
 				_ => false
 			};
 		}
+
+		public override bool AcceptsDocumentUploads()
+		{
+			return false;
+		}
 	}
 
 	private sealed class GrantedApplicationStatus() :
 		ApplicationStatus(nameof(GrantedApplicationStatus), nameof(Granted))
 	{
 		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
+		{
+			return false;
+		}
+
+		public override bool AcceptsDocumentUploads()
 		{
 			return false;
 		}
@@ -108,6 +130,11 @@ public abstract class ApplicationStatus(
 				_ => false
 			};
 		}
+
+		public override bool AcceptsDocumentUploads()
+		{
+			return true;
+		}
 	}
 
 	private sealed class RejectedApplicationStatus() :
@@ -117,12 +144,22 @@ public abstract class ApplicationStatus(
 		{
 			return false;
 		}
+
+		public override bool AcceptsDocumentUploads()
+		{
+			return false;
+		}
 	}
 
 	private sealed class WithdrawnApplicationStatus() :
 		ApplicationStatus(nameof(WithdrawnApplicationStatus), nameof(Withdrawn))
 	{
 		public override bool CanTransitionTo(ApplicationStatus newStatus, UserRole byWho)
+		{
+			return false;
+		}
+
+		public override bool AcceptsDocumentUploads()
 		{
 			return false;
 		}
