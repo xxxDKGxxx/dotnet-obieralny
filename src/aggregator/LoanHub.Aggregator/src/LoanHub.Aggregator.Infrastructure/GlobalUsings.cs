@@ -1,7 +1,6 @@
 global using System.Net.Http.Json;
 global using System.Reflection;
 global using System.Text.Json;
-global using Ardalis.GuardClauses;
 global using Ardalis.SharedKernel;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using LoanHub.Aggregator.Core;

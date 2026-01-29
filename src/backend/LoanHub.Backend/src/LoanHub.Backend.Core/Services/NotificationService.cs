@@ -87,12 +87,12 @@ public sealed class NotificationService(
 		if (newStatus.AcceptsDocumentUploads() && documentId is not null)
 		{
 			var uploadLink = $"{_frontendOrigin}/upload-document"
-			                 + $"?applicationId={applicationId}"
-			                 + $"&documentId={documentId}"
-			                 + $"&providerType=ArdalisBank";
+							 + $"?applicationId={applicationId}"
+							 + $"&documentId={documentId}"
+							 + $"&providerType=ArdalisBank";
 
 			emailContent += "Nowy status wymaga załączenia dokumentu. Dokument możesz przesłać pod adresem:<br>" +
-			                $"<a href=\"{uploadLink}\">{uploadLink}</a><br><br>";
+							$"<a href=\"{uploadLink}\">{uploadLink}</a><br><br>";
 		}
 
 		emailContent += "Pozdrawiamy, zespół ArdalisBank";

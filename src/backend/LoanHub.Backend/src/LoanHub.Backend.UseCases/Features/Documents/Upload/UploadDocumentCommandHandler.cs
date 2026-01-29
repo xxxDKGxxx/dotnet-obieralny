@@ -31,7 +31,7 @@ public class UploadDocumentCommandHandler(
 		if (request.RequestingUserId is null && application.UserId is not null)
 		{
 			return Result.Conflict("Application is not an anonymous application. "
-			                       + "Uploading documents requires authenticated user");
+								   + "Uploading documents requires authenticated user");
 		}
 
 		if (request.RequestingUserId is not null)

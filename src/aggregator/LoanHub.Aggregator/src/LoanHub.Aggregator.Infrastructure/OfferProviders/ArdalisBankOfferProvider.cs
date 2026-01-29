@@ -1,3 +1,5 @@
+using System.Net.Http.Headers;
+
 namespace LoanHub.Aggregator.Infrastructure.OfferProviders;
 
 public sealed record OfferDto(
@@ -62,6 +64,35 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 	{
 		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 	};
+
+	public async Task UploadDocumentAsync(
+		Stream document,
+		string contentType,
+		int applicationId,
+		string documentId,
+		string fileName,
+		CancellationToken cancellationToken = default)
+	{
+		using var content = new MultipartFormDataContent
+		{
+			{ new StringContent(applicationId.ToString()), "ApplicationId" },
+			{ new StringContent(documentId), "DocumentId" }
+		};
+
+		using var fileContent = new StreamContent(document);
+
+		fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+		content.Add(fileContent, "Document", fileName);
+
+		var responseMessage = await httpClient.PostAsync($"documents", content, cancellationToken);
+
+		if (!responseMessage.IsSuccessStatusCode)
+		{
+			throw new Exception($"Upload Document ArdalisBank Error: "
+								+ $"StatusCode: {responseMessage.StatusCode} "
+								+ $"{await responseMessage.Content.ReadAsStringAsync(cancellationToken)}");
+		}
+	}
 
 	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
 		int? userId,

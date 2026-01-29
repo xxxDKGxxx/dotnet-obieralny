@@ -36,7 +36,7 @@ public static class InfrastructureServicesConfig
 		services.AddScoped<IUpdateApplicationStatusService, UpdateApplicationStatusService>();
 
 		var frontendOrigin = config.GetSection("FrontendOrigin").Value
-		                     ?? throw new Exception("Frontend origin missing from configuration");
+							 ?? throw new Exception("Frontend origin missing from configuration");
 
 		services.AddSingleton(new NotificationSettings(frontendOrigin));
 

@@ -16,7 +16,10 @@ public class UploadDocumentValidator : Validator<UploadDocumentRequest>
 			Cascade(CascadeMode.Stop)
 			.NotNull()
 				.WithMessage("Document is required.")
-			.Must(file => file.Length > 0)
+			.Must(file =>
+			{
+				return file.Length > 0;
+			})
 				.WithMessage("File cannot be empty.")
 			.Must(BeAValidDocx)
 				.WithMessage("Allow file extensions: .docx.");
