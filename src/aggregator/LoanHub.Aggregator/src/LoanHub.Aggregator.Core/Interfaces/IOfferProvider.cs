@@ -15,6 +15,7 @@ public interface IOfferProvider
 		string documentId,
 		string fileName,
 		CancellationToken cancellationToken = default);
+	public Task<ApplicationDocumentDto> DownloadDocumentTemplateAsync(CancellationToken cancellationToken = default);
 	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
 		int? userId,
 		CancellationToken cancellationToken = default);
