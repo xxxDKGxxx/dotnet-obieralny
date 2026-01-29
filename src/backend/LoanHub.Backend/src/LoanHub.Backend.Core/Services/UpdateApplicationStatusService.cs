@@ -10,17 +10,17 @@ public class UpdateApplicationStatusService(
 {
 	public async Task<Application> UpdateStatusAsync(
 		Application application,
-		User requestingUser,
+		UserRole requestingUserRole,
 		ApplicationStatus newStatus,
 		string? statusChangeMessage = null,
 		CancellationToken cancellationToken = default)
 	{
-		if (requestingUser.Role != UserRole.Employee)
+		if (requestingUserRole != UserRole.Employee)
 		{
 			statusChangeMessage = null;
 		}
 
-		application.SetStatus(newStatus, requestingUser.Role);
+		application.SetStatus(newStatus, requestingUserRole);
 		application.SetStatusChangeMessage(statusChangeMessage);
 
 		await applicationsRepository.UpdateAsync(application, cancellationToken);
