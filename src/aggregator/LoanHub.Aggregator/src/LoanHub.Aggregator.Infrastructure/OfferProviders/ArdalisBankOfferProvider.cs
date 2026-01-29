@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-
 namespace LoanHub.Aggregator.Infrastructure.OfferProviders;
 
 public sealed record OfferDto(
