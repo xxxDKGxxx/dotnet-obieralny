@@ -31,7 +31,7 @@ public class DownloadDocumentQueryHandler(
 
 		if (application.UserId != requestingUser.Id && requestingUser.Role != UserRole.Employee)
 		{
-			return Result.Forbidden("Requesting user does not have permissions to downlaod document "
+			return Result.Forbidden("Requesting user does not have permissions to download document "
 			                        + "for this application");
 		}
 

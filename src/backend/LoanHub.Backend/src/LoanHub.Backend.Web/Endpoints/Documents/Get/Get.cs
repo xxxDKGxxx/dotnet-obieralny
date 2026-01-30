@@ -21,5 +21,7 @@ public class Get(IMediator mediator) : Endpoint<GetDocumentRequest>
 		}
 
 		var query = new DownloadDocumentQuery(userId, req.ApplicationId, req.DocumentId);
+		var result =  await mediator.Send(query, ct);
+
 	}
 }
