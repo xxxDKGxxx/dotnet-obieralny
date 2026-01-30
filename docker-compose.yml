@@ -24,9 +24,11 @@ services:
       - Authentication__Jwt__SecretKey=YourSuperSecretJwtKeyThatShouldBeAtLeast32CharactersLong123456
       - Authentication__Google__ClientId=791367453262-9f4jj6qq2388m974o4dr7n4gp6vmiegc.apps.googleusercontent.com
       - FrontendOrigin=http://localhost:8080
-      - SendGrid__ApiKey=ApiKey
-      - AzureBlob__ConnectionString=SecretConnectionString
-      - AzureBlob__Container=SecretContainerName
+      - SendGrid__ApiKey=${SendGrid_SecretApiKey}
+      - AzureBlob__ConnectionString=${AzureBlob_SecretConnectionString}
+      - AzureBlob__Container=${AzureBlob_SecretContainerName}
+      - TemplateName=Template dokumentu.docx
+
     ports:
       - "5000:90"
     networks:
@@ -67,7 +69,7 @@ services:
       - loanhub-local
     depends_on:
       - aggregator
-
+      
 networks:
   loanhub-local:
     driver: bridge
