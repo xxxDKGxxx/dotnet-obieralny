@@ -4,10 +4,8 @@ using LoanHub.Backend.Core.Interfaces;
 
 namespace LoanHub.Backend.Core.Services;
 
-public sealed record NotificationSettings(string FrontendOrigin);
-
 public sealed class NotificationService(
-	NotificationSettings settings,
+	IEmailLinkProvider emailLinkProvider,
 	IEmailSender emailSender,
 	IReadRepository<Offer> offersRepository,
 	ILogger<NotificationService> logger) : INotificationService
@@ -22,8 +20,6 @@ public sealed class NotificationService(
 		{ ApplicationStatus.Rejected, "Odrzucona" },
 		{ ApplicationStatus.Withdrawn, "Wycofana" }
 	};
-
-	private readonly string _frontendOrigin = settings.FrontendOrigin;
 
 	public async Task NotifyApplicationCreatedAsync(Application application)
 	{
@@ -86,13 +82,14 @@ public sealed class NotificationService(
 
 		if (newStatus.AcceptsDocumentUploads() && documentId is not null)
 		{
-			var uploadLink = $"{_frontendOrigin}/upload-document"
-							 + $"?applicationId={applicationId}"
-							 + $"&documentId={documentId}"
-							 + $"&providerType=ArdalisBank";
+			var uploadLink = emailLinkProvider.GetUploadLink(documentId, applicationId);
+			var templateLink = emailLinkProvider.GetTemplateLink();
 
-			emailContent += "Nowy status wymaga załączenia dokumentu. Dokument możesz przesłać pod adresem:<br>" +
-							$"<a href=\"{uploadLink}\">{uploadLink}</a><br><br>";
+			emailContent += "Nowy status wymaga załączenia dokumentu. Dokument możesz przesłać pod adresem:<br>"
+							+ $"<a href=\"{uploadLink}\">{uploadLink}</a><br><br>";
+
+			emailContent += "Wzór dokumentu możesz pobrać pod adresem:<br>"
+							+ $"<a href=\"{templateLink}\">{templateLink}</a><br><br>";
 		}
 
 		emailContent += "Pozdrawiamy, zespół ArdalisBank";

@@ -9,6 +9,10 @@ public class GetTemplate(IMediator mediator, IConfiguration configuration) : End
 		Version(1);
 		AllowAnonymous();
 		Get("/documents/template");
+		Description(x =>
+		{
+			x.WithName(GetType().FullName!);
+		});
 	}
 
 	public override async Task HandleAsync(CancellationToken ct)
