@@ -1,3 +1,5 @@
+using LoanHub.Backend.Web.Email;
+
 namespace LoanHub.Backend.Web.Configurations;
 
 public static class ServiceConfigs
