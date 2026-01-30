@@ -14,7 +14,6 @@ global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Dto;
 global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Specifications;
 global using LoanHub.Backend.Core.Interfaces;
 global using LoanHub.Backend.Core.Interfaces.ApplicationDocumentService;
-global using LoanHub.Backend.UseCases.Features.Authentication.Test;
 global using MediatR;
 global using Microsoft.Extensions.Logging;
 global using ApplicationEntity = LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Application;
