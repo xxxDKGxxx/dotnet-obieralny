@@ -1,3 +1,5 @@
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
+
 namespace LoanHub.Backend.Web.Endpoints.User.Update;
 
 public class UpdateUserRequestValidator : Validator<UpdateUserRequest>
@@ -5,16 +7,21 @@ public class UpdateUserRequestValidator : Validator<UpdateUserRequest>
 	public UpdateUserRequestValidator()
 	{
 		RuleFor(x => x.FirstName)
-			.MaximumLength(50);
+			.MaximumLength(UserConstants.FirstNameMaxLength)
+			.NotEmpty()
+			.NotNull();
 
 		RuleFor(x => x.LastName)
-			.MaximumLength(50);
+			.MaximumLength(UserConstants.LastNameMaxLength)
+			.NotEmpty()
+			.NotNull();
 
 		RuleFor(x => x.Address)
-			.MaximumLength(200);
+			.MaximumLength(UserConstants.AddressMaxLength)
+			.NotEmpty();
 
 		RuleFor(x => x.Phone)
-			.MaximumLength(9)
+			.MaximumLength(UserConstants.PhoneMaxLength)
 			.Matches(@"^[0-9]{9}$")
 			.When(x =>
 			{
@@ -22,14 +29,16 @@ public class UpdateUserRequestValidator : Validator<UpdateUserRequest>
 			});
 
 		RuleFor(x => x.Job)
-			.MaximumLength(100);
-
-		RuleFor(x => x.Age)
-			.InclusiveBetween(18, 120)
+			.MaximumLength(UserConstants.JobMaxLength)
 			.When(x =>
 			{
-				return x.Age.HasValue;
+				return !string.IsNullOrEmpty(x.Job);
 			});
+
+		RuleFor(x => x.Age)
+			.NotEmpty()
+			.NotNull()
+			.InclusiveBetween(UserConstants.MinAge, UserConstants.MaxAge);
 
 		RuleFor(x => x.Income)
 			.GreaterThanOrEqualTo(0)
@@ -40,13 +49,14 @@ public class UpdateUserRequestValidator : Validator<UpdateUserRequest>
 
 		RuleFor(x => x.Costs)
 			.GreaterThanOrEqualTo(0)
+			.LessThan(x => x.Income)
 			.When(x =>
 			{
 				return x.Costs.HasValue;
 			});
 
 		RuleFor(x => x.Dependents)
-			.GreaterThanOrEqualTo(0)
+			.InclusiveBetween(0, UserConstants.MaxDependents)
 			.When(x =>
 			{
 				return x.Dependents.HasValue;
