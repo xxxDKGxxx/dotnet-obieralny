@@ -20,3 +20,4 @@ global using ApplicationEntity = LoanHub.Backend.Core.EntityAggregates.Applicati
 global using AuditEntity = LoanHub.Backend.Core.EntityAggregates.AuditAggregate.Audit;
 global using OfferEntity = LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Offer;
 global using UserEntity = LoanHub.Backend.Core.EntityAggregates.UserAggregate.User;
+global using LoanHub.Backend.UseCases.Features.Authentication.Test;

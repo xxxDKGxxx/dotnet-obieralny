@@ -15,6 +15,7 @@ global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
 global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Dto;
 global using LoanHub.Backend.Infrastructure.Configs;
 global using LoanHub.Backend.UseCases.Features.Authentication.Login;
+global using LoanHub.Backend.UseCases.Features.Authentication.Test;
 global using LoanHub.Backend.UseCases.Features.Offer.List;
 global using LoanHub.Backend.UseCases.Features.User.Get;
 global using LoanHub.Backend.UseCases.Features.User.Update;

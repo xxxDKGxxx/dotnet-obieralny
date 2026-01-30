@@ -45,6 +45,10 @@ public static class MiddlewareConfig
 		{
 			var context = services.GetRequiredService<AppDbContext>();
 			await context.Database.MigrateAsync();
+			if (app.Environment.IsDevelopment())
+			{
+				await SeedData.InitializeTestAsync(context);
+			}
 			await SeedData.InitializeAsync(context);
 		}
 		catch (Exception ex)

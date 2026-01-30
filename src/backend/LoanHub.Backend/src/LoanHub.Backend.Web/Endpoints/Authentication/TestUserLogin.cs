@@ -1,7 +1,7 @@
-namespace LoanHub.Backend.Web.Endpoints.Authentication;
+namespace LoanHub.Backend.Web.Endpoints.Authentication.TestUserLogin;
 
 public sealed class TestUserLogin(
-	IMediator mediator) : Endpoint<GoogleAuthRequest, GoogleAuthResponse>
+	IMediator mediator) : Endpoint<TestUserLoginRequest, TokenDto>
 {
 	public override void Configure()
 	{
@@ -15,11 +15,9 @@ public sealed class TestUserLogin(
 		});
 	}
 
-	public override async Task HandleAsync(GoogleAuthRequest request, CancellationToken ct)
+	public override async Task HandleAsync(TestUserLoginRequest request, CancellationToken ct)
 	{
-		if()
-
-		var command = new LoginCommand(LoginType.Google, request.Token);
+		var command = new TestLoginCommand(request.Email);
 		var result = await mediator.Send(command, ct);
 
 		await result.SendResult(this, ct);

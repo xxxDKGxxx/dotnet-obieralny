@@ -1,3 +1,7 @@
+using FastEndpoints;
+using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Specifications;
+using Microsoft.AspNetCore.Http;
+
 namespace LoanHub.Backend.Infrastructure.Data;
 
 public static class SeedData
@@ -11,6 +15,29 @@ public static class SeedData
 		{
 			await SeedOffers(dbContext);
 		}
+	}
+
+	public static async Task InitializeTestAsync(AppDbContext dbContext)
+	{
+		var user = new User("test@mail.com", "Test", "Mock", UserRole.User);
+		var employee = new User("test@bank.com", "Test", "Employee", UserRole.Employee);
+
+		if (!dbContext.Set<User>().Any(u => u.Email == user.Email))
+		{
+			await SeedTestUser(dbContext,user);
+		}
+
+		if (!dbContext.Set<User>().Any(u => u.Email == employee.Email))
+		{
+			await SeedTestUser(dbContext, employee);
+		}
+
+	}
+
+	private static async Task SeedTestUser(AppDbContext dbContext, User user)
+	{
+		await dbContext.AddAsync(user);
+		_ = await dbContext.SaveChangesAsync();
 	}
 
 	private static async Task SeedOffers(AppDbContext dbContext)
