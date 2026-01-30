@@ -1,6 +1,7 @@
 namespace LoanHub.Backend.Web.Endpoints.Authentication.TestUserLogin;
 
 public sealed class TestUserLogin(
+	IHostEnvironment environment,
 	IMediator mediator) : Endpoint<TestUserLoginRequest, TokenDto>
 {
 	public override void Configure()
@@ -17,9 +18,16 @@ public sealed class TestUserLogin(
 
 	public override async Task HandleAsync(TestUserLoginRequest request, CancellationToken ct)
 	{
-		var command = new TestLoginCommand(request.Email);
-		var result = await mediator.Send(command, ct);
+		if (environment.IsDevelopment())
+		{
+			var command = new TestLoginCommand(request.Email);
+			var result = await mediator.Send(command, ct);
 
-		await result.SendResult(this, ct);
+			await result.SendResult(this, ct);
+		}
+		else
+		{
+			HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+		}
 	}
 }
