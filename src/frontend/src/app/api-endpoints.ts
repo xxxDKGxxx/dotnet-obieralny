@@ -31,4 +31,5 @@ export const apiEndpoints = {
   listApplications: () => `${environment.apiBaseUrl}/applications`,
   applicationById: (id: number) => `${environment.apiBaseUrl}/applications/${id}`,
   applicationStatusById: (id: number) => `${environment.apiBaseUrl}/applications/${id}/status`,
+  documents: () => `${environment.apiBaseUrl}/documents`,
 };

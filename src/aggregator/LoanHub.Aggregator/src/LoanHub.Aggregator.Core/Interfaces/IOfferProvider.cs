@@ -9,6 +9,13 @@ public interface IOfferProvider
 		get;
 	}
 
+	public Task UploadDocumentAsync(Stream document,
+		string contentType,
+		int applicationId,
+		string documentId,
+		string fileName,
+		CancellationToken cancellationToken = default);
+	public Task<ApplicationDocumentDto> DownloadDocumentTemplateAsync(CancellationToken cancellationToken = default);
 	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
 		int? userId,
 		CancellationToken cancellationToken = default);

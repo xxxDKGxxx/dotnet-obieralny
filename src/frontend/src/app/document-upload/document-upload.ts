@@ -7,10 +7,24 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ApplicationProviderType } from '../shared/enum';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DocumentsService } from '../services/documents/documents-service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { filter, switchMap, throwError } from 'rxjs';
+import { ConfirmDialog } from '../common/confirm-dialog/confirm-dialog';
+import { ApplicationRoutes } from '../app.routes';
 
 @Component({
   selector: 'app-document-upload',
-  imports: [MatCardModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule],
+  imports: [
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatDialogModule,
+  ],
   templateUrl: './document-upload.html',
 })
 export class DocumentUpload implements OnInit {
@@ -24,6 +38,9 @@ export class DocumentUpload implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly documentsService = inject(DocumentsService);
+  private readonly dialog = inject(MatDialog);
 
   private documentId!: string;
   private providerType!: ApplicationProviderType;
@@ -79,7 +96,50 @@ export class DocumentUpload implements OnInit {
     if (this.fileInput) this.fileInput.nativeElement.value = '';
   }
 
-  uploadDocument(): void {}
+  uploadDocument(): void {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        message: `Czy na pewno chcesz przesłać ten plik?`,
+      },
+      width: '400px',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((result) => result === true),
+        switchMap(() => {
+          return this.performDocumentUpload();
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.snackBar.open('Plik został przesłany pomyślnie');
+          this.router.navigate([ApplicationRoutes.applicationDetails, this.applicationId], {
+            queryParams: {
+              providerType: this.providerType,
+            },
+          });
+        },
+        error: (e) => {
+          this.snackBar.open('Wystąpił błąd podczas przesyłania pliku.');
+          console.error(e);
+        },
+      });
+  }
+
+  private performDocumentUpload() {
+    if (this.selectedFile === null) {
+      return throwError(() => new Error('File was not selected'));
+    }
+
+    return this.documentsService.uploadDocument(
+      this.applicationId,
+      this.documentId,
+      this.providerType,
+      this.selectedFile,
+    );
+  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

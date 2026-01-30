@@ -41,7 +41,7 @@ public class UpdateApplicationStatusCommandHandler(
 		{
 			application = await updateApplicationStatusService.UpdateStatusAsync(
 				application,
-				requestingUser,
+				requestingUser.Role,
 				request.NewStatus,
 				statusChangeMessage,
 				cancellationToken);

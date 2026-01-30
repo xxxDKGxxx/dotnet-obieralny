@@ -17,6 +17,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialog } from '../../common/confirm-dialog/confirm-dialog';
 import { filter, switchMap } from 'rxjs';
 import { AppStatusPipe } from '../../common/app-status-pipe';
+import { Router } from '@angular/router';
+import { ApplicationRoutes } from '../../app.routes';
 
 @Component({
   selector: 'app-application-management-panel',
@@ -47,6 +49,7 @@ export class ApplicationManagementPanel implements OnInit {
   private readonly snackBar = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
   private readonly appStatusPipe = new AppStatusPipe();
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.authService
@@ -131,7 +134,13 @@ export class ApplicationManagementPanel implements OnInit {
       return;
     }
 
-    this.updateStatus(ApplicationStatus.Signed);
+    this.router.navigate([ApplicationRoutes.documentUpload], {
+      queryParams: {
+        applicationId: this.application.id,
+        documentId: this.application.documentId,
+        providerType: this.application.providerType,
+      },
+    });
   }
 
   private performStatusUpdate(newStatus: ApplicationStatus) {
