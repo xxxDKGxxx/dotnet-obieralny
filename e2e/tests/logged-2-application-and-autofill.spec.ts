@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('should be able to log in, make an application from search, withdraw, fill data in profile, make application from autofill', async ({ page }) => {
+test('mock log in, should be able make an application from search, withdraw, fill data in profile, make application from autofill', async ({ page }) => {
   await page.goto('http://localhost:8080/');
   const apiResponse = await page.request.post('http://localhost:5000/api/v1/auth/test-user', {
     data: { 
