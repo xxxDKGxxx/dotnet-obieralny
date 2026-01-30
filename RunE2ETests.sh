@@ -2,6 +2,9 @@
 
 # E2E test runner for Linux bash with cleanup guarantee
 
+set -e  # Exit immediately on error
+set -o pipefail
+
 # Cleanup function
 cleanup() {
     echo -e "\e[33mCleaning up...\e[0m"
