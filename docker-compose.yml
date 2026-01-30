@@ -27,6 +27,7 @@ services:
       - SendGrid__ApiKey=ApiKey
       - AzureBlob__ConnectionString=SecretConnectionString
       - AzureBlob__Container=SecretContainerName
+      - TemplateName=Template dokumentu.docx
     ports:
       - "5000:90"
     networks:
