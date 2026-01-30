@@ -4,7 +4,7 @@ test('mock log in, should be able make an application from search, withdraw, fil
   await page.goto('http://localhost:8080/');
   const apiResponse = await page.request.post('http://localhost:5000/api/v1/auth/test-user', {
     data: { 
-      Email: 'test@mail.com' 
+      Email: 'test.user@example.com' 
     },
     headers: {
       'Content-Type': 'application/json'
