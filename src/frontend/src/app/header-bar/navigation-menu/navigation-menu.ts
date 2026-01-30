@@ -15,6 +15,7 @@ export class NavigationMenu implements OnInit {
   protected readonly searchPath = ApplicationRoutes.search;
   protected readonly myApplicationsPath = ApplicationRoutes.myApplications;
   protected readonly applicationsPath = ApplicationRoutes.applications;
+  protected readonly auditsPath = ApplicationRoutes.audits;
 
   protected user: UserDto | null = null;
 

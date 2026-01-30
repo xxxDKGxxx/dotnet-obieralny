@@ -13,6 +13,7 @@ import {
 import { AllApplicationsList } from './all-applications-list/all-applications-list';
 import { ApplicationDetails } from './application-details/application-details';
 import { DocumentUpload } from './document-upload/document-upload';
+import { AuditsList } from './audits-list/audits-list';
 
 export const ApplicationRoutes = {
   search: 'search',
@@ -22,6 +23,7 @@ export const ApplicationRoutes = {
   applications: 'applications',
   applicationDetails: 'application',
   documentUpload: 'upload-document',
+  audits: 'audits',
 };
 
 export const routes: Routes = [
@@ -48,5 +50,10 @@ export const routes: Routes = [
     path: ApplicationRoutes.documentUpload,
     component: DocumentUpload,
     canActivate: [documentUploadGuard],
+  },
+  {
+    path: ApplicationRoutes.audits,
+    component: AuditsList,
+    canActivate: [isBankEmployeeGuard],
   },
 ];

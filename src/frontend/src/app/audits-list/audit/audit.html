@@ -1,0 +1,10 @@
+<mat-card>
+  <mat-card-header>
+    {{ this.audit.createdAt }}
+  </mat-card-header>
+  <mat-card-content>
+    <pre class="text-white text-wrap whitespace-pre-wrap wrap-break-word">{{
+      this.audit | json
+    }}</pre>
+  </mat-card-content>
+</mat-card>
