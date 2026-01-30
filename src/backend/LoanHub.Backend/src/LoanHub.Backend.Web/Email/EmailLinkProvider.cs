@@ -1,4 +1,5 @@
 using LoanHub.Backend.Web.Endpoints.Documents;
+using LoanHub.Backend.Web.Endpoints.Documents.Get;
 
 namespace LoanHub.Backend.Web.Email;
 
