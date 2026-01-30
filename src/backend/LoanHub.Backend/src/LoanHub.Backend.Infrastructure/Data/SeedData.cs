@@ -24,7 +24,7 @@ public static class SeedData
 
 		if (!dbContext.Set<User>().Any(u => u.Email == user.Email))
 		{
-			await SeedTestUser(dbContext,user);
+			await SeedTestUser(dbContext, user);
 		}
 
 		if (!dbContext.Set<User>().Any(u => u.Email == employee.Email))

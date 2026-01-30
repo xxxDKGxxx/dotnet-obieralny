@@ -26,8 +26,8 @@ try {
     docker-compose up -d
 
     # 3. Wait for services
-    Write-Host "Waiting for services to be ready... (15s)" -ForegroundColor Yellow
-    Start-Sleep -Seconds 15
+    Write-Host "Waiting for services to be ready... (5s)" -ForegroundColor Yellow
+    Start-Sleep -Seconds 5
 
     # 4. Run tests
     Write-Host "Running E2E tests..." -ForegroundColor Green

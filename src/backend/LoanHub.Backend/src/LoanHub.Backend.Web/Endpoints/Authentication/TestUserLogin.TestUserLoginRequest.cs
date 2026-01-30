@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Web.Endpoints.Authentication.TestUserLogin;
+namespace LoanHub.Backend.Web.Endpoints.Authentication;
 
 public sealed class TestUserLoginRequest
 {

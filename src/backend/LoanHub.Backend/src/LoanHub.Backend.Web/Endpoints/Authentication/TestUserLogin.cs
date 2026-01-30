@@ -1,4 +1,4 @@
-namespace LoanHub.Backend.Web.Endpoints.Authentication.TestUserLogin;
+namespace LoanHub.Backend.Web.Endpoints.Authentication;
 
 public sealed class TestUserLogin(
 	IHostEnvironment environment,
@@ -27,7 +27,8 @@ public sealed class TestUserLogin(
 		}
 		else
 		{
-			HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+			await SendNotFoundAsync(ct);
+			return;
 		}
 	}
 }
