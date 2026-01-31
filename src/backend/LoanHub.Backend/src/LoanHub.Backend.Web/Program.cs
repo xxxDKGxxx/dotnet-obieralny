@@ -1,4 +1,5 @@
 using LoanHub.Backend.Web.Configurations;
+using LoanHub.Backend.Web.Email;
 using LoanHub.Backend.Web.Middleware;
 
 namespace LoanHub.Backend.Web;
@@ -40,6 +41,8 @@ public sealed class Program
 				{
 					c.Register(typeof(CommandLogger<,>));
 				});
+
+			builder.Services.AddScoped<IEmailLinkProvider, EmailLinkProvider>();
 
 			var frontendOrigin = builder.Configuration.GetValue<string>("FrontendOrigin")
 								 ?? "http://localhost:4200";

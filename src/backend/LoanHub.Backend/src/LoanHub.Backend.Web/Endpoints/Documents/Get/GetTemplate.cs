@@ -1,6 +1,4 @@
-using LoanHub.Backend.UseCases.Features.Documents;
-
-namespace LoanHub.Backend.Web.Endpoints.Documents;
+namespace LoanHub.Backend.Web.Endpoints.Documents.Get;
 
 public class GetTemplate(IMediator mediator, IConfiguration configuration) : EndpointWithoutRequest
 {
@@ -11,6 +9,10 @@ public class GetTemplate(IMediator mediator, IConfiguration configuration) : End
 		Version(1);
 		AllowAnonymous();
 		Get("/documents/template");
+		Description(x =>
+		{
+			x.WithName(GetType().FullName!);
+		});
 	}
 
 	public override async Task HandleAsync(CancellationToken ct)
@@ -26,6 +28,9 @@ public class GetTemplate(IMediator mediator, IConfiguration configuration) : End
 				response.Value.FileName,
 				contentType: response.Value.ContentType,
 				cancellation: ct);
+			return;
 		}
+
+		await response.SendResult(this, ct: ct);
 	}
 }

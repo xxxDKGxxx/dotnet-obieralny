@@ -15,6 +15,10 @@ public interface IOfferProvider
 		string documentId,
 		string fileName,
 		CancellationToken cancellationToken = default);
+	public Task<ApplicationDocumentDto> DownloadDocumentAsync(
+		string DocumentId,
+		int ApplicationId,
+		CancellationToken cancellationToken = default);
 	public Task<ApplicationDocumentDto> DownloadDocumentTemplateAsync(CancellationToken cancellationToken = default);
 	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
 		int? userId,
@@ -57,7 +61,6 @@ public interface IOfferProvider
 		int age,
 		int dependants,
 		CancellationToken cancellationToken = default);
-
 	public Task<ApplicationWithProviderTypeDto> GetApplicationByIdAsync(
 		int applicationId,
 		CancellationToken cancellationToken = default);
