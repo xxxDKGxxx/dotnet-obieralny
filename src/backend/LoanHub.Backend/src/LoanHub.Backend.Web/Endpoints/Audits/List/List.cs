@@ -7,8 +7,8 @@ public class List(IMediator mediator) : Endpoint<ListAuditsRequest, IEnumerable<
 	public override void Configure()
 	{
 		Version(1);
-		AllowAnonymous();
 		Get("/audits");
+		Policies("EmployeePolicy");
 	}
 
 	public override async Task HandleAsync(ListAuditsRequest req, CancellationToken ct)

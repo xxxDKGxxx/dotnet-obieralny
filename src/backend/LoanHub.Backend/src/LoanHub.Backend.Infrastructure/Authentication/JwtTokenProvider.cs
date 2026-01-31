@@ -17,7 +17,7 @@ public sealed class JwtTokenProvider(
 
 	public string GenerateToken(User user)
 	{
-		Guard.Against.Null(user, nameof(user));
+		Guard.Against.Null(user);
 
 		var now = DateTime.UtcNow;
 		var issuedAt = new DateTimeOffset(now).ToUnixTimeSeconds().ToString();
