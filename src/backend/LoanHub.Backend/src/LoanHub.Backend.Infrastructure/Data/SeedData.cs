@@ -13,6 +13,23 @@ public static class SeedData
 		}
 	}
 
+	public static async Task InitializeTestAsync(AppDbContext dbContext)
+	{
+		var user = new User("test.user@example.com", "Test", "Mock", UserRole.User);
+		var employee = new User("test.employee@example.com", "Test", "Employee", UserRole.Employee);
+
+		if (!dbContext.Set<User>().Any(u => u.Email == user.Email))
+		{
+			await dbContext.AddAsync(user);
+		}
+
+		if (!dbContext.Set<User>().Any(u => u.Email == employee.Email))
+		{
+			await dbContext.AddAsync(employee);
+		}
+		_ = await dbContext.SaveChangesAsync();
+	}
+
 	private static async Task SeedOffers(AppDbContext dbContext)
 	{
 		var offers = new List<Offer>

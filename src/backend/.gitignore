@@ -266,6 +266,3 @@ Packages.props
 log*.txt
 
 # Misc - development diagnostic elements
-*.ps1
-AllCsFiles.txt
-*.sh
