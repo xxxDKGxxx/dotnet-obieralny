@@ -38,6 +38,8 @@ public static class ServiceConfigs
 				opt.Headers.Add("X-Correlation-Id");
 			});
 
+		services.AddAuthConfig(builder.Configuration, logger);
+
 		return services;
 	}
 }
