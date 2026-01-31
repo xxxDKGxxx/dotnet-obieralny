@@ -20,19 +20,13 @@ public static class SeedData
 
 		if (!dbContext.Set<User>().Any(u => u.Email == user.Email))
 		{
-			await SeedTestUser(dbContext, user);
+			await dbContext.AddAsync(user);
 		}
 
 		if (!dbContext.Set<User>().Any(u => u.Email == employee.Email))
 		{
-			await SeedTestUser(dbContext, employee);
+			await dbContext.AddAsync(employee);
 		}
-
-	}
-
-	private static async Task SeedTestUser(AppDbContext dbContext, User user)
-	{
-		await dbContext.AddAsync(user);
 		_ = await dbContext.SaveChangesAsync();
 	}
 
