@@ -1,7 +1,3 @@
-using FastEndpoints;
-using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Specifications;
-using Microsoft.AspNetCore.Http;
-
 namespace LoanHub.Backend.Infrastructure.Data;
 
 public static class SeedData

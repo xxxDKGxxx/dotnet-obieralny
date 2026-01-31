@@ -18,17 +18,16 @@ public sealed class TestUserLogin(
 
 	public override async Task HandleAsync(TestUserLoginRequest request, CancellationToken ct)
 	{
-		if (environment.IsDevelopment())
-		{
-			var command = new TestLoginCommand(request.Email);
-			var result = await mediator.Send(command, ct);
-
-			await result.SendResult(this, ct);
-		}
-		else
+		if (!environment.IsDevelopment())
 		{
 			await SendNotFoundAsync(ct);
 			return;
 		}
+
+		var command = new TestLoginCommand(request.Email);
+		var result = await mediator.Send(command, ct);
+
+		await result.SendResult(this, ct);
+		return;
 	}
 }

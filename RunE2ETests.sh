@@ -14,7 +14,7 @@ cleanup() {
         cd ..
     fi
 
-    docker-compose down || true
+    sudo docker-compose down || true
 
     echo -e "\e[32mCleanup complete\e[0m"
 }
@@ -25,10 +25,10 @@ trap cleanup EXIT
 echo -e "\e[36m=== Starting E2E Test Run ===\e[0m"
 
 echo -e "\e[33mBuilding Docker images...\e[0m"
-docker-compose build
+sudo docker-compose build
 
 echo -e "\e[33mStarting services...\e[0m"
-docker-compose up -d
+sudo docker-compose up -d
 
 echo -e "\e[33mWaiting for services to be ready... (5s)\e[0m"
 sleep 5

@@ -49,7 +49,7 @@ test('mock log in, should be able make an application from search, withdraw, fil
   await page.getByRole('spinbutton', { name: 'Wiek' }).fill('23');
   await page.getByRole('spinbutton', { name: 'Osoby na utrzymaniu' }).fill('2');
   await page.getByRole('button', { name: 'Zapisz zmiany' }).click();
-  await expect(page.getByText('Profil zaktualizowany pomyś')).toBeVisible();
+  await expect(page.getByText('Profil zaktualizowany pomyślnie')).toBeVisible();
   await page.getByRole('button', { name: 'OK' }).click();
   await page.getByRole('link', { name: 'Wyszukiwarka' }).click();
   await page.getByRole('spinbutton', { name: 'Kwota (PLN)' }).fill('50000');
