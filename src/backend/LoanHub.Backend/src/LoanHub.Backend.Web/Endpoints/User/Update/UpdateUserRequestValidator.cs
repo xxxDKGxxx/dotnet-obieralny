@@ -1,5 +1,3 @@
-using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
-
 namespace LoanHub.Backend.Web.Endpoints.User.Update;
 
 public class UpdateUserRequestValidator : Validator<UpdateUserRequest>

@@ -12,6 +12,7 @@ global using LoanHub.Backend.Core.EntityAggregates.ApplicationAggregate.Dto;
 global using LoanHub.Backend.Core.EntityAggregates.AuditAggregate;
 global using LoanHub.Backend.Core.EntityAggregates.AuditAggregate.Dto;
 global using LoanHub.Backend.Core.EntityAggregates.OfferAggregate.Dto;
+global using LoanHub.Backend.Core.EntityAggregates.UserAggregate;
 global using LoanHub.Backend.Core.EntityAggregates.UserAggregate.Dto;
 global using LoanHub.Backend.Infrastructure.Configs;
 global using LoanHub.Backend.UseCases.Features.Authentication.Login;
