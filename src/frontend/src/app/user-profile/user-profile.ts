@@ -51,7 +51,7 @@ export class UserProfileComponent implements OnInit {
       income: [null, [Validators.min(0)]],
       costs: [null, [Validators.min(0)]],
       age: [null, [Validators.min(18), Validators.max(120)]],
-      dependents: [null, [Validators.min(0)]],
+      dependents: [null, [Validators.min(0), Validators.max(20)]],
     });
     this.authService
       .getUserProfile()

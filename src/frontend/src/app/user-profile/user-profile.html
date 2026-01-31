@@ -27,7 +27,7 @@
           <div class="grid grid-cols-2 gap-8 mb-4">
             <mat-form-field>
               <mat-label class="text-white">Imię</mat-label>
-              <input matInput formControlName="firstName" class="text-white" />
+              <input matInput formControlName="firstName" class="text-white" required />
               @if (userForm.get('firstName')?.hasError('maxlength')) {
                 <mat-error>Maksymalnie 50 znaków</mat-error>
               }
@@ -35,7 +35,7 @@
 
             <mat-form-field>
               <mat-label class="text-white">Nazwisko</mat-label>
-              <input matInput formControlName="lastName" class="text-white" />
+              <input matInput formControlName="lastName" class="text-white" required />
               @if (userForm.get('lastName')?.hasError('maxlength')) {
                 <mat-error>Maksymalnie 50 znaków</mat-error>
               }
@@ -108,6 +108,7 @@
                 min="18"
                 max="120"
                 class="text-white"
+                required
               />
               @if (userForm.get('age')?.hasError('min')) {
                 <mat-error>Minimalna wartość to 18</mat-error>
