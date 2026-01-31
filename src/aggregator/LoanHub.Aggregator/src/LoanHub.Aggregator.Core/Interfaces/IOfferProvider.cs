@@ -15,18 +15,18 @@ public interface IOfferProvider
 		string documentId,
 		string fileName,
 		CancellationToken cancellationToken = default);
-	public Task<ApplicationDocumentDto> DownloadDocumentAsync(
-		string DocumentId,
+	public Task<ApplicationDocumentDto> DownloadDocumentAsync(string DocumentId,
 		int ApplicationId,
+		int requestingUserId,
 		CancellationToken cancellationToken = default);
 	public Task<ApplicationDocumentDto> DownloadDocumentTemplateAsync(CancellationToken cancellationToken = default);
-	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
-		int? userId,
+	public Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(int? userId,
+		int requestingUserId,
 		CancellationToken cancellationToken = default);
-	public Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(
-		int applicationId,
+	public Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(int applicationId,
 		ApplicationStatus newStatus,
 		string? statusChangeMessage,
+		int requestingUserId,
 		CancellationToken cancellationToken = default);
 	public Task<ApplicationWithProviderTypeDto> CreateApplicationAsync(
 		int OfferId,
@@ -63,5 +63,6 @@ public interface IOfferProvider
 		CancellationToken cancellationToken = default);
 	public Task<ApplicationWithProviderTypeDto> GetApplicationByIdAsync(
 		int applicationId,
+		int requestingUserId,
 		CancellationToken cancellationToken = default);
 }

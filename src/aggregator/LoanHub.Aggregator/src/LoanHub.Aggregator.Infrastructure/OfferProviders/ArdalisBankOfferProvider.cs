@@ -92,9 +92,9 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		}
 	}
 
-	public async Task<ApplicationDocumentDto> DownloadDocumentAsync(
-		string documentId,
+	public async Task<ApplicationDocumentDto> DownloadDocumentAsync(string documentId,
 		int applicationId,
+		int requestingUserId,
 		CancellationToken cancellationToken = default)
 	{
 		var responseMessage = await httpClient.GetAsync(
@@ -140,8 +140,8 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		return new ApplicationDocumentDto(stream, contentType, fileName);
 	}
 
-	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(
-		int? userId,
+	public async Task<IEnumerable<ApplicationWithProviderTypeDto>> ListApplicationsAsync(int? userId,
+		int requestingUserId,
 		CancellationToken cancellationToken = default)
 	{
 		var url = "applications";
@@ -185,10 +185,10 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 		return result;
 	}
 
-	public async Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(
-		int applicationId,
+	public async Task<ApplicationWithProviderTypeDto> UpdateStatusAsync(int applicationId,
 		ApplicationStatus newStatus,
 		string? statusChangeMessage,
+		int requestingUserId,
 		CancellationToken cancellationToken = default)
 	{
 		var responseMessage = await httpClient.PutAsJsonAsync(
@@ -448,6 +448,7 @@ public sealed class ArdalisBankOfferProvider(HttpClient httpClient) : IOfferProv
 
 	public async Task<ApplicationWithProviderTypeDto> GetApplicationByIdAsync(
 		int applicationId,
+		int requestingUserId,
 		CancellationToken cancellationToken = default)
 	{
 		var responseMessage = await httpClient.GetAsync($"applications/{applicationId}", cancellationToken);

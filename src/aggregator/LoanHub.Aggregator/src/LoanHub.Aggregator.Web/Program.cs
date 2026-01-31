@@ -60,6 +60,9 @@ public sealed class Program
 
 		app.UseCors("AllowAll");
 
+		app.UseAuthentication();
+		app.UseAuthorization();
+
 		await app.UseAppMiddlewareAndSeedDatabase();
 		await app.RunAsync();
 	}
