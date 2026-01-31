@@ -18,12 +18,9 @@ public sealed class TestLoginHandler(
 		{
 			return Result.NotFound();
 		}
-		else
-		{
-			logger.LogInformation("Test user logged in: {Email}", existingUser.Email);
+		logger.LogInformation("Test user logged in: {Email}", existingUser.Email);
 
-			var accessToken = tokenProvider.GenerateToken(existingUser);
-			return Result.Success(new TokenDto(accessToken));
-		}
+		var accessToken = tokenProvider.GenerateToken(existingUser);
+		return Result.Success(new TokenDto(accessToken));
 	}
 }
