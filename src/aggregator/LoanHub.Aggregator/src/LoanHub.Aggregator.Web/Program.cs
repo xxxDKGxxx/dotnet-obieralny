@@ -1,5 +1,4 @@
 using LoanHub.Aggregator.Web.Configurations;
-using MimeKit;
 
 namespace LoanHub.Aggregator.Web;
 
