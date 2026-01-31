@@ -28,6 +28,7 @@ services:
       - AzureBlob__ConnectionString=${AzureBlob_SecretConnectionString}
       - AzureBlob__Container=${AzureBlob_SecretContainerName}
       - TemplateName=Template dokumentu.docx
+      - BaseUrl=http://localhost:5000
 
     ports:
       - "5000:90"
