@@ -72,12 +72,17 @@ public static class AuthenticationConfig
 			.AddPolicy("UserPolicy", policy =>
 			{
 				policy.RequireAuthenticatedUser();
-				policy.RequireClaim("role", "User");
+				policy.RequireClaim(ClaimTypes.Role, "User");
 			})
 			.AddPolicy("AdminPolicy", policy =>
 			{
 				policy.RequireAuthenticatedUser();
-				policy.RequireClaim("role", "Admin");
+				policy.RequireClaim(ClaimTypes.Role, "Admin");
+			})
+			.AddPolicy("EmployeePolicy", policy =>
+			{
+				policy.RequireAuthenticatedUser();
+				policy.RequireClaim(ClaimTypes.Role, "Employee");
 			});
 
 		logger.LogInformation("Authentication services registered");
