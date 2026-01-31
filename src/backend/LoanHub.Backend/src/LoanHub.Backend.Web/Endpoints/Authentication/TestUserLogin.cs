@@ -28,6 +28,5 @@ public sealed class TestUserLogin(
 		var result = await mediator.Send(command, ct);
 
 		await result.SendResult(this, ct);
-		return;
 	}
 }
