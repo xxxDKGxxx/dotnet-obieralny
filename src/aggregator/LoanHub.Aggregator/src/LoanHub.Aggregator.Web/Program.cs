@@ -1,4 +1,5 @@
 using LoanHub.Aggregator.Web.Configurations;
+using MimeKit;
 
 namespace LoanHub.Aggregator.Web;
 
@@ -52,6 +53,7 @@ public sealed class Program
 				policyBuilder.AllowAnyHeader();
 				policyBuilder.AllowAnyMethod();
 				policyBuilder.AllowAnyOrigin();
+				policyBuilder.WithExposedHeaders("Content-Disposition");
 			});
 		});
 

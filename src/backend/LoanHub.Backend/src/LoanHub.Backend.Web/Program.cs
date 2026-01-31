@@ -51,10 +51,11 @@ public sealed class Program
 			{
 				options.AddPolicy("AllowFrontend", policy =>
 				{
-					policy.WithOrigins(frontendOrigin).
-						AllowAnyHeader().
-						AllowAnyMethod().
-						AllowCredentials();
+					policy.WithOrigins(frontendOrigin)
+						.AllowAnyHeader()
+						.AllowAnyMethod()
+						.AllowCredentials()
+						.WithExposedHeaders("Content-Disposition");
 				});
 			});
 
