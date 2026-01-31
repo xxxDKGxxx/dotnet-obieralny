@@ -19,7 +19,6 @@ import { filter, switchMap } from 'rxjs';
 import { AppStatusPipe } from '../../common/app-status-pipe';
 import { Router } from '@angular/router';
 import { ApplicationRoutes } from '../../app.routes';
-import { DocumentsService } from '../../services/documents/documents-service';
 
 @Component({
   selector: 'app-application-management-panel',
@@ -51,7 +50,6 @@ export class ApplicationManagementPanel implements OnInit {
   private readonly dialog = inject(MatDialog);
   private readonly appStatusPipe = new AppStatusPipe();
   private readonly router = inject(Router);
-  private readonly documentsService = inject(DocumentsService);
 
   ngOnInit(): void {
     this.authService
@@ -143,22 +141,6 @@ export class ApplicationManagementPanel implements OnInit {
         providerType: this.application.providerType,
       },
     });
-  }
-
-  protected downloadTemplate() {
-    this.documentsService.downloadDocumentTemplate(this.application.providerType);
-  }
-
-  protected downloadSignedDocument() {
-    if (!this.application.documentId) {
-      return;
-    }
-
-    this.documentsService.downloadDocumentById(
-      this.application.documentId,
-      this.application.id,
-      this.application.providerType,
-    );
   }
 
   private performStatusUpdate(newStatus: ApplicationStatus) {
