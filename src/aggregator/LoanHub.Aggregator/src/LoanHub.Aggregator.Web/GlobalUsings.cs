@@ -1,3 +1,6 @@
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;
 global using Ardalis.ListStartupServices;
 global using FastEndpoints;
 global using FastEndpoints.Swagger;
@@ -11,8 +14,11 @@ global using LoanHub.Aggregator.Infrastructure.Data;
 global using LoanHub.Aggregator.Infrastructure.Data.Config;
 global using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
 global using LoanHub.Aggregator.Infrastructure.OfferProviders;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Http.Extensions;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.IdentityModel.Tokens;
 global using NSwag.Generation.Processors.Security;
 global using Serilog;
 global using Serilog.Extensions.Logging;
+global using ILogger = Microsoft.Extensions.Logging.ILogger;

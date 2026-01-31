@@ -4,12 +4,20 @@ public class Get(IEnumerable<IOfferProvider> offerProviders) : Endpoint<GetDocum
 {
 	public override void Configure()
 	{
-		AllowAnonymous();
 		Get("/documents/{documentId}");
+		Policies("DefaultPolicy");
 	}
 
 	public override async Task HandleAsync(GetDocumentRequest req, CancellationToken ct)
 	{
+		var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+		if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var requestingUserId))
+		{
+			await SendUnauthorizedAsync(ct);
+			return;
+		}
+
 		var offerProvider = offerProviders.Single(
 			op =>
 			{
@@ -19,6 +27,7 @@ public class Get(IEnumerable<IOfferProvider> offerProviders) : Endpoint<GetDocum
 		var result = await offerProvider.DownloadDocumentAsync(
 			req.DocumentId,
 			req.ApplicationId,
+			requestingUserId,
 			ct);
 
 		await SendStreamAsync(
