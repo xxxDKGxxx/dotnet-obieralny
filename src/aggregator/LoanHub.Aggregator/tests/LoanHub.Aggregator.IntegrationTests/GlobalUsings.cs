@@ -1,0 +1,9 @@
+global using LoanHub.Aggregator.Core.ApplicationAggregate;
+global using LoanHub.Aggregator.Infrastructure.Data;
+global using LoanHub.Aggregator.Infrastructure.Data.DbContexts;
+global using LoanHub.Aggregator.Infrastructure.Data.Interceptors;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using NSubstitute;
+global using Shouldly;
+global using Xunit;

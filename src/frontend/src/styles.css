@@ -1,1 +1,66 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --color-dark-blue: #1560b6;
+  --color-light-blue: #227ac6;
+  --color-background: #0a1929;
+  --color-card: #132f4c;
+  --color-input-bg: #1e3a5f;
+  --color-button-bg: #26c6da;
+  --shadow-header: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+input {
+  @apply text-white!;
+}
+
+.mat-mdc-card {
+  @apply bg-card!;
+}
+
+.mat-mdc-card-header {
+  @apply bg-gradient-to-r from-[#132F4C] to-[#1E3A5F] text-white font-bold;
+}
+
+.mdc-text-field--filled {
+  @apply bg-input-bg! text-white!;
+}
+
+.mat-mdc-form-field-infix {
+  @apply text-white!;
+}
+
+.mdc-floating-label {
+  @apply text-white!;
+}
+
+.mat-mdc-raised-button {
+  @apply bg-button-bg! rounded-xl!;
+}
+
+.mat-mdc-menu-panel.user-dropdown-menu {
+  background-color: var(--color-input-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.user-dropdown-menu .mat-mdc-menu-item {
+  color: white !important;
+}
+
+.user-dropdown-menu .mat-mdc-menu-item:hover {
+  background-color: #2a4a6f !important;
+}
+
+.mat-mdc-dialog-surface {
+  @apply bg-card!;
+}

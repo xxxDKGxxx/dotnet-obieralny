@@ -1,0 +1,51 @@
+name: Aggregator CI
+
+on:
+  push:
+    branches: ["develop"]
+    paths:
+      - "src/aggregator/**"
+      - ".github/workflows/aggregator-ci.yml"
+  pull_request:
+    branches: ["develop"]
+    paths:
+      - "src/aggregator/**"
+      - ".github/workflows/aggregator-ci.yml"
+
+jobs:
+  build:
+    name: Aggregator Build & Test (.NET 9)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - name: Restore dependencies
+        working-directory: src/aggregator/LoanHub.Aggregator
+        run: dotnet restore LoanHub.Aggregator.sln
+      - name: Build
+        working-directory: src/aggregator/LoanHub.Aggregator
+        run: dotnet build --no-restore LoanHub.Aggregator.sln
+      - name: Test
+        working-directory: src/aggregator/LoanHub.Aggregator
+        run: dotnet test --no-build --verbosity normal LoanHub.Aggregator.sln
+
+  editorconfig:
+    name: EditorConfig Checker
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - name: Check Dotnet Format
+        working-directory: src/aggregator/LoanHub.Aggregator
+        run: dotnet tool install -g dotnet-format
+      - name: Run Dotnet Format
+        working-directory: src/aggregator/LoanHub.Aggregator
+        run: dotnet format --severity info --verify-no-changes

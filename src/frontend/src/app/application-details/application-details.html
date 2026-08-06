@@ -1,0 +1,27 @@
+@if (calculatedOffer) {
+  <app-calculated-offer
+    [calculatedOffer]="calculatedOffer"
+    [detailsButton]="false"
+  ></app-calculated-offer>
+}
+
+@if (application) {
+  <app-application-form
+    [readonly]="true"
+    [offerId]="application.offerId"
+    [providerType]="application.providerType"
+    [age]="application.personalData.age"
+    [amount]="application.offerConditions.amount"
+    [duration]="application.offerConditions.duration"
+    [monthlyIncome]="application.applicantFinancials.income"
+    [monthlyCosts]="application.applicantFinancials.costs"
+    [dependants]="application.applicantFinancials.dependents"
+    [name]="application.personalData.firstName"
+    [surname]="application.personalData.lastName"
+    [email]="application.contactInfo.email"
+    [address]="application.contactInfo.address"
+    [phoneNumber]="application.contactInfo.phoneNumber"
+    [job]="application.applicantFinancials.job"
+  ></app-application-form>
+  <app-application-management-panel [application]="application"></app-application-management-panel>
+}

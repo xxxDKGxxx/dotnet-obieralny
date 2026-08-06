@@ -1,0 +1,105 @@
+<mat-card>
+  <mat-card-header>Przesyłanie dokumentu, Aplikacja [ID: {{ applicationId }}]</mat-card-header>
+  <mat-card-content>
+    <div class="mx-auto space-y-2 my-4">
+      <div
+        (click)="fileInput.click()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        [class]="
+          'relative group w-full min-h-[180px] flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl transition-all duration-300 cursor-pointer ' +
+          (errorMessage
+            ? 'border-red-400 bg-red-50'
+            : isDragging
+              ? 'border-blue-500 bg-blue-700 scale-[1.01]'
+              : 'border-gray-300 hover:border-blue-400 hover:bg-button-bg')
+        "
+      >
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileSelected($event)"
+          class="hidden"
+          accept=".docx"
+        />
+
+        @if (selectedFile) {
+          <div
+            class="w-full flex items-center justify-between p-4 bg-white border border-blue-100 rounded-xl shadow-sm"
+            (click)="$event.stopPropagation()"
+          >
+            <div class="flex items-center space-x-3 truncate">
+              <div class="p-2 bg-blue-700 text-white rounded">
+                <span class="text-[10px] font-bold">DOCX</span>
+              </div>
+              <div class="flex flex-col truncate">
+                <span class="text-sm font-semibold text-gray-800 truncate">{{
+                  selectedFile.name
+                }}</span>
+                <span class="text-xs text-gray-400"
+                  >{{ (selectedFile.size / 1024).toFixed(1) }} KB</span
+                >
+              </div>
+            </div>
+            <button
+              (click)="removeFile()"
+              class="p-2 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full transition-colors"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        } @else {
+          <div class="flex flex-col items-center space-y-3 pointer-events-none text-center">
+            <div
+              [class]="
+                'p-3 rounded-full transition-colors ' +
+                (errorMessage ? 'bg-red-100 text-red-600' : 'bg-blue-50 text-blue-500')
+              "
+            >
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-white font-medium">Prześlij dokument .docx</p>
+              <p class="text-xs text-gray-200 mt-1">Kliknij lub przeciągnij plik tutaj</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-xs text-red-500 font-medium flex items-center animate-shake">
+          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          {{ errorMessage }}
+        </p>
+      }
+    </div>
+    @if (this.selectedFile) {
+      <div class="flex flex-col items-center my-4">
+        <button class="w-full max-w-[300px]" matButton="elevated" (click)="uploadDocument()">
+          Prześlij
+        </button>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

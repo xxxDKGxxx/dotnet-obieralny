@@ -1,0 +1,104 @@
+namespace LoanHub.Aggregator.FunctionalTests;
+
+public sealed class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
+{
+	public readonly Mock<HttpMessageHandler> DefaultBankApiMockHandler = new();
+
+	/// <summary>
+	/// Overriding CreateHost to avoid creating a separate ServiceProvider per this thread:
+	/// https://github.com/dotnet-architecture/eShopOnWeb/issues/465
+	/// </summary>
+	/// <param name="builder"></param>
+	/// <returns></returns>
+	protected override IHost CreateHost(IHostBuilder builder)
+	{
+		builder.UseEnvironment("Development");
+		var host = builder.Build();
+		host.Start();
+
+		var serviceProvider = host.Services;
+
+		// Create a scope to obtain a reference to the database
+		// context (AppDbContext).
+		using (var scope = serviceProvider.CreateScope())
+		{
+			var scopedServices = scope.ServiceProvider;
+			var db = scopedServices.GetRequiredService<AppDbContext>();
+
+			var logger = scopedServices
+				.GetRequiredService<ILogger<CustomWebApplicationFactory<TProgram>>>();
+
+			// Reset Sqlite database for each test run
+			// If using a real database, you'll likely want to remove this step.
+			db.Database.EnsureDeleted();
+
+			// Ensure the database is created.
+			db.Database.EnsureCreated();
+
+			try
+			{
+				// Can also skip creating the items
+				//if (!db.ToDoItems.Any())
+				//{
+				// Seed the database with test data.
+				SeedData.PopulateTestDataAsync(db).Wait();
+				//}
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "An error occurred seeding the " +
+									"database with test messages. Error: {exceptionMessage}", ex.Message);
+			}
+		}
+
+		return host;
+	}
+
+	protected override void ConfigureWebHost(IWebHostBuilder builder)
+	{
+		builder
+			.ConfigureAppConfiguration((context, config) =>
+			{
+				var variables = new Dictionary<string, string>
+				{
+					{ "DefaultBankUrl", "https://default-bank-api-url.com" },
+					{ "ArdalisBankUrl", "https://ardalis-bank-api-url.com" },
+				};
+
+				config.AddInMemoryCollection(variables!);
+			})
+			.ConfigureServices(services =>
+			{
+				// Configure test dependencies here
+
+				// Remove the app's ApplicationDbContext registration.
+				var descriptor = services.SingleOrDefault(
+					d =>
+					{
+						return d.ServiceType == typeof(DbContextOptions<AppDbContext>);
+					});
+
+				if (descriptor != null)
+				{
+					services.Remove(descriptor);
+				}
+
+				// This should be set for each individual test run
+				var inMemoryCollectionName = Guid.NewGuid()
+					.ToString();
+
+				// Add ApplicationDbContext using an in-memory database for testing.
+				services.AddDbContext<AppDbContext>(options =>
+				{
+					options.UseInMemoryDatabase(inMemoryCollectionName)
+						.AddInterceptors(new SoftDeleteInterceptor());
+				});
+
+				services.AddHttpClient<DefaultBankRedirectMiddleware>("DefaultBankRedirectClient")
+					.ConfigurePrimaryHttpMessageHandler(() =>
+					{
+						return DefaultBankApiMockHandler.Object;
+					});
+			});
+	}
+}

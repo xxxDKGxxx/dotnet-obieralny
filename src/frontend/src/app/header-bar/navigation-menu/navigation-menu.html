@@ -1,0 +1,10 @@
+<div class="text-white">
+  <a class="menuItem" [routerLink]="searchPath">Wyszukiwarka</a>
+  @if (isRegularUser()) {
+    <a class="menuItem" [routerLink]="myApplicationsPath">Moje aplikacje</a>
+  }
+  @if (isEmployee()) {
+    <a class="menuItem" [routerLink]="applicationsPath">Aplikacje ArdalisBank</a>
+    <a class="menuItem" [routerLink]="auditsPath">Audyt requestów</a>
+  }
+</div>

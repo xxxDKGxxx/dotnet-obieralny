@@ -1,0 +1,20 @@
+<div class="my-4">
+  <mat-form-field>
+    <mat-label>Wybierz datę</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [(ngModel)]="selectedDate"
+      (dateChange)="updateAuditsList()"
+    />
+    <mat-hint class="text-white!">MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<div class="flex flex-col gap-4">
+  @for (audit of auditsList; track audit.id) {
+    <app-audit [audit]="audit"></app-audit>
+  }
+</div>

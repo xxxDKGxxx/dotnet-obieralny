@@ -1,0 +1,36 @@
+@if (isAuthenticated()) {
+  <button mat-raised-button [matMenuTriggerFor]="userMenu">
+    <mat-icon class="mr-2">person</mat-icon>
+    {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+  </button>
+
+  <mat-menu #userMenu="matMenu" class="user-dropdown-menu">
+    <div class="px-4 py-3 bg-[#1E3A5F] border-b border-gray-600">
+      <div class="font-semibold text-white">
+        {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+      </div>
+      <div class="text-sm text-gray-300">{{ currentUser?.email }}</div>
+    </div>
+    <button
+      mat-menu-item
+      (click)="goToAccount()"
+      class="bg-[#1E3A5F] text-blue-400 hover:bg-[#2A4A6F] hover:text-blue-300"
+    >
+      <mat-icon>account_circle</mat-icon>
+      <span>Moje konto</span>
+    </button>
+    <button
+      mat-menu-item
+      (click)="logout()"
+      class="bg-[#1E3A5F] text-red-400 hover:bg-[#2A4A6F] hover:text-red-300"
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Wyloguj się</span>
+    </button>
+  </mat-menu>
+} @else {
+  <button mat-raised-button (click)="login()">
+    <mat-icon class="mr-2">login</mat-icon>
+    Zaloguj się
+  </button>
+}
