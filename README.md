@@ -2,6 +2,14 @@
 
 LoanHub is a modern loan offer aggregator and application management platform designed to streamline the process of finding and applying for financial products. The project implements a microservices-inspired architecture using .NET 9 and Angular 20, demonstrating advanced patterns in web development.
 
+![.NET 9](https://img.shields.io/badge/.NET%209-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![Angular 20](https://img.shields.io/badge/Angular%2020-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![MSSQL](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC292B?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Azure](https://img.shields.io/badge/Azure%20Blob%20Storage-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+
 This project was developed for the **"Web applications utilising .NET framework"** course at the Faculty of Mathematics and Information Science (MiNI), Warsaw University of Technology.
 
 ## Core Features
